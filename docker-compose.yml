@@ -12,7 +12,7 @@ services:
     volumes:
       - .:/var/www/html
     ports:
-      - "8080:80"
+      - "${APP_PORT:-8080}:80"
     environment:
       CONTAINER_ROLE: app
       PHP_IDE_CONFIG: "serverName=dnd-notetaking-app"
