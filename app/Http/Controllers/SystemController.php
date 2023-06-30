@@ -4,24 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSystemRequest;
 use App\Http\Requests\UpdateSystemRequest;
+use App\Http\Resources\SystemResource;
 use App\Models\System;
 
 class SystemController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(System::class, 'system');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return SystemResource::collection(System::all());
     }
 
     /**
@@ -29,7 +27,12 @@ class SystemController extends Controller
      */
     public function store(StoreSystemRequest $request)
     {
-        //
+        $params = $request->except('cover_image');
+        if ($request->hasFile('cover_image')) {
+            $file = $request->file('cover_image')->store();
+            $params['cover_image'] = $file;
+        }
+        return new SystemResource(System::create($params));
     }
 
     /**
@@ -37,15 +40,7 @@ class SystemController extends Controller
      */
     public function show(System $system)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(System $system)
-    {
-        //
+        return new SystemResource($system);
     }
 
     /**
@@ -53,7 +48,8 @@ class SystemController extends Controller
      */
     public function update(UpdateSystemRequest $request, System $system)
     {
-        //
+        $system->update($request->validated());
+        return new SystemResource($system);
     }
 
     /**
@@ -61,6 +57,7 @@ class SystemController extends Controller
      */
     public function destroy(System $system)
     {
-        //
+        $system->delete();
+        return response()->noContent();
     }
 }

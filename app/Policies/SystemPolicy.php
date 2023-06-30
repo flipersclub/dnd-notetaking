@@ -13,7 +13,7 @@ class SystemPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->can('systems.view');
     }
 
     /**
@@ -21,7 +21,7 @@ class SystemPolicy
      */
     public function view(User $user, System $system): bool
     {
-        //
+        return $user->can('systems.view');
     }
 
     /**
@@ -29,7 +29,7 @@ class SystemPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->can('systems.create');
     }
 
     /**
@@ -37,7 +37,7 @@ class SystemPolicy
      */
     public function update(User $user, System $system): bool
     {
-        //
+        return $user->can('systems.update');
     }
 
     /**
@@ -45,7 +45,7 @@ class SystemPolicy
      */
     public function delete(User $user, System $system): bool
     {
-        //
+        return $user->can('systems.delete');
     }
 
     /**
@@ -53,7 +53,7 @@ class SystemPolicy
      */
     public function restore(User $user, System $system): bool
     {
-        //
+        return $user->can('systems.restore');
     }
 
     /**
@@ -61,6 +61,6 @@ class SystemPolicy
      */
     public function forceDelete(User $user, System $system): bool
     {
-        //
+        return $user->can('systems.delete');
     }
 }

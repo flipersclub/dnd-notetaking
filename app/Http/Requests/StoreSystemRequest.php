@@ -11,7 +11,7 @@ class StoreSystemRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreSystemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:65535'],
+            'cover_image' => ['nullable', 'image'],
         ];
     }
 }
