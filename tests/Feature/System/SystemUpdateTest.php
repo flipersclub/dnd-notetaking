@@ -4,7 +4,6 @@ namespace Tests\Feature\System;
 
 use App\Models\System;
 use App\Models\User;
-use Faker\Provider\Image;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
@@ -14,23 +13,39 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
-class SystemCreateTest extends TestCase
+class SystemUpdateTest extends TestCase
 {
     use RefreshDatabase;
 
     public function test_it_returns_redirect_if_user_not_logged_in(): void
     {
-        $response = $this->postJson('/api/systems');
+        $system = System::factory()->create();
+
+        $response = $this->putJson("/api/systems/$system->id");
 
         $response->assertUnauthorized();
     }
 
-    public function test_it_returns_unauthorized_if_user_not_allowed_to_see(): void
+    public function test_it_returns_not_found_if_system_not_existent(): void
     {
         $user = User::factory()->create();
 
+        $system = System::factory()->create();
+
         $response = $this->actingAs($user)
-                         ->postJson('/api/systems');
+            ->putJson("/api/systems/99999999");
+
+        $response->assertNotFound();
+    }
+
+    public function test_it_returns_unauthorized_if_user_not_allowed_to_update_system(): void
+    {
+        $user = User::factory()->create();
+
+        $system = System::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->putJson("/api/systems/$system->id");
 
         $response->assertForbidden();
     }
@@ -38,29 +53,23 @@ class SystemCreateTest extends TestCase
     /** @dataProvider validationDataProvider */
     public function test_it_returns_unprocessable_if_validation_failed($payload, $errors): void
     {
-        $permission = Permission::create(['name' => 'systems.create']);
-        $role = Role::create(['name' => 'admin']);
-        $role->givePermissionTo($permission);
+        $system = System::factory()->create();
 
+        $permission = Permission::create(['name' => "systems.update.$system->id"]);
         $user = User::factory()->create();
-
-        $user->assignRole('admin');
+        $user->givePermissionTo($permission);
 
         $response = $this->actingAs($user)
-                         ->postJson('/api/systems', $payload);
+            ->putJson("/api/systems/$system->id", $payload);
 
         $response->assertUnprocessable();
 
         $response->assertInvalid($errors);
-
-        $this->assertDatabaseEmpty('systems');
-
     }
 
     public static function validationDataProvider()
     {
         return [
-            'name not present' => [[], ['name' => 'The name field is required.']],
             'name empty' => [['name' => ''], ['name' => 'The name field is required.']],
             'name not a string' => [['name' => ['an', 'array']], ['name' => 'The name field must be a string.']],
             'name longer than 255 characters' => [['name' => Str::random(256)], ['name' => 'The name field must not be greater than 255 characters.']],
@@ -72,24 +81,24 @@ class SystemCreateTest extends TestCase
         ];
     }
 
-    public function test_it_returns_successful_if_systems_returned(): void
+    public function test_it_returns_successful_if_system_updated_returned(): void
     {
-        $permission = Permission::create(['name' => 'systems.create']);
-        $role = Role::create(['name' => 'admin']);
-        $role->givePermissionTo($permission);
+        $system = System::factory()->create();
+
+        $permission = Permission::create(['name' => "systems.update.$system->id"]);
         $user = User::factory()->create();
-        $user->assignRole('admin');
+        $user->givePermissionTo($permission);
 
         $file = UploadedFile::fake()->image('avatar.jpg', 1020, 100);
 
         Storage::fake();
 
         $response = $this->actingAs($user)
-                         ->postJson('/api/systems', [
-                             'name' => 'D&D',
-                             'description' => ($description = Str::random(65535)),
-                             'cover_image' => $file
-                         ]);
+            ->putJson("/api/systems/$system->id", [
+                'name' => 'D&D',
+                'description' => ($description = Str::random(65535)),
+                'cover_image' => $file
+            ]);
 
         $response->assertSuccessful();
 
@@ -104,6 +113,7 @@ class SystemCreateTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('systems', [
+            'id' => $system->id,
             'name' => 'D&D',
             'description' => $description,
             'cover_image' => 'systems/' . $file->hashName()

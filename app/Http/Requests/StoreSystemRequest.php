@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 
 class StoreSystemRequest extends FormRequest
 {
@@ -24,7 +26,12 @@ class StoreSystemRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:65535'],
-            'cover_image' => ['nullable', 'image'],
+            'cover_image' => [
+                'nullable',
+                File::image()
+                    ->max(10000)
+                    ->dimensions(Rule::dimensions()->minWidth(1020)->minHeight(100))
+            ],
         ];
     }
 }

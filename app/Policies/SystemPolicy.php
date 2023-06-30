@@ -21,7 +21,8 @@ class SystemPolicy
      */
     public function view(User $user, System $system): bool
     {
-        return $user->can('systems.view');
+        return $user->can('systems.view')
+            || $user->can("systems.view.$system->id");
     }
 
     /**
@@ -37,7 +38,8 @@ class SystemPolicy
      */
     public function update(User $user, System $system): bool
     {
-        return $user->can('systems.update');
+        return $user->can("systems.update")
+            || $user->can("systems.update.$system->id");
     }
 
     /**
@@ -45,7 +47,8 @@ class SystemPolicy
      */
     public function delete(User $user, System $system): bool
     {
-        return $user->can('systems.delete');
+        return $user->can('systems.delete')
+            || $user->can("systems.delete.$system->id");
     }
 
     /**

@@ -33,7 +33,7 @@ class SystemIndexTest extends TestCase
 
     public function test_it_returns_successful_if_systems_returned(): void
     {
-        $permission = Permission::create(['name' => 'systems.view']);
+        $permission = Permission::create(['name' => 'systems.view.*']);
         $role = Role::create(['name' => 'admin']);
         $role->givePermissionTo($permission);
 

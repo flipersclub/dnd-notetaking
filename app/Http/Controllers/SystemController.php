@@ -49,7 +49,12 @@ class SystemController extends Controller
      */
     public function update(UpdateSystemRequest $request, System $system)
     {
-        $system->update($request->validated());
+        $params = $request->except('cover_image');
+        if ($request->hasFile('cover_image')) {
+            $file = Storage::putFile('systems', $request->file('cover_image'));
+            $params['cover_image'] = $file;
+        }
+        $system->update($params);
         return new SystemResource($system);
     }
 
