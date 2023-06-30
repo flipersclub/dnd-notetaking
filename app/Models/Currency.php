@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Currency extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTags;
 }
