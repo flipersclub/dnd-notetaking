@@ -81,6 +81,8 @@ class SystemCreateTest extends TestCase
 
         $file = UploadedFile::fake()->image('avatar.jpg');
 
+        Storage::fake();
+
         $response = $this->actingAs($user)
                          ->postJson('/api/systems', [
                              'name' => 'D&D',
@@ -90,20 +92,20 @@ class SystemCreateTest extends TestCase
 
         $response->assertSuccessful();
 
-        Storage::assertExists($file->hashName());
+        Storage::assertExists('systems/' . $file->hashName());
 
         $response->assertJson([
             'data' => [
                 'name' => 'D&D',
                 'description' => $description,
-                'cover_image' => $file->hashName()
+                'cover_image' => 'systems/' . $file->hashName()
             ]
         ]);
 
         $this->assertDatabaseHas('systems', [
             'name' => 'D&D',
             'description' => $description,
-            'cover_image' => $file->hashName()
+            'cover_image' => 'systems/' . $file->hashName()
         ]);
 
     }

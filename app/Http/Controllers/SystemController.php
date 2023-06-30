@@ -6,6 +6,7 @@ use App\Http\Requests\StoreSystemRequest;
 use App\Http\Requests\UpdateSystemRequest;
 use App\Http\Resources\SystemResource;
 use App\Models\System;
+use Illuminate\Support\Facades\Storage;
 
 class SystemController extends Controller
 {
@@ -29,7 +30,7 @@ class SystemController extends Controller
     {
         $params = $request->except('cover_image');
         if ($request->hasFile('cover_image')) {
-            $file = $request->file('cover_image')->store();
+            $file = Storage::putFile('systems', $request->file('cover_image'));
             $params['cover_image'] = $file;
         }
         return new SystemResource(System::create($params));
