@@ -17,14 +17,6 @@ class SessionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreSessionRequest $request)
@@ -36,14 +28,6 @@ class SessionController extends Controller
      * Display the specified resource.
      */
     public function show(Session $session)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Session $session)
     {
         //
     }

@@ -14,7 +14,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
-class SystemViewTest extends TestCase
+class SystemShowTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
@@ -55,9 +55,7 @@ class SystemViewTest extends TestCase
     {
         $system = System::factory()->create();
 
-        $permission = Permission::create(['name' => "systems.view.$system->id"]);
-        $user = User::factory()->create();
-        $user->givePermissionTo($permission);
+        $user = $this->userWithPermission("systems.view.$system->id");
 
         $response = $this->actingAs($user)
             ->getJson("/api/systems/$system->id");

@@ -1,8 +1,8 @@
 <?php
 
-namespace Feature\System;
+namespace Tests\Feature\Setting;
 
-use App\Models\System;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -13,53 +13,53 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
-class SystemDeleteTest extends TestCase
+class SettingDestroyTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
     public function test_it_returns_redirect_if_user_not_logged_in(): void
     {
-        $system = System::factory()->create();
+        $setting = Setting::factory()->create();
 
-        $response = $this->deleteJson("/api/systems/$system->id");
+        $response = $this->deleteJson("/api/settings/$setting->id");
 
         $response->assertUnauthorized();
     }
 
-    public function test_it_returns_not_found_if_system_not_existent(): void
+    public function test_it_returns_not_found_if_setting_not_existent(): void
     {
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
-            ->deleteJson("/api/systems/99999999");
+            ->deleteJson("/api/settings/99999999");
 
         $response->assertNotFound();
     }
 
-    public function test_it_returns_unauthorized_if_user_not_allowed_to_delete_system(): void
+    public function test_it_returns_unauthorized_if_user_not_allowed_to_delete_setting(): void
     {
         $user = User::factory()->create();
 
-        $system = System::factory()->create();
+        $setting = Setting::factory()->create();
 
         $response = $this->actingAs($user)
-            ->deleteJson("/api/systems/$system->id");
+            ->deleteJson("/api/settings/$setting->id");
 
         $response->assertForbidden();
     }
 
-    public function test_it_returns_successful_if_system_deleted(): void
+    public function test_it_returns_successful_if_setting_deleted(): void
     {
-        $system = System::factory()->create();
+        $setting = Setting::factory()->create();
 
-        $user = $this->userWithPermission("systems.delete.$system->id");
+        $user = $this->userWithPermission("settings.delete.$setting->id");
 
         $response = $this->actingAs($user)
-            ->deleteJson("/api/systems/$system->id");
+            ->deleteJson("/api/settings/$setting->id");
 
         $response->assertNoContent();
 
-        $this->assertModelMissing($system);
+        $this->assertModelMissing($setting);
 
     }
 }

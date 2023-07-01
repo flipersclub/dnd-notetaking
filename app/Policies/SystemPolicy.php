@@ -56,7 +56,8 @@ class SystemPolicy
      */
     public function restore(User $user, System $system): bool
     {
-        return $user->can('systems.restore');
+        return $user->can('systems.restore')
+            || $user->can("systems.restore.$system->id");
     }
 
     /**
@@ -64,6 +65,7 @@ class SystemPolicy
      */
     public function forceDelete(User $user, System $system): bool
     {
-        return $user->can('systems.delete');
+        return $user->can('systems.forceDelete')
+            || $user->can("systems.forceDelete.$system->id");
     }
 }

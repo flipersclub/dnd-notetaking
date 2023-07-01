@@ -9,4 +9,14 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+
+    public function with(): array
+    {
+        // Check if "with" query parameter is present
+        if (request()->has('with')) {
+            // Get the comma-separated list of relationships from the query parameter
+            return explode(',', request()->with);
+        }
+        return [];
+    }
 }

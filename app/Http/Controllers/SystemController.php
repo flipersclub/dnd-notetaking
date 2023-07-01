@@ -6,6 +6,8 @@ use App\Http\Requests\StoreSystemRequest;
 use App\Http\Requests\UpdateSystemRequest;
 use App\Http\Resources\SystemResource;
 use App\Models\System;
+use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
 class SystemController extends Controller
@@ -18,7 +20,7 @@ class SystemController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): ResourceCollection
     {
         return SystemResource::collection(System::all());
     }
@@ -26,7 +28,7 @@ class SystemController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSystemRequest $request)
+    public function store(StoreSystemRequest $request): SystemResource
     {
         $params = $request->except('cover_image');
         if ($request->hasFile('cover_image')) {
@@ -39,7 +41,7 @@ class SystemController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(System $system)
+    public function show(System $system): SystemResource
     {
         return new SystemResource($system);
     }
@@ -47,7 +49,7 @@ class SystemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSystemRequest $request, System $system)
+    public function update(UpdateSystemRequest $request, System $system): SystemResource
     {
         $params = $request->except('cover_image');
         if ($request->hasFile('cover_image')) {
@@ -61,7 +63,7 @@ class SystemController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(System $system)
+    public function destroy(System $system): Response
     {
         $system->delete();
         return response()->noContent();

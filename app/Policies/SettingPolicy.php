@@ -13,7 +13,7 @@ class SettingPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->can('settings.view');
     }
 
     /**
@@ -21,7 +21,8 @@ class SettingPolicy
      */
     public function view(User $user, Setting $setting): bool
     {
-        //
+        return $user->can('settings.view')
+            || $user->can("settings.view.$setting->id");
     }
 
     /**
@@ -29,7 +30,7 @@ class SettingPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->can('settings.create');
     }
 
     /**
@@ -37,7 +38,8 @@ class SettingPolicy
      */
     public function update(User $user, Setting $setting): bool
     {
-        //
+        return $user->can("settings.update")
+            || $user->can("settings.update.$setting->id");
     }
 
     /**
@@ -45,7 +47,8 @@ class SettingPolicy
      */
     public function delete(User $user, Setting $setting): bool
     {
-        //
+        return $user->can('settings.delete')
+            || $user->can("settings.delete.$setting->id");
     }
 
     /**
@@ -53,7 +56,8 @@ class SettingPolicy
      */
     public function restore(User $user, Setting $setting): bool
     {
-        //
+        return $user->can('settings.restore')
+            || $user->can("settings.restore.$setting->id");
     }
 
     /**
@@ -61,6 +65,7 @@ class SettingPolicy
      */
     public function forceDelete(User $user, Setting $setting): bool
     {
-        //
+        return $user->can('settings.forceDelete')
+            || $user->can("settings.forceDelete.$setting->id");
     }
 }

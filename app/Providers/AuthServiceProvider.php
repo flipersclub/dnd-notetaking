@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Setting;
 use App\Models\System;
+use App\Policies\SettingPolicy;
 use App\Policies\SystemPolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -16,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         System::class => SystemPolicy::class,
+        Setting::class => SettingPolicy::class,
     ];
 
     /**

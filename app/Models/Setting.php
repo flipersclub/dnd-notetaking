@@ -12,6 +12,8 @@ class Setting extends Model
 {
     use HasUuids, HasFactory, HasTags;
 
+    protected $guarded = ['id'];
+
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class);
