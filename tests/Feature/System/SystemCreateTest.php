@@ -8,6 +8,7 @@ use Faker\Provider\Image;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
@@ -38,13 +39,7 @@ class SystemCreateTest extends TestCase
     /** @dataProvider validationDataProvider */
     public function test_it_returns_unprocessable_if_validation_failed($payload, $errors): void
     {
-        $permission = Permission::create(['name' => 'systems.create']);
-        $role = Role::create(['name' => 'admin']);
-        $role->givePermissionTo($permission);
-
-        $user = User::factory()->create();
-
-        $user->assignRole('admin');
+        $user = $this->userWithRole('systems.create', 'admin');
 
         $response = $this->actingAs($user)
                          ->postJson('/api/systems', $payload);
@@ -74,15 +69,12 @@ class SystemCreateTest extends TestCase
 
     public function test_it_returns_successful_if_systems_returned(): void
     {
-        $permission = Permission::create(['name' => 'systems.create']);
-        $role = Role::create(['name' => 'admin']);
-        $role->givePermissionTo($permission);
-        $user = User::factory()->create();
-        $user->assignRole('admin');
+        $user = $this->userWithRole('systems.create', 'admin');
 
         $file = UploadedFile::fake()->image('avatar.jpg', 1020, 100);
 
         Storage::fake();
+        Carbon::setTestNow(now());
 
         $response = $this->actingAs($user)
                          ->postJson('/api/systems', [
@@ -99,7 +91,7 @@ class SystemCreateTest extends TestCase
             'data' => [
                 'name' => 'D&D',
                 'description' => $description,
-                'cover_image' => 'systems/' . $file->hashName()
+                'cover_image' => env('APP_URL') . '/systems/' . $file->hashName() . '?expiration=' . now()->addMinutes(5)->timestamp
             ]
         ]);
 

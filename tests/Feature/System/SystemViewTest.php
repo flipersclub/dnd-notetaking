@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
@@ -52,10 +53,7 @@ class SystemViewTest extends TestCase
 
     public function test_it_returns_successful_if_system_returned(): void
     {
-        $system = System::factory()->create([
-            'description' => $this->faker->sentence(),
-            'cover_image' => $this->faker->image()
-        ]);
+        $system = System::factory()->create();
 
         $permission = Permission::create(['name' => "systems.view.$system->id"]);
         $user = User::factory()->create();
@@ -68,9 +66,9 @@ class SystemViewTest extends TestCase
 
         $response->assertJson([
             'data' => [
+                'id' => $system->id,
                 'name' => $system->name,
-                'description' => $system->description,
-                'cover_image' => $system->cover_image
+                'description' => $system->description
             ]
         ]);
 

@@ -30,8 +30,6 @@ class SystemDeleteTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $system = System::factory()->create();
-
         $response = $this->actingAs($user)
             ->deleteJson("/api/systems/99999999");
 
@@ -52,14 +50,9 @@ class SystemDeleteTest extends TestCase
 
     public function test_it_returns_successful_if_system_deleted(): void
     {
-        $system = System::factory()->create([
-            'description' => $this->faker->sentence(),
-            'cover_image' => $this->faker->image()
-        ]);
+        $system = System::factory()->create();
 
-        $permission = Permission::create(['name' => "systems.delete.$system->id"]);
-        $user = User::factory()->create();
-        $user->givePermissionTo($permission);
+        $user = $this->userWithPermission("systems.delete.$system->id");
 
         $response = $this->actingAs($user)
             ->deleteJson("/api/systems/$system->id");

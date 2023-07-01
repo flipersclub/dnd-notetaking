@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
@@ -29,8 +30,6 @@ class SystemUpdateTest extends TestCase
     public function test_it_returns_not_found_if_system_not_existent(): void
     {
         $user = User::factory()->create();
-
-        $system = System::factory()->create();
 
         $response = $this->actingAs($user)
             ->putJson("/api/systems/99999999");
@@ -55,9 +54,7 @@ class SystemUpdateTest extends TestCase
     {
         $system = System::factory()->create();
 
-        $permission = Permission::create(['name' => "systems.update.$system->id"]);
-        $user = User::factory()->create();
-        $user->givePermissionTo($permission);
+        $user = $this->userWithRole("systems.update.$system->id", 'admin');
 
         $response = $this->actingAs($user)
             ->putJson("/api/systems/$system->id", $payload);
@@ -85,13 +82,12 @@ class SystemUpdateTest extends TestCase
     {
         $system = System::factory()->create();
 
-        $permission = Permission::create(['name' => "systems.update.$system->id"]);
-        $user = User::factory()->create();
-        $user->givePermissionTo($permission);
+        $user = $this->userWithPermission("systems.update.$system->id");
 
         $file = UploadedFile::fake()->image('avatar.jpg', 1020, 100);
 
         Storage::fake();
+        Carbon::setTestNow(now());
 
         $response = $this->actingAs($user)
             ->putJson("/api/systems/$system->id", [
@@ -108,7 +104,7 @@ class SystemUpdateTest extends TestCase
             'data' => [
                 'name' => 'D&D',
                 'description' => $description,
-                'cover_image' => 'systems/' . $file->hashName()
+                'cover_image' => env('APP_URL') . '/systems/' . $file->hashName() . '?expiration=' . Carbon::getTestNow()->addMinutes(5)->timestamp
             ]
         ]);
 

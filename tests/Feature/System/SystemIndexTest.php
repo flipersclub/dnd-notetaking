@@ -33,13 +33,7 @@ class SystemIndexTest extends TestCase
 
     public function test_it_returns_successful_if_systems_returned(): void
     {
-        $permission = Permission::create(['name' => 'systems.view.*']);
-        $role = Role::create(['name' => 'admin']);
-        $role->givePermissionTo($permission);
-
-        $user = User::factory()->create();
-
-        $user->assignRole('admin');
+        $user = $this->userWithRole('systems.view', 'admin');
 
         $systems = System::factory(10)->create();
 
@@ -51,7 +45,11 @@ class SystemIndexTest extends TestCase
         $response->assertJsonCount(10, 'data');
 
         $response->assertJson([
-            'data' => $systems->toArray()
+            'data' => $systems->map(fn($system) => [
+                'id' => $system->id,
+                'name' => $system->name,
+                'description' => $system->description
+            ])->toArray()
         ]);
 
     }
