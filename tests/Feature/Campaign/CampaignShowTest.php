@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Campaign;
+namespace Tests\Feature\Campaign;
 
 use App\Models\Campaign;
 use App\Models\User;
