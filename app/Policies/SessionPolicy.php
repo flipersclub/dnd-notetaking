@@ -31,7 +31,8 @@ class SessionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('sessions.create');
+        return $user->can('sessions.create')
+            || $user->campaigns()->exists();
     }
 
     /**

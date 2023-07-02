@@ -71,6 +71,26 @@ class SessionCreateTest extends TestCase
             'cover_image larger than 2MB' => [['cover_image' => UploadedFile::fake()->image('avatar.jpg')->size(3000)], ['cover_image' => 'The cover image field must not be greater than 2048 kilobytes.']],
         ];
     }
+
+    public function test_it_returns_unprocessable_if_user_is_not_the_game_master(): void
+    {
+        $user = $this->userWithRole('sessions.create', 'admin');
+
+        $campaign = Campaign::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->postJson('/api/sessions', [
+                'campaign_id' => $campaign->id
+            ]);
+
+        $response->assertUnprocessable();
+
+        $response->assertInvalid(['campaign_id' => 'The selected campaign id is invalid.']);
+
+        $this->assertDatabaseEmpty('sessions');
+
+    }
+
     public function test_it_returns_successful_if_session_created_returned(): void
     {
         $user = $this->userWithPermission('sessions.create');
