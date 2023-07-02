@@ -13,7 +13,7 @@ class SessionPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->can('sessions.view');
     }
 
     /**
@@ -21,7 +21,9 @@ class SessionPolicy
      */
     public function view(User $user, Session $session): bool
     {
-        //
+        return $user->can('sessions.view')
+            || $user->can("sessions.view.$session->id")
+            || $user->can('view', $session->campaign);
     }
 
     /**
@@ -29,7 +31,7 @@ class SessionPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->can('sessions.create');
     }
 
     /**
@@ -37,7 +39,9 @@ class SessionPolicy
      */
     public function update(User $user, Session $session): bool
     {
-        //
+        return $user->can("sessions.update")
+            || $user->can("sessions.update.$session->id")
+            || $user->can('update', $session->campaign);
     }
 
     /**
@@ -45,7 +49,9 @@ class SessionPolicy
      */
     public function delete(User $user, Session $session): bool
     {
-        //
+        return $user->can('sessions.delete')
+            || $user->can("sessions.delete.$session->id")
+            || $user->can('delete', $session->campaign);
     }
 
     /**
@@ -53,7 +59,9 @@ class SessionPolicy
      */
     public function restore(User $user, Session $session): bool
     {
-        //
+        return $user->can('sessions.restore')
+            || $user->can("sessions.restore.$session->id")
+            || $user->can('restore', $session->campaign);
     }
 
     /**
@@ -61,6 +69,8 @@ class SessionPolicy
      */
     public function forceDelete(User $user, Session $session): bool
     {
-        //
+        return $user->can('sessions.forceDelete')
+            || $user->can("sessions.forceDelete.$session->id")
+            || $user->can('forceDelete', $session->campaign);
     }
 }

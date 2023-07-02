@@ -11,7 +11,7 @@ class UpdateSessionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class UpdateSessionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'session_number' => ['sometimes', 'required', 'integer'],
+            'title' => ['sometimes', 'required', 'string', 'max:255'],
+            'scheduled_at' => ['sometimes', 'required', 'date'],
+            'duration' => ['nullable', 'integer', 'min:0'],
+            'location' => ['nullable', 'string', 'max:255'],
+            'notes' => ['nullable', 'string'],
+            'cover_image' => ['nullable', 'image', 'max:2048'],
         ];
     }
 }

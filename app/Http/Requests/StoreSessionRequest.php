@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Campaign;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreSessionRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class StoreSessionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,14 @@ class StoreSessionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'campaign_id' => ['required', Rule::exists(Campaign::class, 'id')],
+            'session_number' => ['required', 'integer'],
+            'title' => ['required', 'string', 'max:255'],
+            'scheduled_at' => ['required', 'date'],
+            'duration' => ['nullable', 'integer', 'min:0'],
+            'location' => ['nullable', 'string', 'max:255'],
+            'notes' => ['nullable', 'string'],
+            'cover_image' => ['nullable', 'image', 'max:2048'], // Adjust max file size as needed
         ];
     }
 }

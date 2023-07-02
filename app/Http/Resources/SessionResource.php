@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Http\Resources;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
+
+class SessionResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->id,
+            'campaign' => new CampaignResource($this->whenLoaded('campaign')),
+            'session_number' => $this->session_number,
+            'title' => $this->title,
+            'scheduled_at' => $this->scheduled_at,
+            'duration' => $this->duration,
+            'location' => $this->location,
+            'notes' => $this->notes,
+            'cover_image' => $this->when($this->cover_image, fn () => Storage::temporaryUrl($this->cover_image, now()->addMinutes(5))),
+        ];
+    }
+}

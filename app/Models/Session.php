@@ -11,6 +11,8 @@ class Session extends Model
 {
     use HasUuids, HasFactory, HasTags;
 
+    protected $guarded = ['id'];
+
     public function campaign(): BelongsTo
     {
         return $this->belongsTo(Campaign::class);
