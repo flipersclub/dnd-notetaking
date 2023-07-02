@@ -13,7 +13,7 @@ class CampaignPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->can('campaigns.view');
     }
 
     /**
@@ -21,7 +21,9 @@ class CampaignPolicy
      */
     public function view(User $user, Campaign $campaign): bool
     {
-        //
+        return $user->can('campaigns.view')
+            || $user->can("campaigns.view.$campaign->id")
+            || $user->id === $campaign->game_master_id;
     }
 
     /**
@@ -29,7 +31,7 @@ class CampaignPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->can('campaigns.create');
     }
 
     /**
@@ -37,7 +39,9 @@ class CampaignPolicy
      */
     public function update(User $user, Campaign $campaign): bool
     {
-        //
+        return $user->can("campaigns.update")
+            || $user->can("campaigns.update.$campaign->id")
+            || $user->id === $campaign->game_master_id;
     }
 
     /**
@@ -45,7 +49,9 @@ class CampaignPolicy
      */
     public function delete(User $user, Campaign $campaign): bool
     {
-        //
+        return $user->can('campaigns.delete')
+            || $user->can("campaigns.delete.$campaign->id")
+            || $user->id === $campaign->game_master_id;
     }
 
     /**
@@ -53,7 +59,9 @@ class CampaignPolicy
      */
     public function restore(User $user, Campaign $campaign): bool
     {
-        //
+        return $user->can('campaigns.restore')
+            || $user->can("campaigns.restore.$campaign->id")
+            || $user->id === $campaign->game_master_id;
     }
 
     /**
@@ -61,6 +69,8 @@ class CampaignPolicy
      */
     public function forceDelete(User $user, Campaign $campaign): bool
     {
-        //
+        return $user->can('campaigns.forceDelete')
+            || $user->can("campaigns.forceDelete.$campaign->id")
+            || $user->id === $campaign->game_master_id;
     }
 }

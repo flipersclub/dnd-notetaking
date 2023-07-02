@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\System::class)->nullable();
             $table->foreignIdFor(\App\Models\Setting::class)->nullable();
             $table->boolean('active')->default(true);
-            $table->string('visibility')->default('public');
+            $table->unsignedTinyInteger('visibility')->default(\App\Enums\CampaignVisibility::private->value);
             $table->integer('player_limit')->nullable();
             $table->string('cover_image')->nullable();
             $table->timestamps();

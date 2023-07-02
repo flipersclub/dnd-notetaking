@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SystemController;
 use Illuminate\Http\Request;
@@ -23,4 +24,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::apiResource('systems', SystemController::class);
     Route::apiResource('settings', SettingController::class);
+    Route::apiResource('campaigns', CampaignController::class);
 });

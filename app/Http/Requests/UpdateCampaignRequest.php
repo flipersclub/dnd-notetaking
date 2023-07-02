@@ -2,7 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\CampaignVisibility;
+use App\Models\Setting;
+use App\Models\System;
+use App\Models\Tag;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateCampaignRequest extends FormRequest
 {
@@ -11,7 +16,7 @@ class UpdateCampaignRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +27,19 @@ class UpdateCampaignRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['sometimes', 'required', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:65535'],
+            'start_date' => ['nullable', 'date'],
+            'end_date' => ['nullable', 'date', 'after_or_equal:start_date'],
+            'game_master_id' => ['nullable', 'exists:users,id'],
+            'level' => ['nullable', 'integer', 'min:1'],
+            'system_id' => ['nullable', Rule::exists(System::class, 'id')],
+            'setting_id' => ['nullable', Rule::exists(Setting::class, 'id')],
+            'visibility' => ['nullable', 'required', Rule::in(CampaignVisibility::values())],
+            'player_limit' => ['nullable', 'integer', 'min:1'],
+            'cover_image' => ['nullable', 'image', 'max:2048'], // Adjust max file size as needed
+            'tags' => ['nullable', 'array'],
+            'tags.*' => [Rule::exists(Tag::class, 'id')],
         ];
     }
 }
