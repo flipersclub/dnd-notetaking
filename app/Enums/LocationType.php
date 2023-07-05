@@ -46,6 +46,6 @@ enum LocationType: string
 
     public function label(): string
     {
-        return Str::headline($this->value);
+        return Str::headline($this->name);
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Location;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreLocationRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class StoreLocationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,12 @@ class StoreLocationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'parent_id' => ['nullable', Rule::exists(Location::class, 'id')],
+            'name' => ['required', 'string'],
+            'type' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
+            'meta' => ['nullable', 'array'],
+            'meta.*' => ['string'],
         ];
     }
 }

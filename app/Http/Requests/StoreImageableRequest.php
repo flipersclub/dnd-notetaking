@@ -2,18 +2,16 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Location;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UpdateLocationRequest extends FormRequest
+class StoreImageableRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,12 +22,7 @@ class UpdateLocationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'parent_id' => ['nullable', Rule::exists(Location::class, 'id')],
-            'name' => ['sometimes', 'required', 'string'],
-            'type' => ['sometimes', 'required', 'string'],
-            'description' => ['nullable', 'string'],
-            'meta' => ['nullable', 'array'],
-            'meta.*' => ['string'],
+            //
         ];
     }
 }
