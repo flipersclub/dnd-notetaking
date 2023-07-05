@@ -17,9 +17,13 @@ return new class extends Migration
             $table->uuid('id');
             $table->foreignIdFor(Location::class, 'parent_id')->nullable()->constrained();
             $table->string('name');
+            $table->json('aliases')->nullable();
             $table->string('type');
+            $table->foreignIdFor(\App\Models\LocationSize::class); // metropolis, etc
             $table->text('description')->nullable();
-            $table->json('meta')->nullable();
+            $table->string('demonym')->nullable();
+            $table->integer('population')->nullable();
+            $table->foreignIdFor(\App\Models\LocationGovernmentType::class)->nullable(); // democracy, plutocracy, etc
             $table->timestamps();
         });
     }

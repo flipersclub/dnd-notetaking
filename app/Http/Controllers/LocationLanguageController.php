@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreMonsterRequest;
-use App\Http\Requests\UpdateMonsterRequest;
-use App\Models\Monster;
+use App\Http\Requests\StoreLocationLanguageRequest;
+use App\Http\Requests\UpdateLocationLanguageRequest;
+use App\Models\LocationLanguage;
 
-class MonsterController extends Controller
+class LocationLanguageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +19,7 @@ class MonsterController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreMonsterRequest $request)
+    public function store(StoreLocationLanguageRequest $request)
     {
         //
     }
@@ -27,7 +27,7 @@ class MonsterController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Monster $monster)
+    public function show(LocationLanguage $locationLanguage)
     {
         //
     }
@@ -35,7 +35,7 @@ class MonsterController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateMonsterRequest $request, Monster $monster)
+    public function update(UpdateLocationLanguageRequest $request, LocationLanguage $locationLanguage)
     {
         //
     }
@@ -43,7 +43,7 @@ class MonsterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Monster $monster)
+    public function destroy(LocationLanguage $locationLanguage)
     {
         //
     }

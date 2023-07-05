@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Monster extends Model
+class Service extends Model
 {
-    use HasUuids, HasFactory, HasTags;
+    use HasFactory;
 }

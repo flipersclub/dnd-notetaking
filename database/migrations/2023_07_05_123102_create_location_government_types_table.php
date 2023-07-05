@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('monsters', function (Blueprint $table) {
-            $table->uuid('id');
+        Schema::create('location_government_types', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
         });
     }
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('monsters');
+        Schema::dropIfExists('location_government_types');
     }
 };

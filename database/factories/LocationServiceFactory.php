@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Monster>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\LocationService>
  */
-class MonsterFactory extends Factory
+class LocationServiceFactory extends Factory
 {
     /**
      * Define the model's default state.
