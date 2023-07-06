@@ -2,9 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\Imageable;
+use App\Models\Image\Imageable;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class ImageablePolicy
 {

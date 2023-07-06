@@ -85,20 +85,26 @@ class SystemCreateTest extends TestCase
 
         $response->assertSuccessful();
 
-        Storage::assertExists('systems/' . $file->hashName());
+        $system = System::find($response->json('data.id'));
+
+        $this->assertInstanceOf(System::class, $system);
+
+        Storage::assertExists("images/{$system->id}/{$file->hashName()}");
 
         $response->assertJson([
             'data' => [
                 'name' => 'D&D',
                 'description' => $description,
-                'cover_image' => env('APP_URL') . '/systems/' . $file->hashName() . '?expiration=' . now()->addMinutes(5)->timestamp
+                'cover_image' => env('APP_URL') . "/images/{$system->id}/{$file->hashName()}?expiration=" . now()->addMinutes(5)->timestamp
             ]
         ]);
 
         $this->assertDatabaseHas('systems', [
             'name' => 'D&D',
             'description' => $description,
-            'cover_image' => 'systems/' . $file->hashName()
+        ]);
+        $this->assertDatabaseHas('images', [
+            'name' => "images/{$system->id}/{$file->hashName()}"
         ]);
 
     }

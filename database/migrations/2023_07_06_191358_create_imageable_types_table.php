@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Image\Image;
-use App\Models\Image\Type;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('imageables', function (Blueprint $table) {
+        Schema::create('imageable_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Image::class);
-            $table->morphs('imageable');
-            $table->foreignIdFor(Type::class)->nullable();
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('imageables');
+        Schema::dropIfExists('imageable_types');
     }
 };

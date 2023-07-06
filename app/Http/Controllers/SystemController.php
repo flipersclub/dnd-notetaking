@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ImageType;
 use App\Http\Requests\StoreSystemRequest;
 use App\Http\Requests\UpdateSystemRequest;
 use App\Http\Resources\SystemResource;
+use App\Models\Image\Image;
 use App\Models\System;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
@@ -30,12 +32,13 @@ class SystemController extends Controller
      */
     public function store(StoreSystemRequest $request): SystemResource
     {
-        $params = $request->except('cover_image');
+        $system = System::create($request->validated());
         if ($request->hasFile('cover_image')) {
-            $file = Storage::putFile('systems', $request->file('cover_image'));
-            $params['cover_image'] = $file;
+            $file = Storage::putFile("images/{$system->id}", $request->file('cover_image'));
+            $image = Image::create(['name' => $file]);
+            $system->images()->attach($image, ['type_id' => ImageType::cover->value]);
         }
-        return new SystemResource(System::create($params));
+        return new SystemResource($system->load('coverImage'));
     }
 
     /**
@@ -53,8 +56,8 @@ class SystemController extends Controller
     {
         $params = $request->except('cover_image');
         if ($request->hasFile('cover_image')) {
-            $file = Storage::putFile('systems', $request->file('cover_image'));
-            $params['cover_image'] = $file;
+            $coverImage = $system->coverImage()->update(['name' => $request->file('cover_image')->getFilename()]);
+            Storage::putFile("images/{$coverImage->id}", $request->file('cover_image'));
         }
         $system->update($params);
         return new SystemResource($system);

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreImageableRequest;
 use App\Http\Requests\UpdateImageableRequest;
-use App\Models\Imageable;
+use App\Models\Image\Imageable;
 
 class ImageableController extends Controller
 {

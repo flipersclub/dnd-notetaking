@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreImageRequest;
-use App\Http\Requests\UpdateImageRequest;
-use App\Models\Image\Image;
+use App\Http\Requests\StoreImageableTypeRequest;
+use App\Http\Requests\UpdateImageableTypeRequest;
+use App\Models\Image\Type;
 
-class ImageController extends Controller
+class ImageableTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +19,7 @@ class ImageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreImageRequest $request)
+    public function store(StoreImageableTypeRequest $request)
     {
         //
     }
@@ -27,7 +27,7 @@ class ImageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Image $image)
+    public function show(Type $imageableType)
     {
         //
     }
@@ -35,7 +35,7 @@ class ImageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateImageRequest $request, Image $image)
+    public function update(UpdateImageableTypeRequest $request, Type $imageableType)
     {
         //
     }
@@ -43,7 +43,7 @@ class ImageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Image $image)
+    public function destroy(Type $imageableType)
     {
         //
     }

@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Image;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Image\Imageable>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Image\Image>
  */
-class ImageableFactory extends Factory
+class ImageFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class ImageableFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->filePath()
         ];
     }
 }

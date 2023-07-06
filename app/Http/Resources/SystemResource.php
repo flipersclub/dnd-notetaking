@@ -19,7 +19,7 @@ class SystemResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'cover_image' => $this->when($this->cover_image, fn () => Storage::temporaryUrl($this->cover_image, now()->addMinutes(5)))
+            'cover_image' => $this->when($this->coverImage, fn () => Storage::temporaryUrl($this->coverImage->name, now()->addMinutes(5)))
         ];
     }
 }
