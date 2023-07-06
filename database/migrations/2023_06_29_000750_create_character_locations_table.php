@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('character_locations', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->foreignIdFor(\App\Models\Location::class);
+            $table->id();
+            $table->foreignIdFor(\App\Models\Compendium\Location\Location::class);
             $table->uuidMorphs('locatable');
             $table->string('type')->nullable(); // ruler, owner, leader, staff
             $table->timestamps();

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('campaigns', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->id();
             $table->string('name');
             $table->text('description')->nullable();
             $table->date('start_date')->nullable();
@@ -24,7 +24,6 @@ return new class extends Migration
             $table->boolean('active')->default(true);
             $table->unsignedTinyInteger('visibility')->default(\App\Enums\CampaignVisibility::private->value);
             $table->integer('player_limit')->nullable();
-            $table->string('cover_image')->nullable();
             $table->timestamps();
         });
     }

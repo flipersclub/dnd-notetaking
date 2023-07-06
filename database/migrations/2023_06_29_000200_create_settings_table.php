@@ -12,11 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('settings', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->id();
             $table->string('name');
             $table->foreignIdFor(\App\Models\User::class, 'creator_id');
             $table->text('description')->nullable();
-            $table->string('cover_image')->nullable();
             $table->timestamps();
         });
     }

@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('location_species', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->foreignIdFor(\App\Models\Location::class);
-            $table->foreignIdFor(\App\Models\Species::class);
+            $table->id();
+            $table->foreignIdFor(\App\Models\Compendium\Location\Location::class);
+            $table->foreignIdFor(\App\Models\Compendium\Species::class);
             $table->timestamps();
         });
     }

@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('imageables', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(\App\Models\Image::class);
+            $table->morphs('imageable');
             $table->timestamps();
         });
     }

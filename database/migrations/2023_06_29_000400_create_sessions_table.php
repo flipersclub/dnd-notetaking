@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sessions', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->id();
             $table->foreignIdFor(\App\Models\Campaign::class);
             $table->integer('session_number');
             $table->string('title');
@@ -20,7 +20,6 @@ return new class extends Migration
             $table->integer('duration')->nullable();
             $table->string('location')->nullable();
             $table->text('notes')->nullable();
-            $table->string('cover_image')->nullable();
             $table->timestamps();
         });
     }

@@ -1,6 +1,8 @@
 <?php
 
-use App\Models\Location;
+use App\Models\Compendium\Location\GovernmentType;
+use App\Models\Compendium\Location\Location;
+use App\Models\Compendium\Location\Size;
 use App\Models\LocationType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,16 +16,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('locations', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->id();
             $table->foreignIdFor(Location::class, 'parent_id')->nullable()->constrained();
             $table->string('name');
-            $table->json('aliases')->nullable();
             $table->string('type');
-            $table->foreignIdFor(\App\Models\LocationSize::class); // metropolis, etc
+            $table->foreignIdFor(Size::class); // metropolis, etc
             $table->text('description')->nullable();
             $table->string('demonym')->nullable();
             $table->integer('population')->nullable();
-            $table->foreignIdFor(\App\Models\LocationGovernmentType::class)->nullable(); // democracy, plutocracy, etc
+            $table->foreignIdFor(GovernmentType::class)->nullable(); // democracy, plutocracy, etc
             $table->timestamps();
         });
     }
