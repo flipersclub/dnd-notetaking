@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Session extends Model
 {
-    use HasUuids, HasFactory, HasTags;
+    use HasFactory, HasTags;
 
     protected $guarded = ['id'];
 

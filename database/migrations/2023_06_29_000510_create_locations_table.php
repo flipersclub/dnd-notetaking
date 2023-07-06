@@ -3,6 +3,7 @@
 use App\Models\Compendium\Location\GovernmentType;
 use App\Models\Compendium\Location\Location;
 use App\Models\Compendium\Location\Size;
+use App\Models\Compendium\Location\Type;
 use App\Models\LocationType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,9 +18,9 @@ return new class extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Location::class, 'parent_id')->nullable()->constrained();
+            $table->foreignIdFor(Location::class, 'parent_id')->nullable();
             $table->string('name');
-            $table->string('type');
+            $table->foreignIdFor(Type::class); // region, settlement, building
             $table->foreignIdFor(Size::class); // metropolis, etc
             $table->text('description')->nullable();
             $table->string('demonym')->nullable();

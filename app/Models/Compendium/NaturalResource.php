@@ -9,5 +9,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class NaturalResource extends Model
 {
-    use HasUuids, HasFactory, HasTags;
+    use HasFactory, HasTags;
 }

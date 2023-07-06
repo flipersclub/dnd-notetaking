@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Campaign extends Model
 {
-    use HasUuids, HasFactory, HasTags;
+    use HasFactory, HasTags;
 
     protected $guarded = ['id'];
 

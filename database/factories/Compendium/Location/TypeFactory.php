@@ -5,9 +5,9 @@ namespace Database\Factories\Compendium\Location;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Compendium\Location\Size>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Compendium\Location\Type>
  */
-class SizeFactory extends Factory
+class TypeFactory extends Factory
 {
     /**
      * Define the model's default state.

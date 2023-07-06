@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Encounter extends Model
 {
-    use HasUuids, HasFactory, HasTags;
+    use HasFactory, HasTags;
 }

@@ -9,5 +9,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Deity extends Model
 {
-    use HasUuids, HasFactory, HasTags;
+    use HasFactory, HasTags;
 }

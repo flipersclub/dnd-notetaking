@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Weekday extends Model
 {
-    use HasUuids, HasFactory;
+    use HasFactory;
 }

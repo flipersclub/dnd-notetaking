@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Location extends Model
 {
-    use HasUuids, HasFactory, HasTags;
+    use HasFactory, HasTags;
 
     protected $guarded = ['id'];
 
@@ -23,6 +23,11 @@ class Location extends Model
     public function children(): HasMany
     {
         return $this->hasMany(Location::class, 'parent_id');
+    }
+
+    public function type(): BelongsTo
+    {
+        return $this->belongsTo(Type::class);
     }
 
     public function size(): BelongsTo
@@ -38,6 +43,11 @@ class Location extends Model
     public function aliases(): HasMany
     {
         return $this->hasMany(Alias::class);
+    }
+
+    public function services(): HasMany
+    {
+        return $this->morphToMany(Service::class); // todo finish
     }
 
     public function maps(): HasMany
