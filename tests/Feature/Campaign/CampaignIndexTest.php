@@ -47,6 +47,7 @@ class CampaignIndexTest extends TestCase
         $response->assertJson([
             'data' => $campaigns->map(fn($campaign) => [
                 'id' => $campaign->id,
+                'slug' => $campaign->slug,
                 'name' => $campaign->name,
                 'description' => $campaign->description,
                 'start_date' => $campaign->start_date,

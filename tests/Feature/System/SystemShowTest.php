@@ -22,7 +22,7 @@ class SystemShowTest extends TestCase
     {
         $system = System::factory()->create();
 
-        $response = $this->getJson("/api/systems/$system->id");
+        $response = $this->getJson("/api/systems/$system->slug");
 
         $response->assertUnauthorized();
     }
@@ -46,7 +46,7 @@ class SystemShowTest extends TestCase
         $system = System::factory()->create();
 
         $response = $this->actingAs($user)
-            ->getJson("/api/systems/$system->id");
+            ->getJson("/api/systems/$system->slug");
 
         $response->assertForbidden();
     }
@@ -58,13 +58,13 @@ class SystemShowTest extends TestCase
         $user = $this->userWithPermission("systems.view.$system->id");
 
         $response = $this->actingAs($user)
-            ->getJson("/api/systems/$system->id");
+            ->getJson("/api/systems/$system->slug");
 
         $response->assertSuccessful();
 
         $response->assertJson([
             'data' => [
-                'id' => $system->id,
+                'slug' => $system->slug,
                 'name' => $system->name,
                 'description' => $system->description
             ]

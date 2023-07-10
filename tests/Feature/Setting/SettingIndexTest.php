@@ -69,6 +69,7 @@ class SettingIndexTest extends TestCase
         $response->assertJson([
             'data' => $settings->map(fn($setting) => [
                 'id' => $setting->id,
+                'slug' => $setting->slug,
                 'name' => $setting->name,
                 'description' => $setting->description,
                 'creator' => [

@@ -44,7 +44,7 @@ class SettingUpdateTest extends TestCase
         $setting = Setting::factory()->create();
 
         $response = $this->actingAs($user)
-            ->putJson("/api/settings/$setting->id");
+            ->putJson("/api/settings/$setting->slug");
 
         $response->assertForbidden();
     }
@@ -57,7 +57,7 @@ class SettingUpdateTest extends TestCase
         $user = $this->userWithRole("settings.update.$setting->id", 'admin');
 
         $response = $this->actingAs($user)
-            ->putJson("/api/settings/$setting->id", $payload);
+            ->putJson("/api/settings/$setting->slug", $payload);
 
         $response->assertUnprocessable();
 
@@ -74,9 +74,6 @@ class SettingUpdateTest extends TestCase
             'creator_id invalid' => [['creator_id' => 99999], ['creator_id' => 'The selected creator id is invalid.']],
             'description not a string' => [['description' => ['an', 'array']], ['description' => 'The description field must be a string.']],
             'description longer than 255 characters' => [['description' => Str::random(65536)], ['description' => 'The description field must not be greater than 65535 characters.']],
-            'cover_image not a string' => [['cover_image' => ['an', 'array']], ['cover_image' => 'The cover image field must be an image.']],
-            'cover_image less than 1020px h' => [['cover_image' => UploadedFile::fake()->image('avatar.jpg', 100, 100)], ['cover_image' => 'The cover image field has invalid image dimensions.']],
-            'cover_image less than 100px h' => [['cover_image' => UploadedFile::fake()->image('avatar.jpg', 1100, 20)], ['cover_image' => 'The cover image field has invalid image dimensions.']],
         ];
     }
 
@@ -87,28 +84,19 @@ class SettingUpdateTest extends TestCase
         $user = $this->userWithPermission("settings.update.$setting->id");
         $newUser = User::factory()->create();
 
-        $file = UploadedFile::fake()->image('avatar.jpg', 1020, 100);
-
-        Storage::fake();
-        Carbon::setTestNow(now());
-
         $response = $this->actingAs($user)
-            ->putJson("/api/settings/$setting->id?with=creator", [
+            ->putJson("/api/settings/$setting->slug?with=creator", [
                 'name' => 'D&D',
                 'description' => ($description = Str::random(65535)),
-                'cover_image' => $file,
                 'creator_id' => $newUser->getKey()
             ]);
 
         $response->assertSuccessful();
 
-        Storage::assertExists('settings/' . $file->hashName());
-
         $response->assertJson([
             'data' => [
                 'name' => 'D&D',
                 'description' => $description,
-                'cover_image' => env('APP_URL') . '/settings/' . $file->hashName() . '?expiration=' . Carbon::getTestNow()->addMinutes(5)->timestamp,
                 'creator' => [
                     'id' => $newUser->id,
                     'name' => $newUser->name,
@@ -122,7 +110,6 @@ class SettingUpdateTest extends TestCase
             'name' => 'D&D',
             'creator_id' => $newUser->getKey(),
             'description' => $description,
-            'cover_image' => 'settings/' . $file->hashName()
         ]);
 
     }

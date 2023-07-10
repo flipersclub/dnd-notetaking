@@ -48,6 +48,7 @@ class SessionIndexTest extends TestCase
         $response->assertJson([
             'data' => $sessions->map(fn($session) => [
                 'id' => $session->id,
+                'slug' => $session->slug,
                 'session_number' => $session->session_number,
                 'title' => $session->title,
                 'scheduled_at' => $session->scheduled_at->format('Y-m-d H:i:s'),

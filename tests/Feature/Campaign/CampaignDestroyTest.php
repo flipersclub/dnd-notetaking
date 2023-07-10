@@ -16,7 +16,7 @@ class CampaignDestroyTest extends TestCase
     {
         $campaign = Campaign::factory()->create();
 
-        $response = $this->deleteJson("/api/campaigns/$campaign->id");
+        $response = $this->deleteJson("/api/campaigns/$campaign->slug");
 
         $response->assertUnauthorized();
     }
@@ -38,7 +38,7 @@ class CampaignDestroyTest extends TestCase
         $campaign = Campaign::factory()->create();
 
         $response = $this->actingAs($user)
-            ->deleteJson("/api/campaigns/$campaign->id");
+            ->deleteJson("/api/campaigns/$campaign->slug");
 
         $response->assertForbidden();
     }
@@ -50,7 +50,7 @@ class CampaignDestroyTest extends TestCase
         $user = $this->userWithPermission("campaigns.delete.$campaign->id");
 
         $response = $this->actingAs($user)
-            ->deleteJson("/api/campaigns/$campaign->id");
+            ->deleteJson("/api/campaigns/$campaign->slug");
 
         $response->assertNoContent();
 

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
+            $table->string('slug')->nullable()->index();
             $table->string('name');
             $table->foreignIdFor(\App\Models\User::class, 'creator_id');
             $table->text('description')->nullable();

@@ -47,6 +47,7 @@ class SystemIndexTest extends TestCase
         $response->assertJson([
             'data' => $systems->map(fn($system) => [
                 'id' => $system->id,
+                'slug' => $system->slug,
                 'name' => $system->name,
                 'description' => $system->description
             ])->toArray()

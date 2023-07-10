@@ -23,7 +23,7 @@ class CampaignUpdateTest extends TestCase
     {
         $campaign = Campaign::factory()->create();
 
-        $response = $this->putJson("/api/campaigns/$campaign->id");
+        $response = $this->putJson("/api/campaigns/$campaign->slug");
 
         $response->assertUnauthorized();
     }
@@ -45,7 +45,7 @@ class CampaignUpdateTest extends TestCase
         $campaign = Campaign::factory()->create();
 
         $response = $this->actingAs($user)
-            ->putJson("/api/campaigns/$campaign->id");
+            ->putJson("/api/campaigns/$campaign->slug");
 
         $response->assertForbidden();
     }
@@ -58,7 +58,7 @@ class CampaignUpdateTest extends TestCase
         $user = $this->userWithRole('campaigns.update', 'admin');
 
         $response = $this->actingAs($user)
-            ->putJson('/api/campaigns/' . $campaign->id, $payload);
+            ->putJson('/api/campaigns/' . $campaign->slug, $payload);
 
         $response->assertUnprocessable();
 
@@ -91,8 +91,6 @@ class CampaignUpdateTest extends TestCase
             'visibility not one of the allowed values' => [['visibility' => 'invalid-visibility'], ['visibility' => 'The selected visibility is invalid.']],
             'player_limit not an integer' => [['player_limit' => 'not-an-integer'], ['player_limit' => 'The player limit field must be an integer.']],
             'player_limit less than 1' => [['player_limit' => 0], ['player_limit' => 'The player limit field must be at least 1.']],
-            'cover_image not an image file' => [['cover_image' => UploadedFile::fake()->create('document.pdf')], ['cover_image' => 'The cover image field must be an image.']],
-            'cover_image larger than 2MB' => [['cover_image' => UploadedFile::fake()->image('avatar.jpg')->size(3000)], ['cover_image' => 'The cover image field must not be greater than 2048 kilobytes.']],
             'tags not an array' => [['tags' => 'not-an-array'], ['tags' => 'The tags field must be an array.']],
             'tags.* not a valid tag ID' => [['tags' => [999]], ['tags.0' => 'The selected tags.0 is invalid.']],
         ];
@@ -101,11 +99,6 @@ class CampaignUpdateTest extends TestCase
     public function test_it_returns_successful_if_campaign_updated_returned(): void
     {
         $user = $this->userWithRole('campaigns.update', 'admin');
-
-        $file = UploadedFile::fake()->image('avatar.jpg', 1020, 100);
-
-        Storage::fake();
-        Carbon::setTestNow(now());
 
         $setting = Setting::factory()->create();
         $system = System::factory()->create();
@@ -122,24 +115,21 @@ class CampaignUpdateTest extends TestCase
             'setting_id' => $setting->id,
             'visibility' => CampaignVisibility::public->value,
             'player_limit' => 5,
-            'cover_image' => $file,
             'tags' => $tags->pluck('id')->toArray(),
         ];
 
         $campaign = Campaign::factory()->create();
 
         $response = $this->actingAs($user)
-            ->putJson("/api/campaigns/{$campaign->id}?with=tags,gameMaster,system,setting,gameMaster", $payload);
+            ->putJson("/api/campaigns/{$campaign->slug}?with=tags,gameMaster,system,setting,gameMaster", $payload);
 
         $response->assertSuccessful();
 
-        Storage::assertExists('campaigns/' . $file->hashName());
 
         $response->assertJson([
             'data' => [
                 'name' => $payload['name'],
                 'description' => $payload['description'],
-                'cover_image' => env('APP_URL') . '/campaigns/' . $file->hashName() . '?expiration=' . now()->addMinutes(5)->timestamp,
                 'start_date' => $payload['start_date'],
                 'end_date' => $payload['end_date'],
                 'level' => $payload['level'],
@@ -168,7 +158,6 @@ class CampaignUpdateTest extends TestCase
         $this->assertDatabaseHas('campaigns', [
             'name' => $payload['name'],
             'description' => $payload['description'],
-            'cover_image' => 'campaigns/' . $file->hashName(),
             'start_date' => $payload['start_date'],
             'end_date' => $payload['end_date'],
             'game_master_id' => $user->id,

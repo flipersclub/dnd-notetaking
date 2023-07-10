@@ -76,8 +76,6 @@ class CampaignCreateTest extends TestCase
             'visibility not one of the allowed values' => [['visibility' => 'invalid-visibility'], ['visibility' => 'The selected visibility is invalid.']],
             'player_limit not an integer' => [['player_limit' => 'not-an-integer'], ['player_limit' => 'The player limit field must be an integer.']],
             'player_limit less than 1' => [['player_limit' => 0], ['player_limit' => 'The player limit field must be at least 1.']],
-            'cover_image not an image file' => [['cover_image' => UploadedFile::fake()->create('document.pdf')], ['cover_image' => 'The cover image field must be an image.']],
-            'cover_image larger than 2MB' => [['cover_image' => UploadedFile::fake()->image('avatar.jpg')->size(3000)], ['cover_image' => 'The cover image field must not be greater than 2048 kilobytes.']],
             'tags not an array' => [['tags' => 'not-an-array'], ['tags' => 'The tags field must be an array.']],
             'tags.* not a valid tag ID' => [['tags' => [999]], ['tags.0' => 'The selected tags.0 is invalid.']],
         ];
@@ -86,11 +84,6 @@ class CampaignCreateTest extends TestCase
     public function test_it_returns_successful_if_campaigns_returned(): void
     {
         $user = $this->userWithRole('campaigns.create', 'admin');
-
-        $file = UploadedFile::fake()->image('avatar.jpg', 1020, 100);
-
-        Storage::fake();
-        Carbon::setTestNow(now());
 
         $system = System::factory()->create();
         $setting = Setting::factory()->create();
@@ -107,7 +100,6 @@ class CampaignCreateTest extends TestCase
             'setting_id' => $setting->id,
             'visibility' => CampaignVisibility::public->value,
             'player_limit' => 10,
-            'cover_image' => $file,
             'tags' => [$tag->id],
         ];
 
@@ -115,8 +107,6 @@ class CampaignCreateTest extends TestCase
             ->postJson('/api/campaigns?with=tags,system,setting,gameMaster', $payload);
 
         $response->assertSuccessful();
-
-        Storage::assertExists('campaigns/' . $file->hashName());
 
         $response->assertJson([
             'data' => [
@@ -127,7 +117,6 @@ class CampaignCreateTest extends TestCase
                 'level' => $payload['level'],
                 'visibility' => $payload['visibility'],
                 'player_limit' => $payload['player_limit'],
-                'cover_image' => env('APP_URL') . '/campaigns/' . $file->hashName() . '?expiration=' . now()->addMinutes(5)->timestamp,
                 'gameMaster' => [
                     'id' => $user->id,
                     'name' => $user->name,
@@ -161,7 +150,6 @@ class CampaignCreateTest extends TestCase
             'setting_id' => $payload['setting_id'],
             'visibility' => $payload['visibility'],
             'player_limit' => $payload['player_limit'],
-            'cover_image' => 'campaigns/' . $file->hashName(),
         ]);
 
         $campaign = Campaign::find($response->json('data')['id']);

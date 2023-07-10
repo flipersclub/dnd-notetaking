@@ -16,7 +16,7 @@ class SessionShowTest extends TestCase
     {
         $session = Session::factory()->create();
 
-        $response = $this->getJson("/api/sessions/$session->id");
+        $response = $this->getJson("/api/sessions/$session->slug");
 
         $response->assertUnauthorized();
     }
@@ -38,7 +38,7 @@ class SessionShowTest extends TestCase
         $session = Session::factory()->create();
 
         $response = $this->actingAs($user)
-            ->getJson("/api/sessions/$session->id");
+            ->getJson("/api/sessions/$session->slug");
 
         $response->assertForbidden();
     }
@@ -50,13 +50,14 @@ class SessionShowTest extends TestCase
         $user = $this->userWithPermission("sessions.view.$session->id");
 
         $response = $this->actingAs($user)
-            ->getJson("/api/sessions/$session->id?with=campaign");
+            ->getJson("/api/sessions/$session->slug?with=campaign");
 
         $response->assertSuccessful();
 
         $response->assertJson([
             'data' => [
                 'id' => $session->id,
+                'slug' => $session->slug,
                 'session_number' => $session->session_number,
                 'title' => $session->title,
                 'scheduled_at' => $session->scheduled_at->format('Y-m-d H:i:s'),
@@ -65,6 +66,7 @@ class SessionShowTest extends TestCase
                 'notes' => $session->notes,
                 'campaign' => [
                     'id' => $session->campaign->id,
+                    'slug' => $session->campaign->slug,
                     'name' => $session->campaign->name,
                     'description' => $session->campaign->description,
                     'start_date' => $session->campaign->start_date,
@@ -86,7 +88,7 @@ class SessionShowTest extends TestCase
         $session = Session::factory()->forCampaign(['game_master_id' => $user->id])->create();
 
         $response = $this->actingAs($user)
-            ->getJson("/api/sessions/$session->id?with=campaign");
+            ->getJson("/api/sessions/$session->slug?with=campaign");
 
         $response->assertSuccessful();
     }

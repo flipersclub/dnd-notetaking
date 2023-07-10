@@ -21,7 +21,7 @@ class SystemDestroyTest extends TestCase
     {
         $system = System::factory()->create();
 
-        $response = $this->deleteJson("/api/systems/$system->id");
+        $response = $this->deleteJson("/api/systems/$system->slug");
 
         $response->assertUnauthorized();
     }
@@ -43,7 +43,7 @@ class SystemDestroyTest extends TestCase
         $system = System::factory()->create();
 
         $response = $this->actingAs($user)
-            ->deleteJson("/api/systems/$system->id");
+            ->deleteJson("/api/systems/$system->slug");
 
         $response->assertForbidden();
     }
@@ -55,7 +55,7 @@ class SystemDestroyTest extends TestCase
         $user = $this->userWithPermission("systems.delete.$system->id");
 
         $response = $this->actingAs($user)
-            ->deleteJson("/api/systems/$system->id");
+            ->deleteJson("/api/systems/$system->slug");
 
         $response->assertNoContent();
 

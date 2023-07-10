@@ -16,7 +16,7 @@ class SessionDestroyTest extends TestCase
     {
         $session = Session::factory()->create();
 
-        $response = $this->deleteJson("/api/sessions/$session->id");
+        $response = $this->deleteJson("/api/sessions/$session->slug");
 
         $response->assertUnauthorized();
     }
@@ -38,7 +38,7 @@ class SessionDestroyTest extends TestCase
         $session = Session::factory()->create();
 
         $response = $this->actingAs($user)
-            ->deleteJson("/api/sessions/$session->id");
+            ->deleteJson("/api/sessions/$session->slug");
 
         $response->assertForbidden();
     }
@@ -50,7 +50,7 @@ class SessionDestroyTest extends TestCase
         $user = $this->userWithPermission("sessions.delete.$session->id");
 
         $response = $this->actingAs($user)
-            ->deleteJson("/api/sessions/$session->id");
+            ->deleteJson("/api/sessions/$session->slug");
 
         $response->assertNoContent();
 
@@ -65,7 +65,7 @@ class SessionDestroyTest extends TestCase
         $session = Session::factory()->forCampaign(['game_master_id' => $user->id])->create();
 
         $response = $this->actingAs($user)
-            ->deleteJson("/api/sessions/$session->id");
+            ->deleteJson("/api/sessions/$session->slug");
 
         $response->assertNoContent();
 

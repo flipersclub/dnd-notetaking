@@ -40,7 +40,7 @@ class CampaignShowTest extends TestCase
         $campaign = Campaign::factory()->create();
 
         $response = $this->actingAs($user)
-            ->getJson("/api/campaigns/$campaign->id");
+            ->getJson("/api/campaigns/$campaign->slug");
 
         $response->assertForbidden();
     }
@@ -52,13 +52,14 @@ class CampaignShowTest extends TestCase
         $user = $this->userWithPermission("campaigns.view.$campaign->id");
 
         $response = $this->actingAs($user)
-            ->getJson("/api/campaigns/$campaign->id?with=gameMaster");
+            ->getJson("/api/campaigns/$campaign->slug?with=gameMaster");
 
         $response->assertSuccessful();
 
         $response->assertJson([
             'data' => [
                 'id' => $campaign->id,
+                'slug' => $campaign->slug,
                 'name' => $campaign->name,
                 'description' => $campaign->description,
                 'start_date' => $campaign->start_date,

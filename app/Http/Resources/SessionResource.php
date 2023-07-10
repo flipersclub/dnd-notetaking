@@ -17,6 +17,7 @@ class SessionResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'slug' => $this->slug,
             'campaign' => new CampaignResource($this->whenLoaded('campaign')),
             'session_number' => $this->session_number,
             'title' => $this->title,

@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Enums\ImageType;
 use App\Models\Image\Image;
 use App\Models\Image\Imageable;
+use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class System extends Model
 {
-    use HasFactory, HasTags;
+    use HasFactory, HasTags, Sluggable, SluggableScopeHelpers;
 
     protected $guarded = ['id'];
 
@@ -45,5 +47,19 @@ class System extends Model
         )
             ->where('imageable_type', $this->getMorphClass())
             ->where('type_id', ImageType::cover->value);
+    }
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
+
+    public function getRouteKeyName()
+    {
+        return $this->getSlugKeyName();
     }
 }

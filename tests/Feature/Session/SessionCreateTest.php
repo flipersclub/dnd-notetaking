@@ -67,8 +67,6 @@ class SessionCreateTest extends TestCase
             'location not a string' => [['location' => ['an', 'array']], ['location' => 'The location field must be a string.']],
             'location longer than 255 characters' => [['location' => Str::random(256)], ['location' => 'The location field must not be greater than 255 characters.']],
             'notes not a string' => [['notes' => ['an', 'array']], ['notes' => 'The notes field must be a string.']],
-            'cover_image not an image file' => [['cover_image' => UploadedFile::fake()->create('document.pdf')], ['cover_image' => 'The cover image field must be an image.']],
-            'cover_image larger than 2MB' => [['cover_image' => UploadedFile::fake()->image('avatar.jpg')->size(3000)], ['cover_image' => 'The cover image field must not be greater than 2048 kilobytes.']],
         ];
     }
 
@@ -96,10 +94,6 @@ class SessionCreateTest extends TestCase
         $user = $this->userWithPermission('sessions.create');
 
         $campaign = Campaign::factory()->for($user, 'gameMaster')->create();
-        $file = UploadedFile::fake()->image('avatar.jpg', 1020, 100);
-
-        Storage::fake();
-        Carbon::setTestNow(now());
 
         $payload = [
             'campaign_id' => $campaign->id,
@@ -109,15 +103,12 @@ class SessionCreateTest extends TestCase
             'duration' => 60,
             'location' => 'Room A',
             'notes' => 'Lorem ipsum dolor sit amet.',
-            'cover_image' => $file,
         ];
 
         $response = $this->actingAs($user)
             ->postJson('/api/sessions?with=campaign', $payload);
 
         $response->assertSuccessful();
-
-        Storage::assertExists('sessions/' . $file->hashName());
 
         $response->assertJson([
             'data' => [
@@ -127,7 +118,6 @@ class SessionCreateTest extends TestCase
                 'duration' => $payload['duration'],
                 'location' => $payload['location'],
                 'notes' => $payload['notes'],
-                'cover_image' => env('APP_URL') . '/sessions/' . $file->hashName() . '?expiration=' . now()->addMinutes(5)->timestamp,
                 'campaign' => [
                     'id' => $campaign->id,
                     'name' => $campaign->name,
@@ -150,7 +140,6 @@ class SessionCreateTest extends TestCase
             'duration' => $payload['duration'],
             'location' => $payload['location'],
             'notes' => $payload['notes'],
-            'cover_image' => 'sessions/' . $file->hashName()
         ]);
 
         $session = Session::find($response->json('data.id'));

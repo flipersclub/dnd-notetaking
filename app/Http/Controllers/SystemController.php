@@ -33,12 +33,7 @@ class SystemController extends Controller
     public function store(StoreSystemRequest $request): SystemResource
     {
         $system = System::create($request->validated());
-        if ($request->hasFile('cover_image')) {
-            $file = Storage::putFile("images/{$system->id}", $request->file('cover_image'));
-            $image = Image::create(['name' => $file]);
-            $system->images()->attach($image, ['type_id' => ImageType::cover->value]);
-        }
-        return new SystemResource($system->load('coverImage'));
+        return new SystemResource($system);
     }
 
     /**
@@ -54,12 +49,7 @@ class SystemController extends Controller
      */
     public function update(UpdateSystemRequest $request, System $system): SystemResource
     {
-        $params = $request->except('cover_image');
-        if ($request->hasFile('cover_image')) {
-            $coverImage = $system->coverImage()->update(['name' => $request->file('cover_image')->getFilename()]);
-            Storage::putFile("images/{$coverImage->id}", $request->file('cover_image'));
-        }
-        $system->update($params);
+        $system->update($request->validated());
         return new SystemResource($system);
     }
 

@@ -26,12 +26,6 @@ class UpdateSystemRequest extends FormRequest
         return [
             'name' => ['sometimes', 'required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:65535'],
-            'cover_image' => [
-                'nullable',
-                File::image()
-                    ->max(10000)
-                    ->dimensions(Rule::dimensions()->minWidth(1020)->minHeight(100))
-            ],
         ];
     }
 }

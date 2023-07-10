@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('sessions', function (Blueprint $table) {
             $table->id();
+            $table->string('slug')->nullable()->index();
             $table->foreignIdFor(\App\Models\Campaign::class);
             $table->integer('session_number');
             $table->string('title');

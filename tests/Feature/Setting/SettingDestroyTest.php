@@ -21,7 +21,7 @@ class SettingDestroyTest extends TestCase
     {
         $setting = Setting::factory()->create();
 
-        $response = $this->deleteJson("/api/settings/$setting->id");
+        $response = $this->deleteJson("/api/settings/$setting->slug");
 
         $response->assertUnauthorized();
     }
@@ -43,7 +43,7 @@ class SettingDestroyTest extends TestCase
         $setting = Setting::factory()->create();
 
         $response = $this->actingAs($user)
-            ->deleteJson("/api/settings/$setting->id");
+            ->deleteJson("/api/settings/$setting->slug");
 
         $response->assertForbidden();
     }
@@ -55,7 +55,7 @@ class SettingDestroyTest extends TestCase
         $user = $this->userWithPermission("settings.delete.$setting->id");
 
         $response = $this->actingAs($user)
-            ->deleteJson("/api/settings/$setting->id");
+            ->deleteJson("/api/settings/$setting->slug");
 
         $response->assertNoContent();
 

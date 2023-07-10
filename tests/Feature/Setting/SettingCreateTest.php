@@ -61,9 +61,6 @@ class SettingCreateTest extends TestCase
             'name longer than 255 characters' => [['name' => Str::random(256)], ['name' => 'The name field must not be greater than 255 characters.']],
             'description not a string' => [['description' => ['an', 'array']], ['description' => 'The description field must be a string.']],
             'description longer than 255 characters' => [['description' => Str::random(65536)], ['description' => 'The description field must not be greater than 65535 characters.']],
-            'cover_image not a string' => [['cover_image' => ['an', 'array']], ['cover_image' => 'The cover image field must be an image.']],
-            'cover_image less than 1020px h' => [['cover_image' => UploadedFile::fake()->image('avatar.jpg', 100, 100)], ['cover_image' => 'The cover image field has invalid image dimensions.']],
-            'cover_image less than 100px h' => [['cover_image' => UploadedFile::fake()->image('avatar.jpg', 1100, 20)], ['cover_image' => 'The cover image field has invalid image dimensions.']],
         ];
     }
 
@@ -71,27 +68,18 @@ class SettingCreateTest extends TestCase
     {
         $user = $this->userWithRole('settings.create', 'admin');
 
-        $file = UploadedFile::fake()->image('avatar.jpg', 1020, 100);
-
-        Storage::fake();
-        Carbon::setTestNow(now());
-
         $response = $this->actingAs($user)
                          ->postJson('/api/settings?with=creator', [
                              'name' => 'D&D',
                              'description' => ($description = Str::random(65535)),
-                             'cover_image' => $file
                          ]);
 
         $response->assertSuccessful();
-
-        Storage::assertExists('settings/' . $file->hashName());
 
         $response->assertJson([
             'data' => [
                 'name' => 'D&D',
                 'description' => $description,
-                'cover_image' => env('APP_URL') . '/settings/' . $file->hashName() . '?expiration=' . now()->addMinutes(5)->timestamp,
                 'creator' => [
                     'id' => $user->id,
                     'name' => $user->name,
@@ -104,7 +92,6 @@ class SettingCreateTest extends TestCase
             'name' => 'D&D',
             'creator_id' => $user->getKey(),
             'description' => $description,
-            'cover_image' => 'settings/' . $file->hashName()
         ]);
 
     }

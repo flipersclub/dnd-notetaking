@@ -22,7 +22,7 @@ class SettingShowTest extends TestCase
     {
         $setting = Setting::factory()->create();
 
-        $response = $this->getJson("/api/settings/$setting->id");
+        $response = $this->getJson("/api/settings/$setting->slug");
 
         $response->assertUnauthorized();
     }
@@ -46,7 +46,7 @@ class SettingShowTest extends TestCase
         $setting = Setting::factory()->create();
 
         $response = $this->actingAs($user)
-            ->getJson("/api/settings/$setting->id");
+            ->getJson("/api/settings/$setting->slug");
 
         $response->assertForbidden();
     }
@@ -58,13 +58,14 @@ class SettingShowTest extends TestCase
         $user = $this->userWithPermission("settings.view.$setting->id");
 
         $response = $this->actingAs($user)
-            ->getJson("/api/settings/$setting->id");
+            ->getJson("/api/settings/$setting->slug");
 
         $response->assertSuccessful();
 
         $response->assertJson([
             'data' => [
                 'id' => $setting->id,
+                'slug' => $setting->slug,
                 'name' => $setting->name,
                 'description' => $setting->description
             ]
@@ -82,13 +83,14 @@ class SettingShowTest extends TestCase
         $user = $this->userWithPermission("settings.view.$setting->id");
 
         $response = $this->actingAs($user)
-            ->getJson("/api/settings/$setting->id?with=creator");
+            ->getJson("/api/settings/$setting->slug?with=creator");
 
         $response->assertSuccessful();
 
         $response->assertJson([
             'data' => [
                 'id' => $setting->id,
+                'slug' => $setting->slug,
                 'name' => $setting->name,
                 'description' => $setting->description,
                 'creator' => [
