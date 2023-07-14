@@ -3,11 +3,12 @@
 namespace App\Models\Compendium\Location;
 
 use App\Models\HasTags;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use App\Models\Pivots\LocationLocationService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Location extends Model
 {
@@ -45,9 +46,9 @@ class Location extends Model
         return $this->hasMany(Alias::class);
     }
 
-    public function services(): HasMany
+    public function services(): HasManyThrough
     {
-        return $this->morphToMany(Service::class); // todo finish
+        return $this->hasManyThrough(Service::class, LocationLocationService::class);
     }
 
     public function maps(): HasMany
