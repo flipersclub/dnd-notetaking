@@ -39,6 +39,6 @@ class PermissionSeeder extends Seeder
         $adminRole = Role::findOrCreate('admin');
 
         // Assign the admin role to the admin user
-        $adminRole->permissions()->attach($permissions);
+        $adminRole->permissions()->sync($permissions);
     }
 }
