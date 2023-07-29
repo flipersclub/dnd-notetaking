@@ -30,6 +30,6 @@ class AdminUserSeeder extends Seeder
         $adminRole = Role::findByName('admin');
 
         // Assign admin role to the admin user
-        $adminUser->givePermissionTo($adminRole);
+        $adminUser->assignRole($adminRole);
     }
 }
