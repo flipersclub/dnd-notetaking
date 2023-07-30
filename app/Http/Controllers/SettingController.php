@@ -22,7 +22,7 @@ class SettingController extends Controller
      */
     public function index(): ResourceCollection
     {
-        return SettingResource::collection(Setting::with($this->with())->withCount('locations')->get());
+        return SettingResource::collection(Setting::with($this->with())->get());
     }
 
     /**
@@ -36,7 +36,10 @@ class SettingController extends Controller
             $params['cover_image'] = $file;
         }
         $params['creator_id'] = auth()->user()->getKey();
-        return new SettingResource(Setting::create($params)->load($this->with()));
+        return new SettingResource(
+            Setting::create($params)->load($this->with())
+                ->loadCount('locations')
+        );
     }
 
     /**
@@ -44,7 +47,10 @@ class SettingController extends Controller
      */
     public function show(Setting $setting): SettingResource
     {
-        return new SettingResource($setting->loadMissing($this->with()));
+        return new SettingResource(
+            $setting->loadMissing($this->with())
+                ->loadCount('locations')
+        );
     }
 
     /**
@@ -58,7 +64,10 @@ class SettingController extends Controller
             $params['cover_image'] = $file;
         }
         $setting->update($params);
-        return new SettingResource($setting->load($this->with()));
+        return new SettingResource(
+            $setting->load($this->with())
+                ->loadCount('locations')
+        );
     }
 
     /**
