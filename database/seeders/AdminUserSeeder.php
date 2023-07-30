@@ -16,11 +16,11 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         // Check if the admin role and permissions have already been created
-        if (!$adminUser = User::where('name', 'Filipe')->first()) {
+        if (!$adminUser = User::where('name', 'Admin')->first()) {
 
             // Create admin user
             $adminUser = User::create([
-                'name' => 'Filipe',
+                'name' => 'Admin',
                 'email' => 'admin@example.com',
                 'password' => bcrypt('password'), // Replace 'password' with the desired password
             ]);
