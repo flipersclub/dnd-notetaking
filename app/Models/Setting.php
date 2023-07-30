@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Compendium\Location\Location;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -24,6 +25,11 @@ class Setting extends Model
     public function campaigns(): HasMany
     {
         return $this->hasMany(Campaign::class);
+    }
+
+    public function locations(): HasMany
+    {
+        return $this->hasMany(Location::class);
     }
 
     public function sluggable(): array

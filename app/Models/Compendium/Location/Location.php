@@ -4,6 +4,7 @@ namespace App\Models\Compendium\Location;
 
 use App\Models\HasTags;
 use App\Models\Pivots\LocationLocationService;
+use App\Models\Setting;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -54,5 +55,10 @@ class Location extends Model
     public function maps(): HasMany
     {
         return $this->hasMany(Map::class);
+    }
+
+    public function setting(): BelongsTo
+    {
+        return $this->belongsTo(Setting::class);
     }
 }
