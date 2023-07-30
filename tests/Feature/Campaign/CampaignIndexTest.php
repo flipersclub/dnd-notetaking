@@ -49,7 +49,7 @@ class CampaignIndexTest extends TestCase
                 'id' => $campaign->id,
                 'slug' => $campaign->slug,
                 'name' => $campaign->name,
-                'description' => $campaign->description,
+                'content' => $campaign->content,
                 'start_date' => $campaign->start_date,
                 'end_date' => $campaign->end_date,
                 'level' => $campaign->level,

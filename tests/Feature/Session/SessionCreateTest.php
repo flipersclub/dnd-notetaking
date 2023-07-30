@@ -121,7 +121,7 @@ class SessionCreateTest extends TestCase
                 'campaign' => [
                     'id' => $campaign->id,
                     'name' => $campaign->name,
-                    'description' => $campaign->description,
+                    'content' => $campaign->content,
                     'start_date' => $campaign->start_date,
                     'end_date' => $campaign->end_date,
                     'level' => $campaign->level,

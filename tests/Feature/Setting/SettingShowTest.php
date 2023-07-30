@@ -67,7 +67,7 @@ class SettingShowTest extends TestCase
                 'id' => $setting->id,
                 'slug' => $setting->slug,
                 'name' => $setting->name,
-                'description' => $setting->description
+                'content' => $setting->content
             ]
         ]);
         $response->assertJsonMissing([
@@ -92,7 +92,7 @@ class SettingShowTest extends TestCase
                 'id' => $setting->id,
                 'slug' => $setting->slug,
                 'name' => $setting->name,
-                'description' => $setting->description,
+                'content' => $setting->content,
                 'creator' => [
                     'id' => $setting->creator->id,
                     'name' => $setting->creator->name,

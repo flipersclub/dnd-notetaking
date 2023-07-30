@@ -68,7 +68,7 @@ class CampaignUpdateTest extends TestCase
             'id' => $campaign->id,
             // Ensure the original data is not modified
             'name' => $campaign->name,
-            'description' => $campaign->description,
+            'content' => $campaign->content,
             // ... add more fields as needed
         ]);
     }
@@ -78,8 +78,8 @@ class CampaignUpdateTest extends TestCase
         return [
             'name not a string' => [['name' => ['an', 'array']], ['name' => 'The name field must be a string.']],
             'name longer than 255 characters' => [['name' => Str::random(256)], ['name' => 'The name field must not be greater than 255 characters.']],
-            'description not a string' => [['description' => ['an', 'array']], ['description' => 'The description field must be a string.']],
-            'description longer than 65535 characters' => [['description' => Str::random(65536)], ['description' => 'The description field must not be greater than 65535 characters.']],
+            'content not a string' => [['content' => ['an', 'array']], ['content' => 'The content field must be a string.']],
+            'content longer than 65535 characters' => [['content' => Str::random(65536)], ['content' => 'The content field must not be greater than 65535 characters.']],
             'start_date not a valid date' => [['start_date' => 'invalid-date'], ['start_date' => 'The start date field must be a valid date.']],
             'end_date not a valid date' => [['end_date' => 'invalid-date'], ['end_date' => 'The end date field must be a valid date.']],
             'end_date before start_date' => [['start_date' => '2023-01-01', 'end_date' => '2022-12-31'], ['end_date' => 'The end date field must be a date after or equal to start date.']],
@@ -106,7 +106,7 @@ class CampaignUpdateTest extends TestCase
 
         $payload = [
             'name' => 'Updated D&D',
-            'description' => ($description = Str::random(65535)),
+            'content' => ($content = Str::random(65535)),
             'start_date' => '2023-07-01',
             'end_date' => '2023-12-31',
             'game_master_id' => $user->id,
@@ -129,7 +129,7 @@ class CampaignUpdateTest extends TestCase
         $response->assertJson([
             'data' => [
                 'name' => $payload['name'],
-                'description' => $payload['description'],
+                'content' => $payload['content'],
                 'start_date' => $payload['start_date'],
                 'end_date' => $payload['end_date'],
                 'level' => $payload['level'],
@@ -157,7 +157,7 @@ class CampaignUpdateTest extends TestCase
 
         $this->assertDatabaseHas('campaigns', [
             'name' => $payload['name'],
-            'description' => $payload['description'],
+            'content' => $payload['content'],
             'start_date' => $payload['start_date'],
             'end_date' => $payload['end_date'],
             'game_master_id' => $user->id,

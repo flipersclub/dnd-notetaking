@@ -27,7 +27,7 @@ class StoreLocationRequest extends FormRequest
             'parent_id' => ['nullable', Rule::exists(Location::class, 'id')],
             'name' => ['required', 'string'],
             'type' => ['required', 'string'],
-            'description' => ['nullable', 'string'],
+            'content' => ['nullable', 'string'],
             'meta' => ['nullable', 'array'],
             'meta.*' => ['string'],
         ];

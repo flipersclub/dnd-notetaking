@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('slug')->nullable()->index();
             $table->string('name');
-            $table->text('description')->nullable();
+            $table->text('content')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->foreignIdFor(\App\Models\User::class, 'game_master_id')->nullable();

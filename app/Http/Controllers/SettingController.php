@@ -22,7 +22,7 @@ class SettingController extends Controller
      */
     public function index(): ResourceCollection
     {
-        return SettingResource::collection(Setting::with($this->with())->get());
+        return SettingResource::collection(Setting::with($this->with())->withCount('locations')->get());
     }
 
     /**

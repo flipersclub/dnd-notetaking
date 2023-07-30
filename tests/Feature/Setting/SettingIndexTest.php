@@ -48,7 +48,7 @@ class SettingIndexTest extends TestCase
             'data' => $settings->map(fn($setting) => [
                 'id' => $setting->id,
                 'name' => $setting->name,
-                'description' => $setting->description
+                'content' => $setting->content
             ])->toArray()
         ]);
 
@@ -71,7 +71,7 @@ class SettingIndexTest extends TestCase
                 'id' => $setting->id,
                 'slug' => $setting->slug,
                 'name' => $setting->name,
-                'description' => $setting->description,
+                'content' => $setting->content,
                 'creator' => [
                     'id' => $setting->creator->id,
                     'name' => $setting->creator->name,

@@ -19,7 +19,7 @@ class CampaignResource extends JsonResource
             'id' => $this->id,
             'slug' => $this->slug,
             'name' => $this->name,
-            'description' => $this->description,
+            'content' => $this->content,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'level' => $this->level,

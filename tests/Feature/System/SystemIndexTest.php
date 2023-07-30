@@ -49,7 +49,7 @@ class SystemIndexTest extends TestCase
                 'id' => $system->id,
                 'slug' => $system->slug,
                 'name' => $system->name,
-                'description' => $system->description
+                'content' => $system->content
             ])->toArray()
         ]);
 

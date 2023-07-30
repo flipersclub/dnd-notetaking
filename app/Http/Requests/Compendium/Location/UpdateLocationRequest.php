@@ -27,7 +27,7 @@ class UpdateLocationRequest extends FormRequest
             'parent_id' => ['nullable', Rule::exists(Location::class, 'id')],
             'name' => ['sometimes', 'required', 'string'],
             'type' => ['sometimes', 'required', 'string'],
-            'description' => ['nullable', 'string'],
+            'content' => ['nullable', 'string'],
             'meta' => ['nullable', 'array'],
             'meta.*' => ['string'],
         ];

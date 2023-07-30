@@ -68,7 +68,7 @@ class SessionShowTest extends TestCase
                     'id' => $session->campaign->id,
                     'slug' => $session->campaign->slug,
                     'name' => $session->campaign->name,
-                    'description' => $session->campaign->description,
+                    'content' => $session->campaign->content,
                     'start_date' => $session->campaign->start_date,
                     'end_date' => $session->campaign->end_date,
                     'level' => $session->campaign->level,

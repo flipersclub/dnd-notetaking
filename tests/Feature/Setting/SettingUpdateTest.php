@@ -72,8 +72,8 @@ class SettingUpdateTest extends TestCase
             'name longer than 255 characters' => [['name' => Str::random(256)], ['name' => 'The name field must not be greater than 255 characters.']],
             'creator_id empty' => [['creator_id' => null], ['creator_id' => 'The creator id field is required.']],
             'creator_id invalid' => [['creator_id' => 99999], ['creator_id' => 'The selected creator id is invalid.']],
-            'description not a string' => [['description' => ['an', 'array']], ['description' => 'The description field must be a string.']],
-            'description longer than 255 characters' => [['description' => Str::random(65536)], ['description' => 'The description field must not be greater than 65535 characters.']],
+            'content not a string' => [['content' => ['an', 'array']], ['content' => 'The content field must be a string.']],
+            'content longer than 255 characters' => [['content' => Str::random(65536)], ['content' => 'The content field must not be greater than 65535 characters.']],
         ];
     }
 
@@ -87,7 +87,7 @@ class SettingUpdateTest extends TestCase
         $response = $this->actingAs($user)
             ->putJson("/api/settings/$setting->slug?with=creator", [
                 'name' => 'D&D',
-                'description' => ($description = Str::random(65535)),
+                'content' => ($content = Str::random(65535)),
                 'creator_id' => $newUser->getKey()
             ]);
 
@@ -96,7 +96,7 @@ class SettingUpdateTest extends TestCase
         $response->assertJson([
             'data' => [
                 'name' => 'D&D',
-                'description' => $description,
+                'content' => $content,
                 'creator' => [
                     'id' => $newUser->id,
                     'name' => $newUser->name,
@@ -109,7 +109,7 @@ class SettingUpdateTest extends TestCase
             'id' => $setting->id,
             'name' => 'D&D',
             'creator_id' => $newUser->getKey(),
-            'description' => $description,
+            'content' => $content,
         ]);
 
     }

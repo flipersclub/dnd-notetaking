@@ -26,7 +26,7 @@ class UpdateSettingRequest extends FormRequest
         return [
             'name' => ['sometimes', 'required', 'string', 'max:255'],
             'creator_id' => ['sometimes', 'required', Rule::exists('users', 'id')],
-            'description' => ['nullable', 'string', 'max:65535'],
+            'content' => ['nullable', 'string', 'max:65535'],
             'cover_image' => [
                 'nullable',
                 File::image()

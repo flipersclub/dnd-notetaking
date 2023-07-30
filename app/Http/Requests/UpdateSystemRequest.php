@@ -25,7 +25,7 @@ class UpdateSystemRequest extends FormRequest
     {
         return [
             'name' => ['sometimes', 'required', 'string', 'max:255'],
-            'description' => ['nullable', 'string', 'max:65535'],
+            'content' => ['nullable', 'string', 'max:65535'],
         ];
     }
 }

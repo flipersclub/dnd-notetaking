@@ -66,7 +66,7 @@ class SystemShowTest extends TestCase
             'data' => [
                 'slug' => $system->slug,
                 'name' => $system->name,
-                'description' => $system->description
+                'content' => $system->content
             ]
         ]);
 

@@ -28,7 +28,7 @@ class StoreCampaignRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string', 'max:65535'],
+            'content' => ['nullable', 'string', 'max:65535'],
             'start_date' => ['nullable', 'date'],
             'end_date' => ['nullable', 'date', 'after_or_equal:start_date'],
             'game_master_id' => ['nullable', 'exists:users,id'],

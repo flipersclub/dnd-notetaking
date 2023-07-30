@@ -21,9 +21,10 @@ class SettingResource extends JsonResource
             'id' => $this->id,
             'slug' => $this->slug,
             'name' => $this->name,
-            'description' => $this->description,
+            'content' => $this->content,
             'cover_image' => $this->when($this->cover_image, fn () => Storage::temporaryUrl($this->cover_image, now()->addMinutes(5))),
-            'creator' => new UserResource($this->whenLoaded('creator'))
+            'creator' => new UserResource($this->whenLoaded('creator')),
+            'hasLocation' => $this->when(!is_null($this->locations_count), $this->locations_count)
         ];
     }
 }

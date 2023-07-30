@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('slug')->nullable()->index();
             $table->string('name');
             $table->foreignIdFor(\App\Models\User::class, 'creator_id');
-            $table->text('description')->nullable();
+            $table->text('content')->nullable();
             $table->timestamps();
         });
     }

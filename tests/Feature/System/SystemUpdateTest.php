@@ -67,8 +67,8 @@ class SystemUpdateTest extends TestCase
             'name empty' => [['name' => ''], ['name' => 'The name field is required.']],
             'name not a string' => [['name' => ['an', 'array']], ['name' => 'The name field must be a string.']],
             'name longer than 255 characters' => [['name' => Str::random(256)], ['name' => 'The name field must not be greater than 255 characters.']],
-            'description not a string' => [['description' => ['an', 'array']], ['description' => 'The description field must be a string.']],
-            'description longer than 255 characters' => [['description' => Str::random(65536)], ['description' => 'The description field must not be greater than 65535 characters.']],
+            'content not a string' => [['content' => ['an', 'array']], ['content' => 'The content field must be a string.']],
+            'content longer than 255 characters' => [['content' => Str::random(65536)], ['content' => 'The content field must not be greater than 65535 characters.']],
         ];
     }
 
@@ -81,7 +81,7 @@ class SystemUpdateTest extends TestCase
         $response = $this->actingAs($user)
             ->putJson("/api/systems/$system->slug", [
                 'name' => 'D&D',
-                'description' => ($description = Str::random(65535)),
+                'content' => ($content = Str::random(65535)),
             ]);
 
         $response->assertSuccessful();
@@ -89,14 +89,14 @@ class SystemUpdateTest extends TestCase
         $response->assertJson([
             'data' => [
                 'name' => 'D&D',
-                'description' => $description,
+                'content' => $content,
             ]
         ]);
 
         $this->assertDatabaseHas('systems', [
             'slug' => $system->slug,
             'name' => 'D&D',
-            'description' => $description
+            'content' => $content
         ]);
     }
 }

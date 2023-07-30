@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('name');
             $table->foreignIdFor(Type::class); // region, settlement, building
             $table->foreignIdFor(Size::class); // metropolis, etc
-            $table->text('description')->nullable();
+            $table->text('content')->nullable();
             $table->string('demonym')->nullable();
             $table->integer('population')->nullable();
             $table->foreignIdFor(GovernmentType::class)->nullable(); // democracy, plutocracy, etc
