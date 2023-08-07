@@ -4,45 +4,45 @@ namespace App\Enums;
 
 use Illuminate\Support\Str;
 
-enum LocationType: string
+enum LocationType: int
 {
     use HasValues;
 
-    case World = 'world';
-    case Region = 'region';
-    case City = 'city';
-    case Town = 'town';
-    case Village = 'village';
-    case Neighbourhood = 'neighbourhood';
-    case Establishment = 'establishment';
-    case Forest = 'forest';
-    case Mountain = 'mountain';
-    case Cave = 'cave';
-    case Island = 'island';
-    case Ruins = 'ruins';
-    case Castle = 'castle';
-    case Fortress = 'fortress';
-    case Temple = 'temple';
-    case Shrine = 'shrine';
-    case Tower = 'tower';
-    case Farm = 'farm';
-    case Harbor = 'harbor';
-    case Market = 'market';
-    case Tavern = 'tavern';
-    case Inn = 'inn';
-    case Library = 'library';
-    case School = 'school';
-    case MageTower = 'mage_tower';
-    case Cemetery = 'cemetery';
-    case Graveyard = 'graveyard';
-    case Swamp = 'swamp';
-    case Desert = 'desert';
-    case Oasis = 'oasis';
-    case UnderwaterCity = 'underwater_city';
-    case AstralPlane = 'astral_plane';
-    case ElementalPlane = 'elemental_plane';
-    case AbyssalRealm = 'abyssal_realm';
-    case CelestialRealm = 'celestial_realm';
+    case World = 1;
+    case Region = 2;
+    case City = 3;
+    case Town = 4;
+    case Village = 5;
+    case Neighbourhood = 6;
+    case Establishment = 7;
+    case Forest = 8;
+    case Mountain = 9;
+    case Cave = 10;
+    case Island = 11;
+    case Ruins = 12;
+    case Castle = 13;
+    case Fortress = 14;
+    case Temple = 15;
+    case Shrine = 16;
+    case Tower = 17;
+    case Farm = 18;
+    case Harbor = 19;
+    case Market = 20;
+    case Tavern = 21;
+    case Inn = 22;
+    case Library = 23;
+    case School = 24;
+    case MageTower = 25;
+    case Cemetery = 26;
+    case Graveyard = 27;
+    case Swamp = 28;
+    case Desert = 29;
+    case Oasis = 30;
+    case UnderwaterCity = 31;
+    case AstralPlane = 32;
+    case ElementalPlane = 33;
+    case AbyssalRealm = 34;
+    case CelestialRealm = 35;
 
     public function label(): string
     {
