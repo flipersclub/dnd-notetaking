@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Compendium\Location;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Compendium\Location\StoreSizeRequest;
 use App\Http\Requests\Compendium\Location\UpdateSizeRequest;
+use App\Http\Resources\Compendium\Location\SizeResource;
 use App\Models\Compendium\Location\Size;
 
 class SizeController extends Controller
@@ -14,7 +15,7 @@ class SizeController extends Controller
      */
     public function index()
     {
-        //
+        return SizeResource::collection(Size::all());
     }
 
     /**
@@ -22,7 +23,7 @@ class SizeController extends Controller
      */
     public function store(StoreSizeRequest $request)
     {
-        //
+        // todo: implement
     }
 
     /**
@@ -30,7 +31,7 @@ class SizeController extends Controller
      */
     public function show(Size $locationSize)
     {
-        //
+        // todo: implement
     }
 
     /**
@@ -38,7 +39,7 @@ class SizeController extends Controller
      */
     public function update(UpdateSizeRequest $request, Size $locationSize)
     {
-        //
+        // todo: implement
     }
 
     /**
@@ -46,6 +47,6 @@ class SizeController extends Controller
      */
     public function destroy(Size $locationSize)
     {
-        //
+        // todo: implement
     }
 }

@@ -30,4 +30,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('sessions', SessionController::class);
     Route::apiResource('locations', Location\LocationController::class);
     Route::apiResource('location-types', Location\TypeController::class);
+    Route::apiResource('location-sizes', Location\SizeController::class);
+    Route::apiResource('government-types', Location\GovernmentTypeController::class);
 });

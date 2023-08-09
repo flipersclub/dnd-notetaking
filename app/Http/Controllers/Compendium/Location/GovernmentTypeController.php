@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Compendium\Location;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Compendium\Location\StoreGovernmentTypeRequest;
 use App\Http\Requests\Compendium\Location\UpdateGovernmentTypeRequest;
+use App\Http\Resources\Compendium\Location\GovernmentTypeResource;
 use App\Models\Compendium\Location\GovernmentType;
 
 class GovernmentTypeController extends Controller
@@ -14,7 +15,7 @@ class GovernmentTypeController extends Controller
      */
     public function index()
     {
-        //
+        return GovernmentTypeResource::collection(GovernmentType::all());
     }
 
     /**
@@ -22,7 +23,7 @@ class GovernmentTypeController extends Controller
      */
     public function store(StoreGovernmentTypeRequest $request)
     {
-        //
+        // todo: implement
     }
 
     /**
@@ -30,7 +31,7 @@ class GovernmentTypeController extends Controller
      */
     public function show(GovernmentType $locationGovernmentType)
     {
-        //
+        // todo: implement
     }
 
     /**
@@ -38,7 +39,7 @@ class GovernmentTypeController extends Controller
      */
     public function update(UpdateGovernmentTypeRequest $request, GovernmentType $locationGovernmentType)
     {
-        //
+        // todo: implement
     }
 
     /**
@@ -46,6 +47,6 @@ class GovernmentTypeController extends Controller
      */
     public function destroy(GovernmentType $locationGovernmentType)
     {
-        //
+        // todo: implement
     }
 }

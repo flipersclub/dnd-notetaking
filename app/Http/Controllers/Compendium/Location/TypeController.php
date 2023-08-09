@@ -23,7 +23,7 @@ class TypeController extends Controller
      */
     public function store(StoreTypeRequest $request)
     {
-        //
+        // todo: implement
     }
 
     /**
@@ -31,7 +31,7 @@ class TypeController extends Controller
      */
     public function show(Type $type)
     {
-        //
+        // todo: implement
     }
 
     /**
@@ -39,7 +39,7 @@ class TypeController extends Controller
      */
     public function update(UpdateTypeRequest $request, Type $type)
     {
-        //
+        // todo: implement
     }
 
     /**
@@ -47,6 +47,6 @@ class TypeController extends Controller
      */
     public function destroy(Type $type)
     {
-        //
+        // todo: implement
     }
 }
