@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\Compendium\Location;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SystemController;
@@ -27,4 +28,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('settings', SettingController::class);
     Route::apiResource('campaigns', CampaignController::class);
     Route::apiResource('sessions', SessionController::class);
+    Route::apiResource('locations', Location\LocationController::class);
+    Route::apiResource('location-types', Location\TypeController::class);
 });

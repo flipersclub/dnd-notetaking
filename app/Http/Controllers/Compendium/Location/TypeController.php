@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Compendium\Location;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTypeRequest;
 use App\Http\Requests\UpdateTypeRequest;
+use App\Http\Resources\Compendium\Location\TypeResource;
 use App\Models\Compendium\Location\Type;
 
 class TypeController extends Controller
@@ -14,7 +15,7 @@ class TypeController extends Controller
      */
     public function index()
     {
-        //
+        return TypeResource::collection(Type::all());
     }
 
     /**
