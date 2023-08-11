@@ -23,7 +23,10 @@ class LocationController extends Controller
      */
     public function index(Compendium $compendium): ResourceCollection
     {
-        return LocationResource::collection($compendium->locations()->get());
+        $this->authorize('update', $compendium);
+        return LocationResource::collection($compendium->locations()
+            ->with([...$this->with(), 'type'])
+            ->get());
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Compendium\Location;
 
+use App\Models\Compendium\Compendium;
 use App\Models\Compendium\Location\Type;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,8 +19,9 @@ class LocationFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->randomAscii(),
+            'name' => $this->faker->sentence(2),
             'type_id' => Type::factory(),
+            'compendium_id' => Compendium::factory()
         ];
     }
 }
