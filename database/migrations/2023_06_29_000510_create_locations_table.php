@@ -17,6 +17,7 @@ return new class extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
+            $table->string('slug')->nullable()->index();
             $table->foreignIdFor(Compendium::class);
             $table->foreignIdFor(Location::class, 'parent_id')->nullable();
             $table->string('name');

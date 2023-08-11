@@ -5,6 +5,8 @@ namespace App\Models\Compendium\Location;
 use App\Models\Compendium\Compendium;
 use App\Models\HasTags;
 use App\Models\Pivots\LocationLocationService;
+use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Location extends Model
 {
-    use HasFactory, HasTags;
+    use HasFactory, HasTags, Sluggable, SluggableScopeHelpers;
 
     protected $guarded = ['id'];
 
@@ -55,5 +57,19 @@ class Location extends Model
     public function compendium(): BelongsTo
     {
         return $this->belongsTo(Compendium::class);
+    }
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
+
+    public function getRouteKeyName()
+    {
+        return $this->getSlugKeyName();
     }
 }

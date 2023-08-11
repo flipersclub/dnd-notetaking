@@ -33,6 +33,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Compendium
     Route::apiResource('compendia', CompendiumController::class);
     Route::apiResource('compendia.locations', Location\LocationController::class)
-        ->shallow()
-        ->scoped();
+        ->shallow();
 });
