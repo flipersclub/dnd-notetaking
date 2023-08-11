@@ -27,9 +27,9 @@ class StoreLocationRequest extends FormRequest
     {
         return [
             'parent_id' => ['nullable', Rule::exists(Location::class, 'id')],
-            'name' => ['required', 'string'],
+            'name' => ['required', 'string', 'max:255'],
             'type_id' => ['required', Rule::exists(Type::class, 'id')],
-            'content' => ['nullable', 'string'],
+            'content' => ['nullable', 'string', 'max:65535'],
             'demonym' => ['nullable', 'string'],
             'population' => ['nullable', 'integer'],
             'government_type_id' => ['nullable', Rule::exists(GovernmentType::class, 'id')],
