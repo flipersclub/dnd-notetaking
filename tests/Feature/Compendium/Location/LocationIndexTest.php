@@ -14,7 +14,7 @@ class LocationIndexTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_it_returns_redirect_if_user_not_logged_in(): void
+    public function test_it_returns_unauthorized_if_user_not_logged_in(): void
     {
         $compendium = Compendium::factory()->create();
         $response = $this->getJson("/api/compendia/$compendium->slug/locations");

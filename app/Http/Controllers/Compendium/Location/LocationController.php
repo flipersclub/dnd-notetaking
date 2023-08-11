@@ -35,11 +35,15 @@ class LocationController extends Controller
     public function store(StoreLocationRequest $request, Compendium $compendium): LocationResource
     {
         $this->authorize('update', $compendium);
-        return new LocationResource(
-            Location::create([
-                ...$request->validated(),
-                'compendium_id' => $compendium->id
-            ])->load($this->with())
+        $location = Location::create([
+            ...$request->validated(),
+            'compendium_id' => $compendium->id
+        ]);
+        if ($request->has('tags')) {
+            $tagIds = $request->input('tags');
+            $location->tags()->sync($tagIds);
+        }
+        return new LocationResource($location->load($this->with())
         );
     }
 
@@ -57,7 +61,11 @@ class LocationController extends Controller
     public function update(UpdateLocationRequest $request, Location $location): LocationResource
     {
         $location->update($request->validated());
-        return new LocationResource($location);
+        if ($request->has('tags')) {
+            $tagIds = $request->input('tags');
+            $location->tags()->sync($tagIds);
+        }
+        return new LocationResource($location->load($this->with()));
     }
 
     /**

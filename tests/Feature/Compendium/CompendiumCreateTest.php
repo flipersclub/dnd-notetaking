@@ -11,7 +11,7 @@ class CompendiumCreateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_it_returns_redirect_if_user_not_logged_in(): void
+    public function test_it_returns_unauthorized_if_user_not_logged_in(): void
     {
         $response = $this->postJson('/api/compendia');
 

@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Compendium\Location;
 
 use App\Http\Resources\CompendiumResource;
+use App\Http\Resources\TagResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -35,6 +36,7 @@ class LocationResource extends JsonResource
             // todo: 'natural_resources'
             // todo: 'languages'
             // todo: 'images'
+            'tags' => TagResource::collection($this->whenLoaded('tags'))
         ];
     }
 }

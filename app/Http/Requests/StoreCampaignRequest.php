@@ -40,7 +40,6 @@ class StoreCampaignRequest extends FormRequest
             'cover_image' => ['nullable', 'image', 'max:2048'], // Adjust max file size as needed
             'tags' => ['nullable', 'array'],
             'tags.*' => [Rule::exists(Tag::class, 'id')],
-            // Add additional validation rules for other fields if needed
         ];
     }
 }

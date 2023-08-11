@@ -38,7 +38,8 @@ class LocationPolicy
      */
     public function update(User $user, Location $location): bool
     {
-        return $user->is($location->compendium->creator);
+        return $user->is($location->compendium->creator)
+            || $user->can("locations.update.$location->id");
     }
 
     /**
