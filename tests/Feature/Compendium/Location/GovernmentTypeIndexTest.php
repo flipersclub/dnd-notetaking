@@ -2,17 +2,17 @@
 
 namespace Tests\Feature\Compendium\Location;
 
-use App\Enums\Compendium\Location\LocationType;
+use App\Enums\Compendium\Location\GovernmentType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class LocationTypeIndexTest extends TestCase
+class GovernmentTypeIndexTest extends TestCase
 {
     use RefreshDatabase;
 
     public function test_it_returns_redirect_if_user_not_logged_in(): void
     {
-        $response = $this->getJson('/api/location-types');
+        $response = $this->getJson('/api/government-types');
 
         $response->assertUnauthorized();
     }
@@ -20,16 +20,16 @@ class LocationTypeIndexTest extends TestCase
     public function test_it_returns_successful_if_campaigns_returned(): void
     {
         $response = $this->signedIn()
-            ->getJson('/api/location-types');
+            ->getJson('/api/government-types');
 
         $response->assertSuccessful();
 
-        $cases = LocationType::cases();
+        $cases = GovernmentType::cases();
 
         $response->assertJsonCount(count($cases), 'data');
 
         $response->assertJson([
-            'data' => collect($cases)->map(fn(LocationType $case) => [
+            'data' => collect($cases)->map(fn(GovernmentType $case) => [
                 'id' => $case->value,
                 'name' => $case->label(),
             ])->toArray()

@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Compendium\Location;
 
-use App\Http\Resources\SettingResource;
+use App\Http\Resources\CompendiumResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,15 +17,14 @@ class LocationResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'setting' => new SettingResource($this->whenLoaded('setting')),
+            'compendium' => new CompendiumResource($this->whenLoaded('compendium')),
             'parent' => new LocationResource($this->whenLoaded('parent')),
             'name' => $this->name,
             'type' => new TypeResource($this->type),
-            'size' => new SizeResource($this->size),
             'content' => $this->content,
             'demonym' => $this->demonym,
             'population' => $this->population,
-            'government' => new GovernmentTypeResource($this->whenLoaded('governmentType')),
+            'governmentType' => new GovernmentTypeResource($this->whenLoaded('governmentType')),
             // todo: 'aliases'
             // todo: 'services'
             // todo: 'maps'

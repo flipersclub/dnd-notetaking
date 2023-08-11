@@ -1,27 +1,19 @@
 <?php
 
-namespace Tests\Feature\Setting;
+namespace Tests\Feature\Compendium;
 
-use App\Models\System;
 use App\Models\User;
-use Faker\Provider\Image;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
-class SettingCreateTest extends TestCase
+class CompendiumCreateTest extends TestCase
 {
     use RefreshDatabase;
 
     public function test_it_returns_redirect_if_user_not_logged_in(): void
     {
-        $response = $this->postJson('/api/settings');
+        $response = $this->postJson('/api/compendia');
 
         $response->assertUnauthorized();
     }
@@ -31,7 +23,7 @@ class SettingCreateTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
-                         ->postJson('/api/settings');
+                         ->postJson('/api/compendia');
 
         $response->assertForbidden();
     }
@@ -39,16 +31,16 @@ class SettingCreateTest extends TestCase
     /** @dataProvider validationDataProvider */
     public function test_it_returns_unprocessable_if_validation_failed($payload, $errors): void
     {
-        $user = $this->userWithRole('settings.create', 'admin');
+        $user = $this->userWithRole('compendia.create', 'admin');
 
         $response = $this->actingAs($user)
-                         ->postJson('/api/settings', $payload);
+                         ->postJson('/api/compendia', $payload);
 
         $response->assertUnprocessable();
 
         $response->assertInvalid($errors);
 
-        $this->assertDatabaseEmpty('settings');
+        $this->assertDatabaseEmpty('compendia');
 
     }
 
@@ -64,12 +56,12 @@ class SettingCreateTest extends TestCase
         ];
     }
 
-    public function test_it_returns_successful_if_settings_returned(): void
+    public function test_it_returns_successful_if_compendia_returned(): void
     {
-        $user = $this->userWithRole('settings.create', 'admin');
+        $user = $this->userWithRole('compendia.create', 'admin');
 
         $response = $this->actingAs($user)
-                         ->postJson('/api/settings?with=creator', [
+                         ->postJson('/api/compendia?with=creator', [
                              'name' => 'D&D',
                              'content' => ($content = Str::random(65535)),
                          ]);
@@ -88,7 +80,7 @@ class SettingCreateTest extends TestCase
             ]
         ]);
 
-        $this->assertDatabaseHas('settings', [
+        $this->assertDatabaseHas('compendia', [
             'name' => 'D&D',
             'creator_id' => $user->getKey(),
             'content' => $content,

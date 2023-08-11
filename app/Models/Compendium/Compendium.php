@@ -1,17 +1,20 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Compendium;
 
+use App\Models\Campaign;
 use App\Models\Compendium\Location\Location;
+use App\Models\HasTags;
+use App\Models\User;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Permission\Models\Permission;
 
-class Setting extends Model
+class Compendium extends Model
 {
     use HasFactory, HasTags, Sluggable, SluggableScopeHelpers;
 

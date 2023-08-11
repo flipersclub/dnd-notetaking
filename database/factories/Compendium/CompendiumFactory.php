@@ -1,14 +1,14 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Compendium;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Setting>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Compendium\Compendium>
  */
-class SettingFactory extends Factory
+class CompendiumFactory extends Factory
 {
     /**
      * Define the model's default state.

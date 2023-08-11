@@ -8,7 +8,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use function PHPUnit\Framework\arrayHasKey;
 
-class SettingResource extends JsonResource
+class CompendiumResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

@@ -25,11 +25,14 @@ abstract class TestCase extends BaseTestCase
         return $this->actingAs($user);
     }
 
-    public function userWithPermission(string $permission)
+    public function userWithPermission(string|array $permission)
     {
-        $permission = Permission::create(['name' => $permission]);
+        $permissions = is_array($permission) ? $permission : [$permission];
         $user = User::factory()->create();
-        $user->givePermissionTo($permission);
+        foreach ($permissions as $permission) {
+            $permission = Permission::create(['name' => $permission]);
+            $user->givePermissionTo($permission);
+        }
         return $user;
     }
 

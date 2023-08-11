@@ -1,50 +1,44 @@
 <?php
 
-namespace Tests\Feature\Setting;
+namespace Tests\Feature\Compendium;
 
-use App\Models\Setting;
+use App\Models\Compendium\Compendium;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
-class SettingUpdateTest extends TestCase
+class CompendiumUpdateTest extends TestCase
 {
     use RefreshDatabase;
 
     public function test_it_returns_redirect_if_user_not_logged_in(): void
     {
-        $setting = Setting::factory()->create();
+        $compendium = Compendium::factory()->create();
 
-        $response = $this->putJson("/api/settings/$setting->id");
+        $response = $this->putJson("/api/compendia/$compendium->id");
 
         $response->assertUnauthorized();
     }
 
-    public function test_it_returns_not_found_if_setting_not_existent(): void
+    public function test_it_returns_not_found_if_compendium_not_existent(): void
     {
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
-            ->putJson("/api/settings/99999999");
+            ->putJson("/api/compendia/99999999");
 
         $response->assertNotFound();
     }
 
-    public function test_it_returns_unauthorized_if_user_not_allowed_to_update_setting(): void
+    public function test_it_returns_unauthorized_if_user_not_allowed_to_update_compendium(): void
     {
         $user = User::factory()->create();
 
-        $setting = Setting::factory()->create();
+        $compendium = Compendium::factory()->create();
 
         $response = $this->actingAs($user)
-            ->putJson("/api/settings/$setting->slug");
+            ->putJson("/api/compendia/$compendium->slug");
 
         $response->assertForbidden();
     }
@@ -52,12 +46,12 @@ class SettingUpdateTest extends TestCase
     /** @dataProvider validationDataProvider */
     public function test_it_returns_unprocessable_if_validation_failed($payload, $errors): void
     {
-        $setting = Setting::factory()->create();
+        $compendium = Compendium::factory()->create();
 
-        $user = $this->userWithRole("settings.update.$setting->id", 'admin');
+        $user = $this->userWithRole("compendia.update.$compendium->id", 'admin');
 
         $response = $this->actingAs($user)
-            ->putJson("/api/settings/$setting->slug", $payload);
+            ->putJson("/api/compendia/$compendium->slug", $payload);
 
         $response->assertUnprocessable();
 
@@ -77,15 +71,15 @@ class SettingUpdateTest extends TestCase
         ];
     }
 
-    public function test_it_returns_successful_if_setting_updated_returned(): void
+    public function test_it_returns_successful_if_compendium_updated_returned(): void
     {
-        $setting = Setting::factory()->create();
+        $compendium = Compendium::factory()->create();
 
-        $user = $this->userWithPermission("settings.update.$setting->id");
+        $user = $this->userWithPermission("compendia.update.$compendium->id");
         $newUser = User::factory()->create();
 
         $response = $this->actingAs($user)
-            ->putJson("/api/settings/$setting->slug?with=creator", [
+            ->putJson("/api/compendia/$compendium->slug?with=creator", [
                 'name' => 'D&D',
                 'content' => ($content = Str::random(65535)),
                 'creator_id' => $newUser->getKey()
@@ -105,8 +99,8 @@ class SettingUpdateTest extends TestCase
             ]
         ]);
 
-        $this->assertDatabaseHas('settings', [
-            'id' => $setting->id,
+        $this->assertDatabaseHas('compendia', [
+            'id' => $compendium->id,
             'name' => 'D&D',
             'creator_id' => $newUser->getKey(),
             'content' => $content,

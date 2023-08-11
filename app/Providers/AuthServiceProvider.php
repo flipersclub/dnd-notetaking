@@ -2,12 +2,16 @@
 
 namespace App\Providers;
 
-use App\Models\Setting;
+use App\Models\Compendium\Compendium;
+use App\Models\Compendium\Location\Location;
 use App\Models\System;
-use App\Policies\SettingPolicy;
+use App\Models\User;
+use App\Policies\Compendium\CompendiumPolicy;
+use App\Policies\Compendium\Location\LocationPolicy;
 use App\Policies\SystemPolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -18,7 +22,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         System::class => SystemPolicy::class,
-        Setting::class => SettingPolicy::class,
+        Compendium::class => CompendiumPolicy::class,
+        Location::class => LocationPolicy::class,
     ];
 
     /**
@@ -30,6 +35,12 @@ class AuthServiceProvider extends ServiceProvider
 
         ResetPassword::createUrlUsing(function (object $notifiable, string $token) {
             return config('app.frontend_url') . "/password-reset/$token?email={$notifiable->getEmailForPasswordReset()}";
+        });
+
+        Gate::before(function (User $user) {
+            if ($user->isAdministrator()) {
+                return true;
+            }
         });
 
         //

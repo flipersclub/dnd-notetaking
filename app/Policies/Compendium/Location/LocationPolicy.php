@@ -2,6 +2,7 @@
 
 namespace App\Policies\Compendium\Location;
 
+use App\Models\Compendium\Compendium;
 use App\Models\Compendium\Location\Location;
 use App\Models\User;
 
@@ -12,7 +13,7 @@ class LocationPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->compendia()->exists();
     }
 
     /**
@@ -20,7 +21,8 @@ class LocationPolicy
      */
     public function view(User $user, Location $location): bool
     {
-        //
+        return $user->is($location->compendium->creator)
+            || $user->can("locations.view.$location->id");
     }
 
     /**
@@ -28,7 +30,7 @@ class LocationPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->compendia()->exists();
     }
 
     /**
@@ -36,7 +38,7 @@ class LocationPolicy
      */
     public function update(User $user, Location $location): bool
     {
-        //
+        return $user->is($location->compendium->creator);
     }
 
     /**
@@ -44,22 +46,6 @@ class LocationPolicy
      */
     public function delete(User $user, Location $location): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Location $location): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Location $location): bool
-    {
-        //
+        return $user->is($location->compendium->creator);
     }
 }

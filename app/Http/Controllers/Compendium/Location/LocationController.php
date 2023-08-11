@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Compendium\Location\StoreLocationRequest;
 use App\Http\Requests\Compendium\Location\UpdateLocationRequest;
 use App\Http\Resources\Compendium\Location\LocationResource;
+use App\Models\Compendium\Compendium;
 use App\Models\Compendium\Location\Location;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
@@ -14,23 +15,29 @@ class LocationController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Location::class, 'session');
+        $this->authorizeResource(Location::class, 'location');
     }
 
     /**
      * Display a listing of the resource.
      */
-    public function index(): ResourceCollection
+    public function index(Compendium $compendium): ResourceCollection
     {
-        return LocationResource::collection(Location::all());
+        return LocationResource::collection($compendium->locations()->get());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreLocationRequest $request): LocationResource
+    public function store(StoreLocationRequest $request, Compendium $compendium): LocationResource
     {
-        return new LocationResource(Location::create($request->validated())->load($this->with()));
+        $this->authorize('update', $compendium);
+        return new LocationResource(
+            Location::create([
+                ...$request->validated(),
+                'compendium_id' => $compendium->id
+            ])->load($this->with())
+        );
     }
 
     /**

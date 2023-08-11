@@ -2,7 +2,6 @@
 
 namespace Database\Factories\Compendium\Location;
 
-use App\Models\Compendium\Location\Size;
 use App\Models\Compendium\Location\Type;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,7 +20,6 @@ class LocationFactory extends Factory
         return [
             'name' => $this->faker->randomAscii(),
             'type_id' => Type::factory(),
-            'size_id' => Size::factory(),
         ];
     }
 }

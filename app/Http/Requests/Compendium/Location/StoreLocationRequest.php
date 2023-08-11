@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Compendium\Location;
 
+use App\Models\Compendium\Location\GovernmentType;
 use App\Models\Compendium\Location\Location;
+use App\Models\Compendium\Location\Type;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -26,10 +28,11 @@ class StoreLocationRequest extends FormRequest
         return [
             'parent_id' => ['nullable', Rule::exists(Location::class, 'id')],
             'name' => ['required', 'string'],
-            'type' => ['required', 'string'],
+            'type_id' => ['required', Rule::exists(Type::class, 'id')],
             'content' => ['nullable', 'string'],
-            'meta' => ['nullable', 'array'],
-            'meta.*' => ['string'],
+            'demonym' => ['nullable', 'string'],
+            'population' => ['nullable', 'integer'],
+            'government_type_id' => ['nullable', Rule::exists(GovernmentType::class, 'id')],
         ];
     }
 }

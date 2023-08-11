@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\Compendium\Location;
 
-use App\Enums\LocationType;
+use App\Enums\Compendium\Location\LocationType;
 use App\Models\Compendium\Location\Type;
 use Illuminate\Database\Seeder;
 

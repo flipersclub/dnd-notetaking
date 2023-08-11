@@ -1,34 +1,43 @@
 <?php
 
-namespace Tests\Feature\Campaign;
+namespace Tests\Feature\Compendium\Location;
 
-use App\Enums\CampaignVisibility;
-use App\Models\Campaign;
+use App\Enums\Compendium\Location\GovernmentType;
+use App\Enums\Compendium\Location\LocationType;
 use App\Models\Compendium\Compendium;
-use App\Models\System;
-use App\Models\Tag;
+use App\Models\Compendium\Location\Location;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-class CampaignCreateTest extends TestCase
+class LocationCreateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_it_returns_redirect_if_user_not_logged_in(): void
+    public function test_it_returns_unauthorized_if_user_not_logged_in(): void
     {
-        $response = $this->postJson('/api/campaigns');
+        $compendium = Compendium::factory()->create();
+        $response = $this->postJson("/api/compendia/$compendium->id/locations");
 
         $response->assertUnauthorized();
     }
 
-    public function test_it_returns_unauthorized_if_user_not_allowed_to_see(): void
+    public function test_it_returns_not_found_if_compendium_does_not_exist(): void
+    {
+        $compendium = Compendium::factory()->make();
+        $response = $this->postJson("/api/compendia/$compendium->id/locations");
+
+        $response->assertNotFound();
+    }
+
+    public function test_it_returns_unauthorized_if_user_not_allowed_to_create_on_compendium(): void
     {
         $user = User::factory()->create();
+        $compendium = Compendium::factory()->create();
 
         $response = $this->actingAs($user)
-            ->postJson('/api/campaigns');
+            ->postJson("/api/compendia/$compendium->id/locations");
 
         $response->assertForbidden();
     }
@@ -36,16 +45,16 @@ class CampaignCreateTest extends TestCase
     /** @dataProvider validationDataProvider */
     public function test_it_returns_unprocessable_if_validation_failed($payload, $errors): void
     {
-        $user = $this->userWithRole('campaigns.create', 'admin');
+        $compendium = Compendium::factory()->create();
 
-        $response = $this->actingAs($user)
-            ->postJson('/api/campaigns', $payload);
+        $response = $this->asAdmin()
+            ->postJson("/api/compendia/$compendium->slug/locations", $payload);
 
         $response->assertUnprocessable();
 
         $response->assertInvalid($errors);
 
-        $this->assertDatabaseEmpty('campaigns');
+        $this->assertDatabaseEmpty('locations');
 
     }
 
@@ -74,30 +83,22 @@ class CampaignCreateTest extends TestCase
         ];
     }
 
-    public function test_it_returns_successful_if_campaigns_returned(): void
+    public function test_it_returns_successful_if_locations_returned(): void
     {
-        $user = $this->userWithRole('campaigns.create', 'admin');
-
-        $system = System::factory()->create();
-        $compendium = Compendium::factory()->create();
-        $tag = Tag::factory()->create();
+        $user = User::factory()->create();
+        $compendium = Compendium::factory()->for($user, 'creator')->create();
 
         $payload = [
             'name' => 'Whenüa',
             'content' => Str::random(65535),
-            'start_date' => now()->toDateString(),
-            'end_date' => now()->addDays(7)->toDateString(),
-            'game_master_id' => $user->id,
-            'level' => 5,
-            'system_id' => $system->id,
-            'compendium_id' => $compendium->id,
-            'visibility' => CampaignVisibility::public->value,
-            'player_limit' => 10,
-            'tags' => [$tag->id],
+            'type_id' => LocationType::World->value,
+            'demonym' => 'Whenuan',
+            'population' => 1000,
+            'government_type_id' => GovernmentType::Anarchy->value,
         ];
 
         $response = $this->actingAs($user)
-            ->postJson('/api/campaigns?with=tags,system,compendium,gameMaster', $payload);
+            ->postJson("/api/compendia/$compendium->slug/locations?with=tags,compendium,governmentType", $payload);
 
         $response->assertSuccessful();
 
@@ -105,52 +106,35 @@ class CampaignCreateTest extends TestCase
             'data' => [
                 'name' => $payload['name'],
                 'content' => $payload['content'],
-                'start_date' => $payload['start_date'],
-                'end_date' => $payload['end_date'],
-                'level' => $payload['level'],
-                'visibility' => $payload['visibility'],
-                'player_limit' => $payload['player_limit'],
-                'gameMaster' => [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email
+                'type' => [
+                    'id' => LocationType::World->value,
+                    'name' => LocationType::World->label(),
                 ],
-                'system' => [
-                    'id' => $system->id,
-                    'name' => $system->name
-                ],
-                'compendium' => [
-                    'id' => $compendium->id,
-                    'name' => $compendium->name
-                ],
-                'tags' => [
-                    [
-                        'id' => $tag->id,
-                        'name' => $tag->name,
-                    ],
-                ],
+                'demonym' => $payload['demonym'],
+                'population' => $payload['population'],
+                'governmentType' => [
+                    'id' => GovernmentType::Anarchy->value,
+                    'name' => GovernmentType::Anarchy->label(),
+                ]
             ],
         ]);
 
-        $this->assertDatabaseHas('campaigns', [
+        $this->assertDatabaseHas('locations', [
             'name' => $payload['name'],
             'content' => $payload['content'],
-            'start_date' => $payload['start_date'],
-            'end_date' => $payload['end_date'],
-            'game_master_id' => $payload['game_master_id'],
-            'level' => $payload['level'],
-            'system_id' => $payload['system_id'],
-            'compendium_id' => $payload['compendium_id'],
-            'visibility' => $payload['visibility'],
-            'player_limit' => $payload['player_limit'],
+            'type_id' => $payload['type_id'],
+            'demonym' => $payload['demonym'],
+            'population' => $payload['population'],
+            'government_type_id' => $payload['government_type_id'],
         ]);
 
-        $campaign = Campaign::find($response->json('data')['id']);
+        $location = Location::find($response->json('data')['id']);
 
         $user->refresh();
 
-        $this->assertTrue($user->can('update', $campaign));
-        $this->assertTrue($user->can('delete', $campaign));
+        $this->assertTrue($user->can('view', $location));
+        $this->assertTrue($user->can('update', $location));
+        $this->assertTrue($user->can('delete', $location));
     }
 
 

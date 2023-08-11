@@ -16,7 +16,7 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
 
-        $objectTypes = ['systems', 'locations', 'settings', 'campaigns', 'characters', 'monsters', 'languages', 'maps', 'items', 'tags', 'sessions', 'permissions'];
+        $objectTypes = ['systems', 'locations', 'compendia', 'campaigns', 'characters', 'monsters', 'languages', 'maps', 'items', 'tags', 'sessions', 'permissions'];
         $actions = ['create', 'view', 'update', 'delete'];
 
         $permissions = [];

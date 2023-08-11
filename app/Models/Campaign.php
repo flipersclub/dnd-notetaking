@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Enums\CampaignVisibility;
+use App\Models\Compendium\Compendium;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -32,9 +32,9 @@ class Campaign extends Model
         return $this->belongsTo(System::class);
     }
 
-    public function setting(): BelongsTo
+    public function compendium(): BelongsTo
     {
-        return $this->belongsTo(Setting::class);
+        return $this->belongsTo(Compendium::class);
     }
 
     public function sessions(): HasMany

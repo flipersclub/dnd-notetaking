@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             AdminUserSeeder::class,
             Location\TypeSeeder::class,
-            Location\SizeSeeder::class,
             Location\GovernmentTypeSeeder::class,
         ]);
 

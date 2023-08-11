@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\CampaignVisibility;
-use App\Models\Setting;
+use App\Models\Compendium\Compendium;
 use App\Models\System;
 use App\Models\Tag;
 use Illuminate\Foundation\Http\FormRequest;
@@ -34,7 +34,7 @@ class StoreCampaignRequest extends FormRequest
             'game_master_id' => ['nullable', 'exists:users,id'],
             'level' => ['nullable', 'integer', 'min:1'],
             'system_id' => ['nullable', Rule::exists(System::class,'id')],
-            'setting_id' => ['nullable', Rule::exists(Setting::class,'id')],
+            'compendium_id' => ['nullable', Rule::exists(Compendium::class,'id')],
             'visibility' => ['nullable', 'required', Rule::in(CampaignVisibility::values())],
             'player_limit' => ['nullable', 'integer', 'min:1'],
             'cover_image' => ['nullable', 'image', 'max:2048'], // Adjust max file size as needed

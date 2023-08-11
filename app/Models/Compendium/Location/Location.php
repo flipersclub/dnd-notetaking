@@ -2,9 +2,9 @@
 
 namespace App\Models\Compendium\Location;
 
+use App\Models\Compendium\Compendium;
 use App\Models\HasTags;
 use App\Models\Pivots\LocationLocationService;
-use App\Models\Setting;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -32,11 +32,6 @@ class Location extends Model
         return $this->belongsTo(Type::class);
     }
 
-    public function size(): BelongsTo
-    {
-        return $this->belongsTo(Size::class);
-    }
-
     public function governmentType(): BelongsTo
     {
         return $this->belongsTo(GovernmentType::class);
@@ -57,8 +52,8 @@ class Location extends Model
         return $this->hasMany(Map::class);
     }
 
-    public function setting(): BelongsTo
+    public function compendium(): BelongsTo
     {
-        return $this->belongsTo(Setting::class);
+        return $this->belongsTo(Compendium::class);
     }
 }

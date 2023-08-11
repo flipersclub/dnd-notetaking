@@ -29,7 +29,7 @@ class CampaignResource extends JsonResource
             'cover_image' => $this->when($this->cover_image, fn () => Storage::temporaryUrl($this->cover_image, now()->addMinutes(5))),
             'gameMaster' => new UserResource($this->whenLoaded('gameMaster')),
             'system' => new SystemResource($this->whenLoaded('system')),
-            'setting' => new SettingResource($this->whenLoaded('setting')),
+            'compendium' => new CompendiumResource($this->whenLoaded('compendium')),
             'tags' => TagResource::collection($this->whenLoaded('tags'))
         ];
     }

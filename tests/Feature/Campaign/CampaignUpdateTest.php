@@ -4,14 +4,11 @@ namespace Tests\Feature\Campaign;
 
 use App\Enums\CampaignVisibility;
 use App\Models\Campaign;
-use App\Models\Setting;
+use App\Models\Compendium\Compendium;
 use App\Models\System;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -87,7 +84,7 @@ class CampaignUpdateTest extends TestCase
             'level not an integer' => [['level' => 'not-an-integer'], ['level' => 'The level field must be an integer.']],
             'level less than 1' => [['level' => 0], ['level' => 'The level field must be at least 1.']],
             'system_id not a valid system ID' => [['system_id' => 999], ['system_id' => 'The selected system id is invalid.']],
-            'setting_id not a valid setting ID' => [['setting_id' => 999], ['setting_id' => 'The selected setting id is invalid.']],
+            'compendium_id not a valid compendium ID' => [['compendium_id' => 999], ['compendium_id' => 'The selected compendium id is invalid.']],
             'visibility not one of the allowed values' => [['visibility' => 'invalid-visibility'], ['visibility' => 'The selected visibility is invalid.']],
             'player_limit not an integer' => [['player_limit' => 'not-an-integer'], ['player_limit' => 'The player limit field must be an integer.']],
             'player_limit less than 1' => [['player_limit' => 0], ['player_limit' => 'The player limit field must be at least 1.']],
@@ -100,7 +97,7 @@ class CampaignUpdateTest extends TestCase
     {
         $user = $this->userWithRole('campaigns.update', 'admin');
 
-        $setting = Setting::factory()->create();
+        $compendium = Compendium::factory()->create();
         $system = System::factory()->create();
         $tags = Tag::factory()->count(2)->create();
 
@@ -112,7 +109,7 @@ class CampaignUpdateTest extends TestCase
             'game_master_id' => $user->id,
             'level' => 2,
             'system_id' => $system->id,
-            'setting_id' => $setting->id,
+            'compendium_id' => $compendium->id,
             'visibility' => CampaignVisibility::public->value,
             'player_limit' => 5,
             'tags' => $tags->pluck('id')->toArray(),
@@ -121,7 +118,7 @@ class CampaignUpdateTest extends TestCase
         $campaign = Campaign::factory()->create();
 
         $response = $this->actingAs($user)
-            ->putJson("/api/campaigns/{$campaign->slug}?with=tags,gameMaster,system,setting,gameMaster", $payload);
+            ->putJson("/api/campaigns/{$campaign->slug}?with=tags,gameMaster,system,compendium,gameMaster", $payload);
 
         $response->assertSuccessful();
 
@@ -144,9 +141,9 @@ class CampaignUpdateTest extends TestCase
                     'id' => $system->id,
                     'name' => $system->name
                 ],
-                'setting' => [
-                    'id' => $setting->id,
-                    'name' => $setting->name
+                'compendium' => [
+                    'id' => $compendium->id,
+                    'name' => $compendium->name
                 ],
                 'tags' => $tags->map(fn($tag) => [
                     'id' => $tag->id,
@@ -163,7 +160,7 @@ class CampaignUpdateTest extends TestCase
             'game_master_id' => $user->id,
             'level' => $payload['level'],
             'system_id' => $system->id,
-            'setting_id' => $setting->id,
+            'compendium_id' => $compendium->id,
             'visibility' => $payload['visibility'],
             'player_limit' => $payload['player_limit'],
         ]);

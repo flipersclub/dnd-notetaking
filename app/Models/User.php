@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Compendium\Compendium;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -46,13 +47,18 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function settings(): HasMany
+    public function compendia(): HasMany
     {
-        return $this->hasMany(Campaign::class, 'creator_id');
+        return $this->hasMany(Compendium::class, 'creator_id');
     }
 
     public function campaigns(): HasMany
     {
         return $this->hasMany(Campaign::class, 'game_master_id');
+    }
+
+    public function isAdministrator(): bool
+    {
+        return $this->hasRole('admin');
     }
 }

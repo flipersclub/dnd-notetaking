@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('location_sizes', function (Blueprint $table) {
+        Schema::create('compendia', function (Blueprint $table) {
             $table->id();
+            $table->string('slug')->nullable()->index();
             $table->string('name');
+            $table->foreignIdFor(\App\Models\User::class, 'creator_id');
+            $table->text('content')->nullable();
             $table->timestamps();
         });
     }
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('location_sizes');
+        Schema::dropIfExists('compendia');
     }
 };

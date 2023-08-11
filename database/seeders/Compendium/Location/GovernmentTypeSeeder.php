@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\Compendium\Location;
 
-use App\Enums\GovernmentType as GovernmentTypeEnum;
+use App\Enums\Compendium\Location\GovernmentType as GovernmentTypeEnum;
 use App\Models\Compendium\Location\GovernmentType;
 use Illuminate\Database\Seeder;
 

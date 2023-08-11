@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\User::class, 'game_master_id')->nullable();
             $table->integer('level')->nullable();
             $table->foreignIdFor(\App\Models\System::class)->nullable();
-            $table->foreignIdFor(\App\Models\Setting::class)->nullable();
+            $table->foreignIdFor(\App\Models\Compendium\Compendium::class)->nullable();
             $table->boolean('active')->default(true);
             $table->unsignedTinyInteger('visibility')->default(\App\Enums\CampaignVisibility::private->value);
             $table->integer('player_limit')->nullable();

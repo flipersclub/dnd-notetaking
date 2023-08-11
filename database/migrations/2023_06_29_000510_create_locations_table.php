@@ -1,10 +1,9 @@
 <?php
 
+use App\Models\Compendium\Compendium;
 use App\Models\Compendium\Location\GovernmentType;
 use App\Models\Compendium\Location\Location;
-use App\Models\Compendium\Location\Size;
 use App\Models\Compendium\Location\Type;
-use App\Models\Setting;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,11 +17,10 @@ return new class extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Setting::class)->nullable();
+            $table->foreignIdFor(Compendium::class);
             $table->foreignIdFor(Location::class, 'parent_id')->nullable();
             $table->string('name');
-            $table->foreignIdFor(Type::class); // region, settlement, building
-            $table->foreignIdFor(Size::class); // metropolis, etc
+            $table->foreignIdFor(Type::class); // region, village, town, city, building
             $table->text('content')->nullable();
             $table->string('demonym')->nullable();
             $table->integer('population')->nullable();
