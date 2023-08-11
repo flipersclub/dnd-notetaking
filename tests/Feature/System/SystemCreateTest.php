@@ -39,9 +39,7 @@ class SystemCreateTest extends TestCase
     /** @dataProvider validationDataProvider */
     public function test_it_returns_unprocessable_if_validation_failed($payload, $errors): void
     {
-        $user = $this->userWithRole('systems.create', 'admin');
-
-        $response = $this->actingAs($user)
+        $response = $this->asAdmin()
                          ->postJson('/api/systems', $payload);
 
         $response->assertUnprocessable();
@@ -66,9 +64,7 @@ class SystemCreateTest extends TestCase
 
     public function test_it_returns_successful_if_systems_returned(): void
     {
-        $user = $this->userWithRole('systems.create', 'admin');
-
-        $response = $this->actingAs($user)
+        $response = $this->asAdmin()
                          ->postJson('/api/systems', [
                              'name' => 'D&D',
                              'content' => ($content = Str::random(65535))

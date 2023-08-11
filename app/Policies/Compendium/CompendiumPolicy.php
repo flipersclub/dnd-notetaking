@@ -49,22 +49,4 @@ class CompendiumPolicy
         return $user->can('compendia.delete')
             || $user->is($compendium->creator);
     }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Compendium $compendium): bool
-    {
-        return $user->can('compendia.restore')
-            || $user->is($compendium->creator);
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Compendium $compendium): bool
-    {
-        return $user->can('compendia.forceDelete')
-            || $user->can("compendia.forceDelete.$compendium->id");
-    }
 }

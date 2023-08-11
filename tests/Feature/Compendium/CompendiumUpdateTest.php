@@ -48,9 +48,7 @@ class CompendiumUpdateTest extends TestCase
     {
         $compendium = Compendium::factory()->create();
 
-        $user = $this->userWithRole("compendia.update.$compendium->id", 'admin');
-
-        $response = $this->actingAs($user)
+        $response = $this->asAdmin()
             ->putJson("/api/compendia/$compendium->slug", $payload);
 
         $response->assertUnprocessable();
@@ -75,10 +73,9 @@ class CompendiumUpdateTest extends TestCase
     {
         $compendium = Compendium::factory()->create();
 
-        $user = $this->userWithPermission("compendia.update.$compendium->id");
         $newUser = User::factory()->create();
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($compendium->creator)
             ->putJson("/api/compendia/$compendium->slug?with=creator", [
                 'name' => 'D&D',
                 'content' => ($content = Str::random(65535)),

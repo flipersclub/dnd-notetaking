@@ -33,11 +33,9 @@ class CampaignIndexTest extends TestCase
 
     public function test_it_returns_successful_if_campaigns_returned(): void
     {
-        $user = $this->userWithRole('campaigns.view', 'admin');
-
         $campaigns = Campaign::factory(10)->create();
 
-        $response = $this->actingAs($user)
+        $response = $this->asAdmin()
                          ->getJson('/api/campaigns');
 
         $response->assertSuccessful();

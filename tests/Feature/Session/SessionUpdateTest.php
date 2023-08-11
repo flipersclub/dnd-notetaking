@@ -52,9 +52,7 @@ class SessionUpdateTest extends TestCase
     {
         $session = Session::factory()->create();
 
-        $user = $this->userWithRole('sessions.update', 'admin');
-
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($session->campaign->gameMaster)
             ->putJson('/api/sessions/' . $session->slug, $payload);
 
         $response->assertUnprocessable();
@@ -78,8 +76,7 @@ class SessionUpdateTest extends TestCase
     }
     public function test_it_returns_successful_if_session_updated_returned(): void
     {
-        $user = User::factory()->create();
-        $session = Session::factory()->forCampaign(['game_master_id' => $user->id])->create();
+        $session = Session::factory()->create();
 
         $payload = [
             'session_number' => 2,
@@ -90,7 +87,7 @@ class SessionUpdateTest extends TestCase
             'notes' => 'Updated notes',
         ];
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($session->campaign->gameMaster)
             ->putJson('/api/sessions/' . $session->slug, $payload);
 
         $response->assertSuccessful();

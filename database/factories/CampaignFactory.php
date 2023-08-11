@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\CampaignVisibility;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,7 +21,8 @@ class CampaignFactory extends Factory
         return [
             'name' => $this->faker->sentence(3),
             'active' => $this->faker->boolean(),
-            'visibility' => $this->faker->randomElement(CampaignVisibility::cases())
+            'visibility' => $this->faker->randomElement(CampaignVisibility::cases()),
+            'game_master_id' => User::factory()
         ];
     }
 }

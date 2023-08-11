@@ -34,11 +34,9 @@ class SessionIndexTest extends TestCase
 
     public function test_it_returns_successful_if_sessions_returned(): void
     {
-        $user = $this->userWithRole('sessions.view', 'admin');
-
         $sessions = Session::factory(10)->create();
 
-        $response = $this->actingAs($user)
+        $response = $this->asAdmin()
                          ->getJson('/api/sessions');
 
         $response->assertSuccessful();

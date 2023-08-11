@@ -33,11 +33,9 @@ class SystemIndexTest extends TestCase
 
     public function test_it_returns_successful_if_systems_returned(): void
     {
-        $user = $this->userWithRole('systems.view', 'admin');
-
         $systems = System::factory(10)->create();
 
-        $response = $this->actingAs($user)
+        $response = $this->asAdmin()
                          ->getJson('/api/systems');
 
         $response->assertSuccessful();

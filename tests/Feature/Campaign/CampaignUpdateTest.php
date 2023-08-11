@@ -52,9 +52,7 @@ class CampaignUpdateTest extends TestCase
     {
         $campaign = Campaign::factory()->create();
 
-        $user = $this->userWithRole('campaigns.update', 'admin');
-
-        $response = $this->actingAs($user)
+        $response = $this->asAdmin()
             ->putJson('/api/campaigns/' . $campaign->slug, $payload);
 
         $response->assertUnprocessable();
@@ -95,7 +93,7 @@ class CampaignUpdateTest extends TestCase
 
     public function test_it_returns_successful_if_campaign_updated_returned(): void
     {
-        $user = $this->userWithRole('campaigns.update', 'admin');
+        $user = User::factory()->create();
 
         $compendium = Compendium::factory()->create();
         $system = System::factory()->create();
@@ -117,7 +115,7 @@ class CampaignUpdateTest extends TestCase
 
         $campaign = Campaign::factory()->create();
 
-        $response = $this->actingAs($user)
+        $response = $this->asAdmin()
             ->putJson("/api/campaigns/{$campaign->slug}?with=tags,gameMaster,system,compendium,gameMaster", $payload);
 
         $response->assertSuccessful();

@@ -36,9 +36,7 @@ class CampaignCreateTest extends TestCase
     /** @dataProvider validationDataProvider */
     public function test_it_returns_unprocessable_if_validation_failed($payload, $errors): void
     {
-        $user = $this->userWithRole('campaigns.create', 'admin');
-
-        $response = $this->actingAs($user)
+        $response = $this->asAdmin()
             ->postJson('/api/campaigns', $payload);
 
         $response->assertUnprocessable();
@@ -76,7 +74,7 @@ class CampaignCreateTest extends TestCase
 
     public function test_it_returns_successful_if_campaigns_returned(): void
     {
-        $user = $this->userWithRole('campaigns.create', 'admin');
+        $user = User::factory()->create();
 
         $system = System::factory()->create();
         $compendium = Compendium::factory()->create();
@@ -96,7 +94,7 @@ class CampaignCreateTest extends TestCase
             'tags' => [$tag->id],
         ];
 
-        $response = $this->actingAs($user)
+        $response = $this->asAdmin()
             ->postJson('/api/campaigns?with=tags,system,compendium,gameMaster', $payload);
 
         $response->assertSuccessful();

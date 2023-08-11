@@ -30,7 +30,8 @@ class CompendiumIndexTest extends TestCase
 
     public function test_it_returns_successful_if_compendia_returned(): void
     {
-        $user = $this->userWithRole('compendia.view', 'admin');
+        $user = User::factory()->create();
+        $user->givePermissionTo('compendia.view');
 
         $compendia = Compendium::factory(10)->create();
 
@@ -52,11 +53,9 @@ class CompendiumIndexTest extends TestCase
     }
     public function test_it_returns_successful_if_compendia_returned_with_creator(): void
     {
-        $user = $this->userWithRole('compendia.view', 'admin');
-
         $compendia = Compendium::factory(10)->create();
 
-        $response = $this->actingAs($user)
+        $response = $this->asAdmin()
                          ->getJson('/api/compendia?with=creator');
 
         $response->assertSuccessful();

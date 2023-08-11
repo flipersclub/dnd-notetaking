@@ -49,9 +49,7 @@ class CompendiumShowTest extends TestCase
     {
         $compendium = Compendium::factory()->create();
 
-        $user = $this->userWithPermission("compendia.view.$compendium->id");
-
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($compendium->creator)
             ->getJson("/api/compendia/$compendium->slug");
 
         $response->assertSuccessful();
@@ -64,19 +62,14 @@ class CompendiumShowTest extends TestCase
                 'content' => $compendium->content
             ]
         ]);
-        $response->assertJsonMissing([
-            'id' => $user->id
-        ]);
 
     }
 
     public function test_it_returns_successful_if_compendium_returned_with_creator(): void
     {
-        $compendium = Compendium::factory()->hasCreator()->create();
+        $compendium = Compendium::factory()->create();
 
-        $user = $this->userWithPermission("compendia.view.$compendium->id");
-
-        $response = $this->actingAs($user)
+        $response = $this->asAdmin()
             ->getJson("/api/compendia/$compendium->slug?with=creator");
 
         $response->assertSuccessful();

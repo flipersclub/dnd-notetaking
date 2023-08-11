@@ -36,9 +36,7 @@ class SessionCreateTest extends TestCase
     /** @dataProvider validationDataProvider */
     public function test_it_returns_unprocessable_if_validation_failed($payload, $errors): void
     {
-        $user = $this->userWithRole('sessions.create', 'admin');
-
-        $response = $this->actingAs($user)
+        $response = $this->asAdmin()
             ->postJson('/api/sessions', $payload);
 
         $response->assertUnprocessable();
@@ -72,11 +70,9 @@ class SessionCreateTest extends TestCase
 
     public function test_it_returns_unprocessable_if_user_is_not_the_game_master(): void
     {
-        $user = $this->userWithRole('sessions.create', 'admin');
-
         $campaign = Campaign::factory()->create();
 
-        $response = $this->actingAs($user)
+        $response = $this->asAdmin()
             ->postJson('/api/sessions', [
                 'campaign_id' => $campaign->id
             ]);
@@ -91,9 +87,7 @@ class SessionCreateTest extends TestCase
 
     public function test_it_returns_successful_if_session_created_returned(): void
     {
-        $user = $this->userWithPermission('sessions.create');
-
-        $campaign = Campaign::factory()->for($user, 'gameMaster')->create();
+        $campaign = Campaign::factory()->forGameMaster()->create();
 
         $payload = [
             'campaign_id' => $campaign->id,
@@ -105,7 +99,7 @@ class SessionCreateTest extends TestCase
             'notes' => 'Lorem ipsum dolor sit amet.',
         ];
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($campaign->gameMaster)
             ->postJson('/api/sessions?with=campaign', $payload);
 
         $response->assertSuccessful();
@@ -144,10 +138,10 @@ class SessionCreateTest extends TestCase
 
         $session = Session::find($response->json('data.id'));
 
-        $user->refresh();
+        $campaign->gameMaster->refresh();
 
-        $this->assertTrue($user->can('update', $session));
-        $this->assertTrue($user->can('delete', $session));
+        $this->assertTrue($campaign->gameMaster->can('update', $session));
+        $this->assertTrue($campaign->gameMaster->can('delete', $session));
     }
 
 }

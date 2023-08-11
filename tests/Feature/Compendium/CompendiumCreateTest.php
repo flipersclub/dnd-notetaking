@@ -31,9 +31,7 @@ class CompendiumCreateTest extends TestCase
     /** @dataProvider validationDataProvider */
     public function test_it_returns_unprocessable_if_validation_failed($payload, $errors): void
     {
-        $user = $this->userWithRole('compendia.create', 'admin');
-
-        $response = $this->actingAs($user)
+        $response = $this->asAdmin()
                          ->postJson('/api/compendia', $payload);
 
         $response->assertUnprocessable();
@@ -58,7 +56,8 @@ class CompendiumCreateTest extends TestCase
 
     public function test_it_returns_successful_if_compendia_returned(): void
     {
-        $user = $this->userWithRole('compendia.create', 'admin');
+        $user = User::factory()->create();
+        $user->givePermissionTo('compendia.create');
 
         $response = $this->actingAs($user)
                          ->postJson('/api/compendia?with=creator', [

@@ -47,9 +47,7 @@ class CompendiumDestroyTest extends TestCase
     {
         $compendium = Compendium::factory()->create();
 
-        $user = $this->userWithPermission("compendia.delete.$compendium->id");
-
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($compendium->creator)
             ->deleteJson("/api/compendia/$compendium->slug");
 
         $response->assertNoContent();

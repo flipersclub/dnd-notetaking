@@ -51,7 +51,7 @@ class SystemUpdateTest extends TestCase
     {
         $system = System::factory()->create();
 
-        $user = $this->userWithRole("systems.update.$system->id", 'admin');
+        $user = $this->userWithPermission("systems.update.$system->id");
 
         $response = $this->actingAs($user)
             ->putJson("/api/systems/$system->slug", $payload);
