@@ -16,7 +16,7 @@ class ConvertInputKeysToSnakeCase
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $request->replace(
+        $request->json()->replace(
             $this->convertKeysToCase($request->post())
         );
         return $next($request);
