@@ -24,7 +24,7 @@ class CompendiumResource extends JsonResource
             'content' => $this->content,
             'cover_image' => $this->when($this->cover_image, fn () => Storage::temporaryUrl($this->cover_image, now()->addMinutes(5))),
             'creator' => new UserResource($this->whenLoaded('creator')),
-            'hasLocation' => $this->when(!is_null($this->locations_count), $this->locations_count)
+            'hasLocations' => $this->when(!is_null($this->locations_count), $this->locations_count)
         ];
     }
 }

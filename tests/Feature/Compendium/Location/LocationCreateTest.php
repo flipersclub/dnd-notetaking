@@ -78,10 +78,10 @@ class LocationCreateTest extends TestCase
         $payload = [
             'name' => 'Whenüa',
             'content' => Str::random(65535),
-            'type_id' => LocationType::World->value,
+            'typeId' => LocationType::World->value,
             'demonym' => 'Whenuan',
             'population' => 1000,
-            'government_type_id' => GovernmentType::Anarchy->value,
+            'governmentTypeId' => GovernmentType::Anarchy->value,
         ];
 
         $response = $this->actingAs($user)
@@ -109,10 +109,10 @@ class LocationCreateTest extends TestCase
         $this->assertDatabaseHas('locations', [
             'name' => $payload['name'],
             'content' => $payload['content'],
-            'type_id' => $payload['type_id'],
+            'type_id' => $payload['typeId'],
             'demonym' => $payload['demonym'],
             'population' => $payload['population'],
-            'government_type_id' => $payload['government_type_id'],
+            'government_type_id' => $payload['governmentTypeId'],
         ]);
 
         $location = Location::find($response->json('data')['id']);

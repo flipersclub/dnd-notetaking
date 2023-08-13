@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\ConvertInputKeysToSnakeCase;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -43,8 +44,8 @@ class Kernel extends HttpKernel
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-
-            \Illuminate\Session\Middleware\StartSession::class, // Add this line
+            \Illuminate\Session\Middleware\StartSession::class,
+            \App\Http\Middleware\ConvertInputKeysToSnakeCase::class,
         ],
     ];
 
