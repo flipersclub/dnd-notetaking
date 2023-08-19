@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Compendium\Compendium;
 use App\Models\Compendium\Location\Location;
+use App\Models\Note;
 use App\Models\Notebook;
 use App\Models\System;
 use App\Models\User;
@@ -28,6 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         Compendium::class => CompendiumPolicy::class,
         Location::class => LocationPolicy::class,
         Notebook::class => NotebookPolicy::class,
+        Note::class => NotePolicy::class,
     ];
 
     /**

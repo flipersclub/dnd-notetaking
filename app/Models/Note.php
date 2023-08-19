@@ -10,26 +10,19 @@ use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
-class Notebook extends Model
+class Note extends Model
 {
     use HasFactory, HasTags, Sluggable, SluggableScopeHelpers;
 
     protected $guarded = ['id'];
 
-    public function user(): BelongsTo
+    public function notebook(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Notebook::class);
     }
-
-    public function notes(): hasMany
-    {
-        return $this->hasMany(Note::class);
-    }
-
     public function images(): MorphToMany
     {
         return $this->morphToMany(Image::class, 'imageable')

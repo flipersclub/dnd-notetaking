@@ -37,5 +37,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('compendia.locations', Location\LocationController::class)
         ->shallow();
     Route::apiResource('notebooks', NotebookController::class);
-    Route::apiResource('notebooks.notes', NoteController::class);
+    Route::apiResource('notebooks.notes', NoteController::class)
+        ->shallow();
 });
