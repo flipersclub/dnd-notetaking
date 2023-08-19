@@ -57,6 +57,11 @@ class User extends Authenticatable
         return $this->hasMany(Campaign::class, 'game_master_id');
     }
 
+    public function notebooks(): HasMany
+    {
+        return $this->hasMany(Notebook::class);
+    }
+
     public function isAdministrator(): bool
     {
         return $this->hasRole('admin');

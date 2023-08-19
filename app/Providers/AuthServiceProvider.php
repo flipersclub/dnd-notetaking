@@ -4,10 +4,13 @@ namespace App\Providers;
 
 use App\Models\Compendium\Compendium;
 use App\Models\Compendium\Location\Location;
+use App\Models\Notebook;
 use App\Models\System;
 use App\Models\User;
 use App\Policies\Compendium\CompendiumPolicy;
 use App\Policies\Compendium\Location\LocationPolicy;
+use App\Policies\NotebookPolicy;
+use App\Policies\NotePolicy;
 use App\Policies\SystemPolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -24,6 +27,7 @@ class AuthServiceProvider extends ServiceProvider
         System::class => SystemPolicy::class,
         Compendium::class => CompendiumPolicy::class,
         Location::class => LocationPolicy::class,
+        Notebook::class => NotebookPolicy::class,
     ];
 
     /**

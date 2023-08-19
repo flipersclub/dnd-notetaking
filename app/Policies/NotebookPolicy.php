@@ -13,7 +13,7 @@ class NotebookPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class NotebookPolicy
      */
     public function view(User $user, Notebook $notebook): bool
     {
-        //
+        return $notebook->user->is($user);
     }
 
     /**
@@ -29,7 +29,7 @@ class NotebookPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class NotebookPolicy
      */
     public function update(User $user, Notebook $notebook): bool
     {
-        //
+        return $notebook->user->is($user);
     }
 
     /**
@@ -45,7 +45,7 @@ class NotebookPolicy
      */
     public function delete(User $user, Notebook $notebook): bool
     {
-        //
+        return $notebook->user->is($user);
     }
 
     /**
@@ -53,7 +53,7 @@ class NotebookPolicy
      */
     public function restore(User $user, Notebook $notebook): bool
     {
-        //
+        return $notebook->user->is($user);
     }
 
     /**
@@ -61,6 +61,6 @@ class NotebookPolicy
      */
     public function forceDelete(User $user, Notebook $notebook): bool
     {
-        //
+        return false;
     }
 }

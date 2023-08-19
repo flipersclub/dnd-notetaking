@@ -10,12 +10,13 @@ class CreateNotebook
 {
     use AsAction;
 
-    public function handle(User $user, string $name, ?string $content = null)
+    public function handle(User $user, array $data, array $with = [])
     {
-        return Notebook::query()->create([
-            'user_id' => $user->id,
-            'name' => $name,
-            'content' => $content,
-        ]);
+        return Notebook::query()
+            ->create([
+                'user_id' => $user->id,
+                ...$data
+            ])
+            ->load($with);
     }
 }
