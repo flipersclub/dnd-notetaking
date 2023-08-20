@@ -12,9 +12,9 @@ class CreateSessionForCampaign
 
     public function handle(Campaign $campaign, array $data, array $with = []): Session
     {
-        return Session::create([
+        return $campaign->sessions()
+            ->create([
                 ...$data,
-                'campaign_id' => $campaign->getKey(),
                 'creator_id' => auth()->user()->getAuthIdentifier()
             ])
             ->load($with);

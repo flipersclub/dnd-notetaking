@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\Compendium\CharacterController;
 use App\Http\Controllers\Compendium\CompendiumController;
 use App\Http\Controllers\Compendium\Location;
 use App\Http\Controllers\NotebookController;
@@ -38,6 +39,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('compendia', CompendiumController::class);
     Route::apiResource('compendia.locations', Location\LocationController::class)
         ->shallow();
+    Route::apiResource('compendia.characters', CharacterController::class)
+        ->shallow();
+    // Notebooks
     Route::apiResource('notebooks', NotebookController::class);
     Route::apiResource('notebooks.notes', NoteController::class)
         ->shallow();

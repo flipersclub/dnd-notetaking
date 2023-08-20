@@ -18,14 +18,14 @@ return new class extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->string('slug')->nullable()->index();
-            $table->foreignIdFor(Compendium::class);
-            $table->foreignIdFor(Location::class, 'parent_id')->nullable();
+            $table->foreignIdFor(Compendium::class)->constrained();
+            $table->foreignIdFor(Location::class, 'parent_id')->nullable()->constrained('locations');
             $table->string('name');
-            $table->foreignIdFor(Type::class); // region, village, town, city, building
+            $table->foreignIdFor(Type::class)->constrained('location_types'); // region, village, town, city, building
             $table->text('content')->nullable();
             $table->string('demonym')->nullable();
             $table->integer('population')->nullable();
-            $table->foreignIdFor(GovernmentType::class)->nullable(); // democracy, plutocracy, etc
+            $table->foreignIdFor(GovernmentType::class)->nullable()->constrained('location_government_types'); // democracy, plutocracy, etc
             $table->timestamps();
         });
     }

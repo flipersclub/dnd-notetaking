@@ -35,6 +35,11 @@ class Compendium extends Model
         return $this->hasMany(Location::class);
     }
 
+    public function characters(): HasMany
+    {
+        return $this->hasMany(Character::class);
+    }
+
     public function sluggable(): array
     {
         return [

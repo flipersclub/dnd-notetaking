@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Campaign;
+use App\Models\Compendium\Character;
 use App\Models\Compendium\Compendium;
 use App\Models\Compendium\Location\Location;
 use App\Models\Note;
@@ -11,6 +12,7 @@ use App\Models\Session;
 use App\Models\System;
 use App\Models\User;
 use App\Policies\CampaignPolicy;
+use App\Policies\Compendium\CharacterPolicy;
 use App\Policies\Compendium\CompendiumPolicy;
 use App\Policies\Compendium\Location\LocationPolicy;
 use App\Policies\NotebookPolicy;
@@ -34,6 +36,7 @@ class AuthServiceProvider extends ServiceProvider
         Session::class => SessionPolicy::class,
         Compendium::class => CompendiumPolicy::class,
         Location::class => LocationPolicy::class,
+        Character::class => CharacterPolicy::class,
         Notebook::class => NotebookPolicy::class,
         Note::class => NotePolicy::class,
     ];

@@ -2,6 +2,8 @@
 
 namespace Database\Factories\Compendium;
 
+use App\Models\Compendium\Compendium;
+use App\Models\Compendium\Species;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,12 @@ class CharacterFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'compendium_id' => Compendium::factory(),
+            'name' => $this->faker->name(),
+            'age' => $this->faker->numberBetween(1, 999),
+            'gender' => $this->faker->randomElement(['male', 'female', 'non-binary']),
+            'species_id' => fn($attributes) => Species::factory()->state(['compendium_id' => $attributes['compendium_id']]),
+            'content' => $this->faker->sentence(5),
         ];
     }
 }

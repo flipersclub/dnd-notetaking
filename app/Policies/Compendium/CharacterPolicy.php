@@ -12,7 +12,7 @@ class CharacterPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->compendia()->exists();
     }
 
     /**
@@ -20,7 +20,8 @@ class CharacterPolicy
      */
     public function view(User $user, Character $character): bool
     {
-        //
+        return $user->is($character->compendium->creator)
+            || $user->can("characters.view.$character->id");
     }
 
     /**
@@ -28,7 +29,7 @@ class CharacterPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->compendia()->exists();
     }
 
     /**
@@ -36,7 +37,8 @@ class CharacterPolicy
      */
     public function update(User $user, Character $character): bool
     {
-        //
+        return $user->is($character->compendium->creator)
+            || $user->can("characters.update.$character->id");
     }
 
     /**
@@ -44,22 +46,6 @@ class CharacterPolicy
      */
     public function delete(User $user, Character $character): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Character $character): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Character $character): bool
-    {
-        //
+        return $user->is($character->compendium->creator);
     }
 }

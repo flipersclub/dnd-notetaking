@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Compendium;
 
+use App\Models\Compendium\Species;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreCharacterRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class StoreCharacterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->user()->can('update', $this->compendium);
     }
 
     /**
@@ -22,7 +24,11 @@ class StoreCharacterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255'],
+            'age' => ['nullable', 'integer', 'max:999999'],
+            'gender' => ['nullable', 'string', 'max:255'],
+            'species_id' => ['nullable', Rule::exists(Species::class, 'id')->where('compendium_id', $this->compendium->id)],
+            'content' => ['nullable', 'string', 'max:65535'],
         ];
     }
 }
