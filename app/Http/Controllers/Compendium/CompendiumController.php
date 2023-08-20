@@ -39,7 +39,7 @@ class CompendiumController extends Controller
         $params['creator_id'] = auth()->user()->getKey();
         return new CompendiumResource(
             Compendium::create($params)->load($this->with())
-                ->loadCount('locations')
+                ->loadCount(['locations', 'characters'])
         );
     }
 
@@ -50,7 +50,7 @@ class CompendiumController extends Controller
     {
         return new CompendiumResource(
             $compendium->loadMissing($this->with())
-                ->loadCount('locations')
+                ->loadCount(['locations', 'characters'])
         );
     }
 
@@ -67,7 +67,7 @@ class CompendiumController extends Controller
         $compendium->update($params);
         return new CompendiumResource(
             $compendium->load($this->with())
-                ->loadCount('locations')
+                ->loadCount(['locations', 'characters'])
         );
     }
 
