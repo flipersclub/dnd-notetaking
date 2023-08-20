@@ -13,7 +13,7 @@ class SessionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('sessions.view');
+        return true;
     }
 
     /**
@@ -21,8 +21,7 @@ class SessionPolicy
      */
     public function view(User $user, Session $session): bool
     {
-        return $user->can('sessions.view')
-            || $user->can("sessions.view.$session->id")
+        return $user->is($session->campaign->gameMaster)
             || $user->can('view', $session->campaign);
     }
 
@@ -31,8 +30,7 @@ class SessionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('sessions.create')
-            || $user->campaigns()->exists();
+        return $user->campaigns()->exists();
     }
 
     /**

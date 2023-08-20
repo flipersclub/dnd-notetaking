@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Campaign;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreSessionRequest extends FormRequest
 {
@@ -13,7 +11,7 @@ class StoreSessionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->user()->can('update', $this->campaign);
     }
 
     /**
@@ -24,7 +22,6 @@ class StoreSessionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'campaign_id' => ['required', Rule::exists(Campaign::class, 'id')->where('game_master_id', auth()->user()->getKey())],
             'session_number' => ['required', 'integer'],
             'title' => ['required', 'string', 'max:255'],
             'scheduled_at' => ['required', 'date'],

@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property Campaign $campaign
+ */
 class Session extends Model
 {
     use HasFactory, HasTags, Sluggable, SluggableScopeHelpers;

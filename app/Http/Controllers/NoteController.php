@@ -26,6 +26,7 @@ class NoteController extends Controller
      */
     public function index(Notebook $notebook): ResourceCollection
     {
+        $this->authorize('view', $notebook);
         return NoteResource::collection(
             GetNotesInNotebook::run($notebook, $this->with())
         );

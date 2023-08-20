@@ -21,6 +21,17 @@ class NoteIndexTest extends TestCase
         $response->assertUnauthorized();
     }
 
+    public function test_it_returns_forbidden_if_user_not_allowed_to_see(): void
+    {
+        $notebook = Notebook::factory()->create();
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->getJson("/api/notebooks/$notebook->slug/notes");
+
+        $response->assertForbidden();
+    }
+
     public function test_it_returns_successful_if_notes_returned(): void
     {
         $notebook = Notebook::factory()->create();

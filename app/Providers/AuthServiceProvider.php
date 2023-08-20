@@ -2,16 +2,20 @@
 
 namespace App\Providers;
 
+use App\Models\Campaign;
 use App\Models\Compendium\Compendium;
 use App\Models\Compendium\Location\Location;
 use App\Models\Note;
 use App\Models\Notebook;
+use App\Models\Session;
 use App\Models\System;
 use App\Models\User;
+use App\Policies\CampaignPolicy;
 use App\Policies\Compendium\CompendiumPolicy;
 use App\Policies\Compendium\Location\LocationPolicy;
 use App\Policies\NotebookPolicy;
 use App\Policies\NotePolicy;
+use App\Policies\SessionPolicy;
 use App\Policies\SystemPolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -26,6 +30,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         System::class => SystemPolicy::class,
+        Campaign::class => CampaignPolicy::class,
+        Session::class => SessionPolicy::class,
         Compendium::class => CompendiumPolicy::class,
         Location::class => LocationPolicy::class,
         Notebook::class => NotebookPolicy::class,

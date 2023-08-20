@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Session\CreateSessionForCampaign;
+use App\Actions\Session\GetSessionsForCampaign;
+use App\Actions\Session\UpdateSession;
 use App\Http\Requests\StoreSessionRequest;
 use App\Http\Requests\UpdateSessionRequest;
 use App\Http\Resources\SessionResource;
+use App\Models\Campaign;
 use App\Models\Session;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
@@ -20,23 +24,32 @@ class SessionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): ResourceCollection
+    public function index(Campaign $campaign): ResourceCollection
     {
-        return SessionResource::collection(Session::with($this->with())->get());
+        $this->authorize('view', $campaign);
+        return SessionResource::collection(
+            GetSessionsForCampaign::run($campaign, $this->with())
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSessionRequest $request): SessionResource
+    public function store(StoreSessionRequest $request, Campaign $campaign): SessionResource
     {
+        // todo handle cover_image with action
         $params = $request->except('cover_image');
         if ($request->hasFile('cover_image')) {
             $file = Storage::putFile('sessions', $request->file('cover_image'));
             $params['cover_image'] = $file;
         }
-        $params['creator_id'] = auth()->user()->getKey();
-        return new SessionResource(Session::create($params)->load($this->with()));
+        return new SessionResource(
+            CreateSessionForCampaign::run(
+                $campaign,
+                $params,
+                $this->with()
+            )
+        );
     }
 
     /**
@@ -52,13 +65,15 @@ class SessionController extends Controller
      */
     public function update(UpdateSessionRequest $request, Session $session): SessionResource
     {
+        // todo handle cover_image with action
         $params = $request->except('cover_image');
         if ($request->hasFile('cover_image')) {
             $file = Storage::putFile('sessions', $request->file('cover_image'));
             $params['cover_image'] = $file;
         }
-        $session->update($params);
-        return new SessionResource($session->load($this->with()));
+        return new SessionResource(
+            UpdateSession::run($session, $params, $this->with())
+        );
     }
 
     /**

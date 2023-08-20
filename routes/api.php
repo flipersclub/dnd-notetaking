@@ -27,8 +27,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::apiResource('systems', SystemController::class);
+    // Campaigns
     Route::apiResource('campaigns', CampaignController::class);
-    Route::apiResource('sessions', SessionController::class);
+    Route::apiResource('campaigns.sessions', SessionController::class)
+        ->shallow();
     // Option sets
     Route::apiResource('location-types', Location\TypeController::class);
     Route::apiResource('government-types', Location\GovernmentTypeController::class);

@@ -47,9 +47,7 @@ class SessionShowTest extends TestCase
     {
         $session = Session::factory()->create();
 
-        $user = $this->userWithPermission("sessions.view.$session->id");
-
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($session->campaign->gameMaster)
             ->getJson("/api/sessions/$session->slug?with=campaign");
 
         $response->assertSuccessful();

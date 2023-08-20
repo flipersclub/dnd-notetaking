@@ -18,17 +18,19 @@ class SessionCreateTest extends TestCase
 
     public function test_it_returns_unauthorized_if_user_not_logged_in(): void
     {
-        $response = $this->postJson('/api/sessions');
+        $campaign = Campaign::factory()->create();
+        $response = $this->postJson("/api/campaigns/{$campaign->slug}/sessions");
 
         $response->assertUnauthorized();
     }
 
     public function test_it_returns_unauthorized_if_user_not_allowed_to_see(): void
     {
-        $user = User::factory()->create();
+        $campaign = Campaign::factory()->create();
+        $user = User::factory()->hasCampaigns()->create();
 
         $response = $this->actingAs($user)
-            ->postJson('/api/sessions');
+            ->postJson("/api/campaigns/$campaign->slug/sessions");
 
         $response->assertForbidden();
     }
@@ -36,8 +38,10 @@ class SessionCreateTest extends TestCase
     /** @dataProvider validationDataProvider */
     public function test_it_returns_unprocessable_if_validation_failed($payload, $errors): void
     {
+        $campaign = Campaign::factory()->create();
+
         $response = $this->asAdmin()
-            ->postJson('/api/sessions', $payload);
+            ->postJson("/api/campaigns/$campaign->slug/sessions", $payload);
 
         $response->assertUnprocessable();
 
@@ -50,9 +54,6 @@ class SessionCreateTest extends TestCase
     public static function validationDataProvider()
     {
         return [
-            'campaign_id not present' => [[], ['campaign_id' => 'The campaign id field is required.']],
-            'campaign_id not an integer' => [['campaign_id' => 'invalid-id'], ['campaign_id' => 'The selected campaign id is invalid.']],
-            'campaign_id not a valid campaign ID' => [['campaign_id' => 999], ['campaign_id' => 'The selected campaign id is invalid.']],
             'session_number not present' => [[], ['session_number' => 'The session number field is required.']],
             'session_number not an integer' => [['session_number' => 'invalid-number'], ['session_number' => 'The session number field must be an integer.']],
             'title not present' => [[], ['title' => 'The title field is required.']],
@@ -68,29 +69,11 @@ class SessionCreateTest extends TestCase
         ];
     }
 
-    public function test_it_returns_unprocessable_if_user_is_not_the_game_master(): void
-    {
-        $campaign = Campaign::factory()->create();
-
-        $response = $this->asAdmin()
-            ->postJson('/api/sessions', [
-                'campaign_id' => $campaign->id
-            ]);
-
-        $response->assertUnprocessable();
-
-        $response->assertInvalid(['campaign_id' => 'The selected campaign id is invalid.']);
-
-        $this->assertDatabaseEmpty('sessions');
-
-    }
-
     public function test_it_returns_successful_if_session_created_returned(): void
     {
         $campaign = Campaign::factory()->forGameMaster()->create();
 
         $payload = [
-            'campaign_id' => $campaign->id,
             'session_number' => 1,
             'title' => 'Session 1',
             'scheduled_at' => now()->format('Y-m-d H:i:s'),
@@ -100,7 +83,7 @@ class SessionCreateTest extends TestCase
         ];
 
         $response = $this->actingAs($campaign->gameMaster)
-            ->postJson('/api/sessions?with=campaign', $payload);
+            ->postJson("/api/campaigns/$campaign->slug/sessions?with=campaign", $payload);
 
         $response->assertSuccessful();
 
@@ -127,7 +110,7 @@ class SessionCreateTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('sessions', [
-            'campaign_id' => $payload['campaign_id'],
+            'campaign_id' => $campaign->getKey(),
             'session_number' => $payload['session_number'],
             'title' => $payload['title'],
             'scheduled_at' => $payload['scheduled_at'],
