@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\System\CreateSystem;
+use App\Actions\System\GetAllSystems;
+use App\Actions\System\UpdateSystem;
 use App\Enums\ImageType;
 use App\Http\Requests\StoreSystemRequest;
 use App\Http\Requests\UpdateSystemRequest;
@@ -24,7 +27,9 @@ class SystemController extends Controller
      */
     public function index(): ResourceCollection
     {
-        return SystemResource::collection(System::all());
+        return SystemResource::collection(
+            GetAllSystems::run($this->with())
+        );
     }
 
     /**
@@ -32,8 +37,9 @@ class SystemController extends Controller
      */
     public function store(StoreSystemRequest $request): SystemResource
     {
-        $system = System::create($request->validated());
-        return new SystemResource($system);
+        return new SystemResource(
+            CreateSystem::run($request->validated(), $this->with())
+        );
     }
 
     /**
@@ -41,7 +47,9 @@ class SystemController extends Controller
      */
     public function show(System $system): SystemResource
     {
-        return new SystemResource($system);
+        return new SystemResource(
+            $system->loadMissing($this->with())
+        );
     }
 
     /**
@@ -49,8 +57,9 @@ class SystemController extends Controller
      */
     public function update(UpdateSystemRequest $request, System $system): SystemResource
     {
-        $system->update($request->validated());
-        return new SystemResource($system);
+        return new SystemResource(
+            UpdateSystem::run($request->validated(), $this->with())
+        );
     }
 
     /**

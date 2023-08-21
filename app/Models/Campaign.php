@@ -45,6 +45,11 @@ class Campaign extends Model
         return $this->hasMany(Session::class);
     }
 
+    public function encounters(): HasMany
+    {
+        return $this->hasMany(Encounter::class);
+    }
+
     public function sluggable(): array
     {
         return [
