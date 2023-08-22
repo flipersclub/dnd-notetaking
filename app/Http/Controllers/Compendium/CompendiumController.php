@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Compendium;
 
+use App\Actions\Compendium\GetAllCompendiaForUser;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCompendiumRequest;
 use App\Http\Requests\UpdateCompendiumRequest;
@@ -23,7 +24,9 @@ class CompendiumController extends Controller
      */
     public function index(): ResourceCollection
     {
-        return CompendiumResource::collection(Compendium::with($this->with())->get());
+        return CompendiumResource::collection(
+            GetAllCompendiaForUser::run(auth()->user(), $this->with())
+        );
     }
 
     /**

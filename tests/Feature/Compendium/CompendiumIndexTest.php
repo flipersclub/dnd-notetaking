@@ -5,6 +5,7 @@ namespace Tests\Feature\Compendium;
 use App\Models\Compendium\Compendium;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
 class CompendiumIndexTest extends TestCase
@@ -53,17 +54,41 @@ class CompendiumIndexTest extends TestCase
     }
     public function test_it_returns_successful_if_compendia_returned_with_creator(): void
     {
-        $compendia = Compendium::factory(10)->create();
+        $user = User::factory()->create();
+        $user->givePermissionTo('compendia.view');
 
-        $response = $this->asAdmin()
+        $compendiaCreator = Compendium::factory(10)->for($user, 'creator')->create();
+        $compendiaCanSee = Compendium::factory(10)->create();
+        foreach ($compendiaCanSee as $compendium) {
+            Permission::create(['name' => 'compendia.view.' . $compendium->id]);
+            $user->givePermissionTo('compendia.view.' . $compendium->id);
+        }
+
+        $compendiaCannotSee = Compendium::factory(10)->create();
+
+        $response = $this->actingAs($user)
                          ->getJson('/api/compendia?with=creator');
 
         $response->assertSuccessful();
 
-        $response->assertJsonCount(10, 'data');
+        $response->assertJsonCount(20, 'data');
 
         $response->assertJson([
-            'data' => $compendia->map(fn($compendium) => [
+            'data' => $compendiaCreator->concat($compendiaCanSee)->map(fn($compendium) => [
+                'id' => $compendium->id,
+                'slug' => $compendium->slug,
+                'name' => $compendium->name,
+                'content' => $compendium->content,
+                'creator' => [
+                    'id' => $compendium->creator->id,
+                    'name' => $compendium->creator->name,
+                    'email' => $compendium->creator->email
+                ]
+            ])->toArray()
+        ]);
+
+        $response->assertJsonMissing([
+            'data' => $compendiaCannotSee->map(fn($compendium) => [
                 'id' => $compendium->id,
                 'slug' => $compendium->slug,
                 'name' => $compendium->name,
