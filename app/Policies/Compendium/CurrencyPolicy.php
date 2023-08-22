@@ -12,7 +12,7 @@ class CurrencyPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -20,7 +20,8 @@ class CurrencyPolicy
      */
     public function view(User $user, Currency $currency): bool
     {
-        //
+        return $user->is($currency->compendium->creator)
+            || $user->can("currencies.view.$currency->id");
     }
 
     /**
@@ -28,7 +29,7 @@ class CurrencyPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->compendia()->exists();
     }
 
     /**
@@ -36,7 +37,8 @@ class CurrencyPolicy
      */
     public function update(User $user, Currency $currency): bool
     {
-        //
+        return $user->is($currency->compendium->creator)
+            || $user->can("currencies.update.$currency->id");
     }
 
     /**
@@ -44,22 +46,6 @@ class CurrencyPolicy
      */
     public function delete(User $user, Currency $currency): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Currency $currency): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Currency $currency): bool
-    {
-        //
+        return $user->is($currency->compendium->creator);
     }
 }

@@ -8,6 +8,7 @@ use App\Models\Compendium\Calendar\Event;
 use App\Models\Compendium\Location\Location;
 use App\Models\Encounter;
 use App\Models\HasTags;
+use App\Models\Quest;
 use App\Models\User;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
@@ -17,6 +18,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Permission\Models\Permission;
 
+/**
+ * @property User $creator
+ */
 class Compendium extends Model
 {
     use HasFactory, HasTags, Sluggable, SluggableScopeHelpers;
@@ -101,6 +105,11 @@ class Compendium extends Model
     public function encounters(): HasMany
     {
         return $this->hasMany(Encounter::class);
+    }
+
+    public function quests(): HasMany
+    {
+        return $this->hasMany(Quest::class);
     }
 
     public function spells(): HasMany

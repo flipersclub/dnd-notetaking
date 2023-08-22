@@ -12,7 +12,7 @@ class PantheonPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -20,7 +20,8 @@ class PantheonPolicy
      */
     public function view(User $user, Pantheon $pantheon): bool
     {
-        //
+        return $user->is($pantheon->compendium->creator)
+            || $user->can("pantheons.view.$pantheon->id");
     }
 
     /**
@@ -28,7 +29,7 @@ class PantheonPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->compendia()->exists();
     }
 
     /**
@@ -36,7 +37,8 @@ class PantheonPolicy
      */
     public function update(User $user, Pantheon $pantheon): bool
     {
-        //
+        return $user->is($pantheon->compendium->creator)
+            || $user->can("pantheons.update.$pantheon->id");
     }
 
     /**
@@ -44,22 +46,6 @@ class PantheonPolicy
      */
     public function delete(User $user, Pantheon $pantheon): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Pantheon $pantheon): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Pantheon $pantheon): bool
-    {
-        //
+        return $user->is($pantheon->compendium->creator);
     }
 }

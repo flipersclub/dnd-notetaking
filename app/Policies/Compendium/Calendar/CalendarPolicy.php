@@ -12,7 +12,7 @@ class CalendarPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**

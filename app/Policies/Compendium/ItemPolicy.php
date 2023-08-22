@@ -12,7 +12,7 @@ class ItemPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -20,7 +20,8 @@ class ItemPolicy
      */
     public function view(User $user, Item $item): bool
     {
-        //
+        return $user->is($item->compendium->creator)
+            || $user->can("items.view.$item->id");
     }
 
     /**
@@ -28,7 +29,7 @@ class ItemPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->compendia()->exists();
     }
 
     /**
@@ -36,7 +37,8 @@ class ItemPolicy
      */
     public function update(User $user, Item $item): bool
     {
-        //
+        return $user->is($item->compendium->creator)
+            || $user->can("items.update.$item->id");
     }
 
     /**
@@ -44,22 +46,6 @@ class ItemPolicy
      */
     public function delete(User $user, Item $item): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Item $item): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Item $item): bool
-    {
-        //
+        return $user->is($item->compendium->creator);
     }
 }

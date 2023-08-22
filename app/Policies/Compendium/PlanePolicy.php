@@ -12,7 +12,7 @@ class PlanePolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -20,7 +20,8 @@ class PlanePolicy
      */
     public function view(User $user, Plane $plane): bool
     {
-        //
+        return $user->is($plane->compendium->creator)
+            || $user->can("planes.view.$plane->id");
     }
 
     /**
@@ -28,7 +29,7 @@ class PlanePolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->compendia()->exists();
     }
 
     /**
@@ -36,7 +37,8 @@ class PlanePolicy
      */
     public function update(User $user, Plane $plane): bool
     {
-        //
+        return $user->is($plane->compendium->creator)
+            || $user->can("planes.update.$plane->id");
     }
 
     /**
@@ -44,22 +46,6 @@ class PlanePolicy
      */
     public function delete(User $user, Plane $plane): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Plane $plane): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Plane $plane): bool
-    {
-        //
+        return $user->is($plane->compendium->creator);
     }
 }

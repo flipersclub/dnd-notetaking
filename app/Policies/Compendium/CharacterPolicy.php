@@ -12,7 +12,7 @@ class CharacterPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->compendia()->exists();
+        return true;
     }
 
     /**

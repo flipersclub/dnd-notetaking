@@ -13,7 +13,7 @@ class EncounterPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -21,7 +21,9 @@ class EncounterPolicy
      */
     public function view(User $user, Encounter $encounter): bool
     {
-        //
+        return $user->is($encounter->compendium->creator)
+            || $user->is($encounter->campaign->gameMaster)
+            || $user->can("encounters.view.$encounter->id");
     }
 
     /**
@@ -29,7 +31,8 @@ class EncounterPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->compendia()->exists()
+            || $user->campaigns()->exists();
     }
 
     /**
@@ -37,7 +40,9 @@ class EncounterPolicy
      */
     public function update(User $user, Encounter $encounter): bool
     {
-        //
+        return $user->is($encounter->compendium->creator)
+            || $user->is($encounter->campaign->gameMaster)
+            || $user->can("encounters.update.$encounter->id");
     }
 
     /**
@@ -45,22 +50,7 @@ class EncounterPolicy
      */
     public function delete(User $user, Encounter $encounter): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Encounter $encounter): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Encounter $encounter): bool
-    {
-        //
+        return $user->is($encounter->compendium->creator)
+            || $user->is($encounter->campaign->gameMaster);
     }
 }

@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Policies;
+namespace App\Policies\Compendium\Location;
 
 use App\Models\Compendium\Location\Type;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class TypePolicy
 {
