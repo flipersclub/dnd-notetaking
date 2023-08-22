@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Http\Resources\Compendium;
+namespace App\Http\Resources;
 
-use App\Http\Resources\CompendiumResource;
-use App\Http\Resources\TagResource;
-use App\Models\Compendium\Species;
+use App\Models\Quest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin Species
+ * @mixin Quest
  */
-class SpeciesResource extends JsonResource
+class QuestResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -24,6 +22,7 @@ class SpeciesResource extends JsonResource
             'id' => $this->id,
             'slug' => $this->slug,
             'compendium' => new CompendiumResource($this->whenLoaded('compendium')),
+            'campaign' => new CompendiumResource($this->whenLoaded('campaign')),
             'name' => $this->name,
             'content' => $this->content,
             // todo: 'images'

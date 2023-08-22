@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Http\Resources\Compendium;
+namespace App\Http\Resources;
 
-use App\Http\Resources\CompendiumResource;
-use App\Http\Resources\TagResource;
-use App\Models\Compendium\Species;
+use App\Models\Encounter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin Species
+ * @mixin Encounter
  */
-class SpeciesResource extends JsonResource
+class EncounterResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -23,6 +21,7 @@ class SpeciesResource extends JsonResource
         return [
             'id' => $this->id,
             'slug' => $this->slug,
+            'campaign' => new CompendiumResource($this->whenLoaded('campaign')),
             'compendium' => new CompendiumResource($this->whenLoaded('compendium')),
             'name' => $this->name,
             'content' => $this->content,

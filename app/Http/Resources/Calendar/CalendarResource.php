@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Resources\Compendium;
+namespace App\Http\Resources\Calendar;
 
 use App\Http\Resources\CompendiumResource;
 use App\Http\Resources\TagResource;
-use App\Models\Compendium\Species;
+use App\Models\Compendium\Calendar\Calendar;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin Species
+ * @mixin Calendar
  */
-class SpeciesResource extends JsonResource
+class CalendarResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

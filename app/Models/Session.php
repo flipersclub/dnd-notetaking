@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $campaign_id
  * @property int $session_number
  * @property string $title
- * @property Carbon $scheculed_at
+ * @property Carbon $scheduled_at
  * @property ?int $duration
  * @property ?int $location
  * @property ?string $notes

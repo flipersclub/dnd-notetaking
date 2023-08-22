@@ -4,14 +4,14 @@ namespace App\Http\Resources\Compendium;
 
 use App\Http\Resources\CompendiumResource;
 use App\Http\Resources\TagResource;
-use App\Models\Compendium\Species;
+use App\Models\Compendium\Spell;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin Species
+ * @mixin Spell
  */
-class SpeciesResource extends JsonResource
+class SpellResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
