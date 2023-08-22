@@ -20,11 +20,11 @@ class SessionResource extends JsonResource
             'slug' => $this->slug,
             'campaign' => new CampaignResource($this->whenLoaded('campaign')),
             'session_number' => $this->session_number,
-            'title' => $this->title,
+            'name' => $this->name,
             'scheduled_at' => $this->scheduled_at,
             'duration' => $this->duration,
             'location' => $this->location,
-            'notes' => $this->notes,
+            'content' => $this->content,
             'cover_image' => $this->when($this->cover_image, fn () => Storage::temporaryUrl($this->cover_image, now()->addMinutes(5))),
         ];
     }

@@ -9,9 +9,12 @@ use App\Models\Compendium\Location\Location;
 use App\Models\Encounter;
 use App\Models\HasTags;
 use App\Models\Quest;
+use App\Models\Tag;
 use App\Models\User;
+use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,7 +22,31 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Permission\Models\Permission;
 
 /**
+ * @property int $id
+ * @property string $name
+ * @property ?string $slug
+ * @property ?string $content
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  * @property User $creator
+ * @property Collection<Campaign> $campaigns
+ * @property Collection<Location> $locations
+ * @property Collection<Character> $characters
+ * @property Collection<Species> $species
+ * @property Collection<Item> $items
+ * @property Collection<Faction> $factions
+ * @property Collection<Story> $stories
+ * @property Collection<Concept> $concepts
+ * @property Collection<NaturalResource> $naturalResources
+ * @property Collection<Currency> $currencies
+ * @property Collection<Language> $languages
+ * @property Collection<Calendar> $calendars
+ * @property Collection<Religion> $religions
+ * @property Collection<Pantheon> $pantheons
+ * @property Collection<Encounter> $encounters
+ * @property Collection<Quest> $quests
+ * @property Collection<Spell> $spells
+ * @property Collection<Tag> $tags
  */
 class Compendium extends Model
 {
@@ -99,7 +126,7 @@ class Compendium extends Model
 
     public function pantheons(): HasMany
     {
-        return $this->hasMany(Religion::class);
+        return $this->hasMany(Pantheon::class);
     }
 
     public function encounters(): HasMany
@@ -114,7 +141,7 @@ class Compendium extends Model
 
     public function spells(): HasMany
     {
-        return $this->hasMany(Encounter::class);
+        return $this->hasMany(Spell::class);
     }
 
     public function sluggable(): array

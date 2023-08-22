@@ -3,27 +3,45 @@
 namespace App\Models\Compendium;
 
 use App\Models\HasTags;
+use App\Models\Tag;
+use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property ?string $slug
+ * @property int $compendium_id
+ * @property string $name
+ * @property ?int $age
+ * @property ?string $gender
+ * @property ?int $species_id
+ * @property ?string $content
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Compendium $compendium
+ * @property Species $species
+ * @property Collection<Tag> $tags
+ */
 class Character extends Model
 {
     use HasFactory, HasTags, Sluggable, SluggableScopeHelpers;
 
     protected $guarded = ['id'];
 
-    public function species(): BelongsTo
-    {
-        return $this->belongsTo(Species::class);
-    }
-
     public function compendium(): BelongsTo
     {
         return $this->belongsTo(Compendium::class);
+    }
+
+    public function species(): BelongsTo
+    {
+        return $this->belongsTo(Species::class);
     }
 
     public function sluggable(): array

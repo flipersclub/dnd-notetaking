@@ -15,13 +15,13 @@ return new class extends Migration
         Schema::create('sessions', function (Blueprint $table) {
             $table->id();
             $table->string('slug')->nullable()->index();
-            $table->foreignIdFor(Campaign::class);
+            $table->foreignIdFor(Campaign::class)->constrained();
             $table->integer('session_number');
-            $table->string('title');
+            $table->string('name');
             $table->dateTime('scheduled_at');
             $table->integer('duration')->nullable();
             $table->string('location')->nullable();
-            $table->text('notes')->nullable();
+            $table->text('content')->nullable();
             $table->timestamps();
         });
     }

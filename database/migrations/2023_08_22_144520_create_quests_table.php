@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Campaign;
+use App\Models\Compendium\Compendium;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('quests', function (Blueprint $table) {
             $table->id();
+            $table->string('slug')->nullable()->index();
+            $table->foreignIdFor(Compendium::class)->constrained();
+            $table->foreignIdFor(Campaign::class)->nullable()->constrained();
+            $table->string('name');
+            $table->text('content')->nullable();
             $table->timestamps();
         });
     }
