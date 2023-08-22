@@ -12,7 +12,7 @@ class NaturalResourcePolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -20,7 +20,8 @@ class NaturalResourcePolicy
      */
     public function view(User $user, NaturalResource $naturalResource): bool
     {
-        //
+        return $user->is($naturalResource->compendium->creator)
+            || $user->can("naturalResources.view.$naturalResource->id");
     }
 
     /**
@@ -28,7 +29,7 @@ class NaturalResourcePolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->compendia()->exists();
     }
 
     /**
@@ -36,7 +37,8 @@ class NaturalResourcePolicy
      */
     public function update(User $user, NaturalResource $naturalResource): bool
     {
-        //
+        return $user->is($naturalResource->compendium->creator)
+            || $user->can("naturalResources.update.$naturalResource->id");
     }
 
     /**
@@ -44,22 +46,6 @@ class NaturalResourcePolicy
      */
     public function delete(User $user, NaturalResource $naturalResource): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, NaturalResource $naturalResource): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, NaturalResource $naturalResource): bool
-    {
-        //
+        return $user->is($naturalResource->compendium->creator);
     }
 }

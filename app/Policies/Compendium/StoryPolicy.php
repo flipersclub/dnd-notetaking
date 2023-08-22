@@ -12,7 +12,7 @@ class StoryPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -20,7 +20,8 @@ class StoryPolicy
      */
     public function view(User $user, Story $story): bool
     {
-        //
+        return $user->is($story->compendium->creator)
+            || $user->can("stories.view.$story->id");
     }
 
     /**
@@ -28,7 +29,7 @@ class StoryPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->compendia()->exists();
     }
 
     /**
@@ -36,7 +37,8 @@ class StoryPolicy
      */
     public function update(User $user, Story $story): bool
     {
-        //
+        return $user->is($story->compendium->creator)
+            || $user->can("stories.update.$story->id");
     }
 
     /**
@@ -44,22 +46,6 @@ class StoryPolicy
      */
     public function delete(User $user, Story $story): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Story $story): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Story $story): bool
-    {
-        //
+        return $user->is($story->compendium->creator);
     }
 }

@@ -12,7 +12,7 @@ class SpellPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -20,7 +20,8 @@ class SpellPolicy
      */
     public function view(User $user, Spell $spell): bool
     {
-        //
+        return $user->is($spell->compendium->creator)
+            || $user->can("spells.view.$spell->id");
     }
 
     /**
@@ -28,7 +29,7 @@ class SpellPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->compendia()->exists();
     }
 
     /**
@@ -36,7 +37,8 @@ class SpellPolicy
      */
     public function update(User $user, Spell $spell): bool
     {
-        //
+        return $user->is($spell->compendium->creator)
+            || $user->can("spells.update.$spell->id");
     }
 
     /**
@@ -44,22 +46,6 @@ class SpellPolicy
      */
     public function delete(User $user, Spell $spell): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Spell $spell): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Spell $spell): bool
-    {
-        //
+        return $user->is($spell->compendium->creator);
     }
 }

@@ -12,7 +12,7 @@ class ConceptPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -20,7 +20,8 @@ class ConceptPolicy
      */
     public function view(User $user, Concept $concept): bool
     {
-        //
+        return $user->is($concept->compendium->creator)
+            || $user->can("concepts.view.$concept->id");
     }
 
     /**
@@ -28,7 +29,7 @@ class ConceptPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->compendia()->exists();
     }
 
     /**
@@ -36,7 +37,8 @@ class ConceptPolicy
      */
     public function update(User $user, Concept $concept): bool
     {
-        //
+        return $user->is($concept->compendium->creator)
+            || $user->can("concepts.update.$concept->id");
     }
 
     /**
@@ -44,22 +46,6 @@ class ConceptPolicy
      */
     public function delete(User $user, Concept $concept): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Concept $concept): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Concept $concept): bool
-    {
-        //
+        return $user->is($concept->compendium->creator);
     }
 }

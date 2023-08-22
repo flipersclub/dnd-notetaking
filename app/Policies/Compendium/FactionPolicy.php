@@ -12,7 +12,7 @@ class FactionPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -20,7 +20,8 @@ class FactionPolicy
      */
     public function view(User $user, Faction $faction): bool
     {
-        //
+        return $user->is($faction->compendium->creator)
+            || $user->can("factions.view.$faction->id");
     }
 
     /**
@@ -28,7 +29,7 @@ class FactionPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->compendia()->exists();
     }
 
     /**
@@ -36,7 +37,8 @@ class FactionPolicy
      */
     public function update(User $user, Faction $faction): bool
     {
-        //
+        return $user->is($faction->compendium->creator)
+            || $user->can("factions.update.$faction->id");
     }
 
     /**
@@ -44,22 +46,6 @@ class FactionPolicy
      */
     public function delete(User $user, Faction $faction): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Faction $faction): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Faction $faction): bool
-    {
-        //
+        return $user->is($faction->compendium->creator);
     }
 }

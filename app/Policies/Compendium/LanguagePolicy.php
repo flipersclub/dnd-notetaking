@@ -12,7 +12,7 @@ class LanguagePolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -20,7 +20,8 @@ class LanguagePolicy
      */
     public function view(User $user, Language $language): bool
     {
-        //
+        return $user->is($language->compendium->creator)
+            || $user->can("languages.view.$language->id");
     }
 
     /**
@@ -28,7 +29,7 @@ class LanguagePolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->compendia()->exists();
     }
 
     /**
@@ -36,7 +37,8 @@ class LanguagePolicy
      */
     public function update(User $user, Language $language): bool
     {
-        //
+        return $user->is($language->compendium->creator)
+            || $user->can("languages.update.$language->id");
     }
 
     /**
@@ -44,22 +46,6 @@ class LanguagePolicy
      */
     public function delete(User $user, Language $language): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Language $language): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Language $language): bool
-    {
-        //
+        return $user->is($language->compendium->creator);
     }
 }

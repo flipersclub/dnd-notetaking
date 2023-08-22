@@ -12,7 +12,7 @@ class ReligionPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -20,7 +20,8 @@ class ReligionPolicy
      */
     public function view(User $user, Religion $religion): bool
     {
-        //
+        return $user->is($religion->compendium->creator)
+            || $user->can("religions.view.$religion->id");
     }
 
     /**
@@ -28,7 +29,7 @@ class ReligionPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->compendia()->exists();
     }
 
     /**
@@ -36,7 +37,8 @@ class ReligionPolicy
      */
     public function update(User $user, Religion $religion): bool
     {
-        //
+        return $user->is($religion->compendium->creator)
+            || $user->can("religions.update.$religion->id");
     }
 
     /**
@@ -44,22 +46,6 @@ class ReligionPolicy
      */
     public function delete(User $user, Religion $religion): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Religion $religion): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Religion $religion): bool
-    {
-        //
+        return $user->is($religion->compendium->creator);
     }
 }

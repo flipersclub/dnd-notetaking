@@ -12,7 +12,7 @@ class DeityPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -20,7 +20,8 @@ class DeityPolicy
      */
     public function view(User $user, Deity $deity): bool
     {
-        //
+        return $user->is($deity->compendium->creator)
+            || $user->can("deities.view.$deity->id");
     }
 
     /**
@@ -28,7 +29,7 @@ class DeityPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->compendia()->exists();
     }
 
     /**
@@ -36,7 +37,8 @@ class DeityPolicy
      */
     public function update(User $user, Deity $deity): bool
     {
-        //
+        return $user->is($deity->compendium->creator)
+            || $user->can("deities.update.$deity->id");
     }
 
     /**
@@ -44,22 +46,6 @@ class DeityPolicy
      */
     public function delete(User $user, Deity $deity): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Deity $deity): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Deity $deity): bool
-    {
-        //
+        return $user->is($deity->compendium->creator);
     }
 }
