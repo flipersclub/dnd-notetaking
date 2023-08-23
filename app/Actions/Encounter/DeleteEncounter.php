@@ -2,7 +2,7 @@
 
 namespace App\Actions\Encounter;
 
-use App\Models\Encounter;
+use App\Models\Compendium\Encounter;
 use Lorisleiva\Actions\Concerns\AsAction;
 
 class DeleteEncounter

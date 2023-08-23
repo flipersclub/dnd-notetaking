@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Compendium;
 
 use App\Models\Tag;
 use Illuminate\Foundation\Http\FormRequest;

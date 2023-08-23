@@ -2,9 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\Quest;
+use App\Models\Compendium\Quest;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class QuestPolicy
 {

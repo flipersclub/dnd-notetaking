@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Compendium;
 
 use App\Models\Tag;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateQuestRequest extends FormRequest
+class StoreQuestRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class UpdateQuestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['sometimes', 'required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'content' => ['nullable', 'string', 'max:65535'],
             'tags' => ['nullable', 'array'],
             'tags.*' => [Rule::exists(Tag::class, 'id')],

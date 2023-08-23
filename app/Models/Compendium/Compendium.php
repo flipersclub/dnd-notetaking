@@ -4,11 +4,8 @@ namespace App\Models\Compendium;
 
 use App\Models\Campaign;
 use App\Models\Compendium\Calendar\Calendar;
-use App\Models\Compendium\Calendar\Event;
 use App\Models\Compendium\Location\Location;
-use App\Models\Encounter;
 use App\Models\HasTags;
-use App\Models\Quest;
 use App\Models\Tag;
 use App\Models\User;
 use Carbon\Carbon;
@@ -19,7 +16,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\Permission\Models\Permission;
 
 /**
  * @property int $id
@@ -122,6 +118,11 @@ class Compendium extends Model
     public function religions(): HasMany
     {
         return $this->hasMany(Religion::class);
+    }
+
+    public function deities(): HasMany
+    {
+        return $this->hasMany(Deity::class);
     }
 
     public function pantheons(): HasMany

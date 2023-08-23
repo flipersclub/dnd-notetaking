@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\CampaignVisibility;
 use App\Models\Compendium\Compendium;
+use App\Models\Compendium\Encounter;
 use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;

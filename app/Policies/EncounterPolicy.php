@@ -2,9 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\Encounter;
+use App\Models\Compendium\Encounter;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class EncounterPolicy
 {

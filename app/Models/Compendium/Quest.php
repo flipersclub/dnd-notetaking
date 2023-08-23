@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Compendium;
 
-use App\Models\Compendium\Compendium;
+use App\Models\HasTags;
 use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;

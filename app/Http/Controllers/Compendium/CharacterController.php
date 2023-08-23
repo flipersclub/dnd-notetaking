@@ -20,6 +20,7 @@ class CharacterController extends Controller
     {
         $this->authorizeResource(Character::class, 'character');
     }
+
     /**
      * Display a listing of the resource.
      */

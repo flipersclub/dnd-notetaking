@@ -5,7 +5,7 @@ namespace App\Actions\Faction;
 use App\Models\Compendium\Faction;
 use Lorisleiva\Actions\Concerns\AsAction;
 
-class DeleteItem
+class DeleteFaction
 {
     use AsAction;
 
