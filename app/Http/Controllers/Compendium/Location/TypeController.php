@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Compendium\Location;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreTypeRequest;
-use App\Http\Requests\UpdateTypeRequest;
+use App\Http\Requests\Compendium\Location\StoreTypeRequest;
+use App\Http\Requests\Compendium\Location\UpdateTypeRequest;
 use App\Http\Resources\Compendium\Location\TypeResource;
 use App\Models\Compendium\Location\Type;
 

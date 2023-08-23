@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Tag;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreEncounterRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class StoreEncounterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,10 @@ class StoreEncounterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255'],
+            'content' => ['nullable', 'string', 'max:65535'],
+            'tags' => ['nullable', 'array'],
+            'tags.*' => [Rule::exists(Tag::class, 'id')],
         ];
     }
 }

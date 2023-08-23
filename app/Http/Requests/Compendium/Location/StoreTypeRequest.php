@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Compendium\Location;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTypeRequest extends FormRequest
+class StoreTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
