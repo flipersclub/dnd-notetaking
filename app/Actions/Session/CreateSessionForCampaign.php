@@ -13,10 +13,7 @@ class CreateSessionForCampaign
     public function handle(Campaign $campaign, array $data, array $with = []): Session
     {
         return $campaign->sessions()
-            ->create([
-                ...$data,
-                'creator_id' => auth()->user()->getAuthIdentifier()
-            ])
+            ->create($data)
             ->load($with);
     }
 }

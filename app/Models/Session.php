@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $slug
  * @property int $campaign_id
  * @property int $session_number
- * @property string $title
+ * @property string $name
  * @property Carbon $scheduled_at
  * @property ?int $duration
  * @property ?int $location
@@ -39,7 +39,7 @@ class Session extends Model
     {
         return [
             'slug' => [
-                'source' => 'title'
+                'source' => 'name'
             ]
         ];
     }

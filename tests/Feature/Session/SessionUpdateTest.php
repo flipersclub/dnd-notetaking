@@ -64,14 +64,14 @@ class SessionUpdateTest extends TestCase
     {
         return [
             'session_number not an integer' => [['session_number' => 'invalid-number'], ['session_number' => 'The session number field must be an integer.']],
-            'title not a string' => [['title' => ['an', 'array']], ['title' => 'The title field must be a string.']],
-            'title longer than 255 characters' => [['title' => Str::random(256)], ['title' => 'The title field must not be greater than 255 characters.']],
+            'name not a string' => [['name' => ['an', 'array']], ['name' => 'The name field must be a string.']],
+            'name longer than 255 characters' => [['name' => Str::random(256)], ['name' => 'The name field must not be greater than 255 characters.']],
             'scheduled_at not a valid date' => [['scheduled_at' => 'invalid-date'], ['scheduled_at' => 'The scheduled at field must be a valid date.']],
             'duration not an integer' => [['duration' => 'not-an-integer'], ['duration' => 'The duration field must be an integer.']],
             'duration less than 0' => [['duration' => -1], ['duration' => 'The duration field must be at least 0.']],
             'location not a string' => [['location' => ['an', 'array']], ['location' => 'The location field must be a string.']],
             'location longer than 255 characters' => [['location' => Str::random(256)], ['location' => 'The location field must not be greater than 255 characters.']],
-            'notes not a string' => [['notes' => ['an', 'array']], ['notes' => 'The notes field must be a string.']],
+            'content not a string' => [['content' => ['an', 'array']], ['content' => 'The content field must be a string.']],
         ];
     }
     public function test_it_returns_successful_if_session_updated_returned(): void
@@ -80,11 +80,11 @@ class SessionUpdateTest extends TestCase
 
         $payload = [
             'session_number' => 2,
-            'title' => 'Updated Session Title',
+            'name' => 'Updated Session Title',
             'scheduled_at' => now()->addDays(1)->format('Y-m-d H:i:s'),
             'duration' => 120,
             'location' => 'Updated Location',
-            'notes' => 'Updated notes',
+            'content' => 'Updated content',
         ];
 
         $response = $this->actingAs($session->campaign->gameMaster)
@@ -95,22 +95,22 @@ class SessionUpdateTest extends TestCase
         $response->assertJson([
             'data' => [
                 'session_number' => $payload['session_number'],
-                'title' => $payload['title'],
+                'name' => $payload['name'],
                 'scheduled_at' => $payload['scheduled_at'],
                 'duration' => $payload['duration'],
                 'location' => $payload['location'],
-                'notes' => $payload['notes'],
+                'content' => $payload['content'],
             ],
         ]);
 
         $this->assertDatabaseHas('sessions', [
             'id' => $session->id,
             'session_number' => $payload['session_number'],
-            'title' => $payload['title'],
+            'name' => $payload['name'],
             'scheduled_at' => $payload['scheduled_at'],
             'duration' => $payload['duration'],
             'location' => $payload['location'],
-            'notes' => $payload['notes'],
+            'content' => $payload['content'],
         ]);
     }
 

@@ -29,29 +29,6 @@ class CompendiumIndexTest extends TestCase
         $response->assertForbidden();
     }
 
-    public function test_it_returns_successful_if_compendia_returned(): void
-    {
-        $user = User::factory()->create();
-        $user->givePermissionTo('compendia.view');
-
-        $compendia = Compendium::factory(10)->create();
-
-        $response = $this->actingAs($user)
-                         ->getJson('/api/compendia');
-
-        $response->assertSuccessful();
-
-        $response->assertJsonCount(10, 'data');
-
-        $response->assertJson([
-            'data' => $compendia->map(fn($compendium) => [
-                'id' => $compendium->id,
-                'name' => $compendium->name,
-                'content' => $compendium->content
-            ])->toArray()
-        ]);
-
-    }
     public function test_it_returns_successful_if_compendia_returned_with_creator(): void
     {
         $user = User::factory()->create();

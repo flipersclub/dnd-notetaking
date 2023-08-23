@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('slug')->nullable()->index();
             $table->string('name');
-            $table->foreignIdFor(User::class, 'creator_id')->constrained();
+            $table->foreignIdFor(User::class, 'creator_id')->constrained('users');
             $table->text('content')->nullable();
             $table->timestamps();
         });

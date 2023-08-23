@@ -23,11 +23,11 @@ class UpdateSessionRequest extends FormRequest
     {
         return [
             'session_number' => ['sometimes', 'required', 'integer'],
-            'title' => ['sometimes', 'required', 'string', 'max:255'],
+            'name' => ['sometimes', 'required', 'string', 'max:255'],
             'scheduled_at' => ['sometimes', 'required', 'date'],
             'duration' => ['nullable', 'integer', 'min:0'],
             'location' => ['nullable', 'string', 'max:255'],
-            'notes' => ['nullable', 'string'],
+            'content' => ['nullable', 'string'],
             'cover_image' => ['nullable', 'image', 'max:2048'],
         ];
     }

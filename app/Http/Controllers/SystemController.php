@@ -58,7 +58,7 @@ class SystemController extends Controller
     public function update(UpdateSystemRequest $request, System $system): SystemResource
     {
         return new SystemResource(
-            UpdateSystem::run($request->validated(), $this->with())
+            UpdateSystem::run($system, $request->validated(), $this->with())
         );
     }
 

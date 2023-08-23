@@ -57,11 +57,11 @@ class SessionShowTest extends TestCase
                 'id' => $session->id,
                 'slug' => $session->slug,
                 'session_number' => $session->session_number,
-                'title' => $session->title,
+                'name' => $session->name,
                 'scheduled_at' => $session->scheduled_at->format('Y-m-d H:i:s'),
                 'duration' => $session->duration,
                 'location' => $session->location,
-                'notes' => $session->notes,
+                'content' => $session->content,
                 'campaign' => [
                     'id' => $session->campaign->id,
                     'slug' => $session->campaign->slug,

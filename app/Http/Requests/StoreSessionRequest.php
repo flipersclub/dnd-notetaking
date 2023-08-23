@@ -23,11 +23,11 @@ class StoreSessionRequest extends FormRequest
     {
         return [
             'session_number' => ['required', 'integer'],
-            'title' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'scheduled_at' => ['required', 'date'],
             'duration' => ['nullable', 'integer', 'min:0'],
             'location' => ['nullable', 'string', 'max:255'],
-            'notes' => ['nullable', 'string'],
+            'content' => ['nullable', 'string'],
             'cover_image' => ['nullable', 'image', 'max:2048'], // Adjust max file size as needed
         ];
     }

@@ -53,7 +53,7 @@ class SessionIndexTest extends TestCase
                 'id' => $session->id,
                 'slug' => $session->slug,
                 'session_number' => $session->session_number,
-                'title' => $session->title,
+                'name' => $session->name,
                 'scheduled_at' => $session->scheduled_at->format('Y-m-d H:i:s'),
                 'duration' => $session->duration,
                 'location' => $session->location,
@@ -64,7 +64,7 @@ class SessionIndexTest extends TestCase
             'data' => $otherSessions->map(fn($session) => [
                 'id' => $session->id,
                 'session_number' => $session->session_number,
-                'title' => $session->title,
+                'name' => $session->name,
                 'scheduled_at' => $session->scheduled_at->format('Y-m-d H:i:s'),
                 'duration' => $session->duration,
                 'location' => $session->location,

@@ -19,7 +19,7 @@ class SessionFactory extends Factory
         return [
             'campaign_id' => \App\Models\Campaign::factory()->create()->id,
             'session_number' => $this->faker->numberBetween(1, 100),
-            'title' => $this->faker->sentence,
+            'name' => $this->faker->sentence,
             'scheduled_at' => $this->faker->dateTimeBetween('now', '+1 week'),
         ];
     }

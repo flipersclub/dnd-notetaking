@@ -12,6 +12,6 @@ class GetAllSystems
 
     public function handle(array $with = []): Collection
     {
-        return System::with($with)->all();
+        return System::with($with)->get();
     }
 }
