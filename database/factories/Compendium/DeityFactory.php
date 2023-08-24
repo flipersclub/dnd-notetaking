@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Compendium;
 
+use App\Models\Compendium\Compendium;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,9 @@ class DeityFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'compendium_id' => Compendium::factory(),
+            'name' => $this->faker->lexify('??????'),
+            'content' => $this->faker->sentence(5),
         ];
     }
 }

@@ -19,7 +19,8 @@ class SpeciesFactory extends Factory
     {
         return [
             'compendium_id' => Compendium::factory(),
-            'name' => $this->faker->lexify('??????')
+            'name' => $this->faker->lexify('??????'),
+            'content' => $this->faker->sentence(5),
         ];
     }
 }
