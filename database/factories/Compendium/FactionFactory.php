@@ -19,7 +19,7 @@ class FactionFactory extends Factory
     {
         return [
             'compendium_id' => Compendium::factory(),
-            'name' => $this->faker->words(),
+            'name' => $this->faker->words(asText: true),
             'content' => $this->faker->sentence(5),
         ];
     }
