@@ -19,7 +19,7 @@ class NaturalResourceController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(NaturalResource::class, 'naturalResource');
+        $this->authorizeResource(NaturalResource::class, 'natural_resource');
     }
 
     /**

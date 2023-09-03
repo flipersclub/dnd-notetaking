@@ -21,7 +21,7 @@ class EncounterPolicy
     public function view(User $user, Encounter $encounter): bool
     {
         return $user->is($encounter->compendium->creator)
-            || $user->is($encounter->campaign->gameMaster)
+            || ($encounter->campaign_id && $user->is($encounter->campaign->gameMaster))
             || $user->can("encounters.view.$encounter->id");
     }
 
@@ -40,7 +40,7 @@ class EncounterPolicy
     public function update(User $user, Encounter $encounter): bool
     {
         return $user->is($encounter->compendium->creator)
-            || $user->is($encounter->campaign->gameMaster)
+            || ($encounter->campaign_id && $user->is($encounter->campaign->gameMaster))
             || $user->can("encounters.update.$encounter->id");
     }
 
@@ -50,6 +50,6 @@ class EncounterPolicy
     public function delete(User $user, Encounter $encounter): bool
     {
         return $user->is($encounter->compendium->creator)
-            || $user->is($encounter->campaign->gameMaster);
+            || $user->is($encounter->campaign?->gameMaster);
     }
 }

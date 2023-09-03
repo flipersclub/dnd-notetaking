@@ -21,7 +21,7 @@ class QuestPolicy
     public function view(User $user, Quest $quest): bool
     {
         return $user->is($quest->compendium->creator)
-            || $user->is($quest->campaign->gameMaster)
+            || ($quest->campaign_id && $user->is($quest->campaign->gameMaster))
             || $user->can("quests.view.$quest->id");
     }
 
@@ -40,7 +40,7 @@ class QuestPolicy
     public function update(User $user, Quest $quest): bool
     {
         return $user->is($quest->compendium->creator)
-            || $user->is($quest->campaign->gameMaster)
+            || ($quest->campaign_id && $user->is($quest->campaign->gameMaster))
             || $user->can("quests.update.$quest->id");
     }
 
@@ -50,7 +50,7 @@ class QuestPolicy
     public function delete(User $user, Quest $quest): bool
     {
         return $user->is($quest->compendium->creator)
-            || $user->is($quest->campaign->gameMaster);
+            || ($quest->campaign_id && $user->is($quest->campaign->gameMaster));
     }
 
 }

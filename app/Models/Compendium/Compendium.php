@@ -130,6 +130,11 @@ class Compendium extends Model
         return $this->hasMany(Pantheon::class);
     }
 
+    public function planes(): HasMany
+    {
+        return $this->hasMany(Plane::class);
+    }
+
     public function encounters(): HasMany
     {
         return $this->hasMany(Encounter::class);

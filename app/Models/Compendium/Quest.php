@@ -2,6 +2,7 @@
 
 namespace App\Models\Compendium;
 
+use App\Models\Campaign;
 use App\Models\HasTags;
 use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -12,14 +13,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property int $id
- * @property ?string $slug
- * @property int $compendium_id
- * @property string $name
- * @property ?string $content
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * @property Compendium $compendium
+ * @property int             $id
+ * @property ?string         $slug
+ * @property int             $compendium_id
+ * @property int             $campaign_id
+ * @property string          $name
+ * @property ?string         $content
+ * @property Carbon          $created_at
+ * @property Carbon          $updated_at
+ * @property Compendium      $compendium
+ * @property Campaign        $campaign
  * @property Collection<Tag> $tags
  */
 class Quest extends Model
@@ -31,6 +34,11 @@ class Quest extends Model
     public function compendium(): BelongsTo
     {
         return $this->belongsTo(Compendium::class);
+    }
+
+    public function campaign(): BelongsTo
+    {
+        return $this->belongsTo(Campaign::class);
     }
 
     public function sluggable(): array

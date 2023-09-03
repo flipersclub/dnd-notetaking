@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\Compendium\Calendar\CalendarController;
 use App\Http\Controllers\Compendium\CharacterController;
 use App\Http\Controllers\Compendium\CompendiumController;
 use App\Http\Controllers\Compendium\ConceptController;
@@ -52,6 +53,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Compendium
     Route::apiResource('compendia', CompendiumController::class);
     Route::apiResource('compendia.locations', Location\LocationController::class)->shallow();
+    Route::apiResource('compendia.calendars', CalendarController::class)->shallow();
     Route::apiResource('compendia.characters', CharacterController::class)->shallow();
     Route::apiResource('compendia.concepts', ConceptController::class)->shallow();
     Route::apiResource('compendia.currencies', CurrencyController::class)->shallow();

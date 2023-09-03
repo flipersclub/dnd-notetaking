@@ -2,7 +2,7 @@
 
 namespace App\Actions\Calendar;
 
-use App\Models\Compendium\Calendar;
+use App\Models\Compendium\Calendar\Calendar;
 use Lorisleiva\Actions\Concerns\AsAction;
 
 class DeleteCalendar

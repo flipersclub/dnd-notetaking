@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Compendium;
 
+use App\Actions\Currency\CreateCurrencyForCompendium;
+use App\Actions\Currency\DeleteCurrency;
+use App\Actions\Currency\GetCurrenciesForCompendium;
+use App\Actions\Currency\UpdateCurrency;
 use App\Actions\Deity\CreateDeityForCompendium;
 use App\Actions\Deity\DeleteDeity;
 use App\Actions\Deity\GetDeitiesForCompendium;
@@ -27,7 +31,7 @@ class CurrencyController extends Controller
     {
         $this->authorize('update', $compendium);
         return CurrencyResource::collection(
-            GetDeitiesForCompendium::run($compendium, $this->with())
+            GetCurrenciesForCompendium::run($compendium, $this->with())
         );
     }
 
@@ -37,7 +41,7 @@ class CurrencyController extends Controller
     public function store(StoreCurrencyRequest $request, Compendium $compendium)
     {
         return new CurrencyResource(
-            CreateDeityForCompendium::run(
+            CreateCurrencyForCompendium::run(
                 $compendium,
                 $request->validated(),
                 $this->with()
@@ -59,7 +63,7 @@ class CurrencyController extends Controller
     public function update(UpdateCurrencyRequest $request, Currency $currency)
     {
         return new CurrencyResource(
-            UpdateDeity::run($currency, $request->validated(), $this->with())
+            UpdateCurrency::run($currency, $request->validated(), $this->with())
         );
     }
 
@@ -68,7 +72,7 @@ class CurrencyController extends Controller
      */
     public function destroy(Currency $currency)
     {
-        DeleteDeity::run($currency);
+        DeleteCurrency::run($currency);
         return response()->noContent();
     }
 }

@@ -20,7 +20,8 @@ class CalendarPolicy
      */
     public function view(User $user, Calendar $calendar): bool
     {
-        //
+        return $user->is($calendar->compendium->creator)
+            || $user->can("calendars.view.$calendar->id");
     }
 
     /**
@@ -28,7 +29,7 @@ class CalendarPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->compendia()->exists();
     }
 
     /**
@@ -36,7 +37,8 @@ class CalendarPolicy
      */
     public function update(User $user, Calendar $calendar): bool
     {
-        //
+        return $user->is($calendar->compendium->creator)
+            || $user->can("calendars.update.$calendar->id");
     }
 
     /**
@@ -44,7 +46,7 @@ class CalendarPolicy
      */
     public function delete(User $user, Calendar $calendar): bool
     {
-        //
+        return $user->is($calendar->compendium->creator);
     }
 
     /**
