@@ -29,6 +29,7 @@ class CompendiumResource extends JsonResource
             'hasSpecies' => $this->when(!is_null($this->species_count), $this->species_count),
             'hasItems' => $this->when(!is_null($this->items_count), $this->items_count),
             'hasConcepts' => $this->when(!is_null($this->concepts_count), $this->concepts_count),
+            'hasFactions' => $this->when(!is_null($this->factions_count), $this->factions_count),
         ];
     }
 }
