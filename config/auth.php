@@ -112,4 +112,19 @@ return [
 
     'password_timeout' => 10800,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Default users
+    |--------------------------------------------------------------------------
+    |
+    | This is where default user info may go for DB seeding. These may change.
+    */
+    'users' => [
+        'admin' => [
+            'name' => env('SUPERADMIN_NAME', 'Admin'),
+            'email' => env('SUPERADMIN_EMAIL', 'admin@example.com'),
+            'password' => env('SUPERADMIN_PASSWORD', 'password'), // this is for seeding only and may be changed
+        ]
+    ]
+
 ];
