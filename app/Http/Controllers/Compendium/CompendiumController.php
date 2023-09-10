@@ -52,7 +52,7 @@ class CompendiumController extends Controller
     {
         return new CompendiumResource(
             $compendium->loadMissing($this->with())
-                ->loadCount(['locations', 'characters', 'species', 'items', 'concepts', 'factions'])
+                ->loadCount(['locations', 'characters', 'species', 'items', 'concepts', 'factions', 'languages', 'religions', 'pantheons', 'currencies', 'stories', 'naturalResources', 'planes'])
         );
     }
 
@@ -69,7 +69,7 @@ class CompendiumController extends Controller
         $compendium->update($params);
         return new CompendiumResource(
             $compendium->load($this->with())
-                ->loadCount(['locations', 'characters', 'species', 'items', 'concepts', 'factions'])
+                ->loadCount(['locations', 'characters', 'species', 'items', 'concepts', 'factions', 'languages', 'religions', 'pantheons', 'currencies', 'stories', 'naturalResources', 'planes'])
         );
     }
 

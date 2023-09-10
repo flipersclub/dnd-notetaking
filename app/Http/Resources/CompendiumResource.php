@@ -30,6 +30,13 @@ class CompendiumResource extends JsonResource
             'hasItems' => $this->when(!is_null($this->items_count), $this->items_count),
             'hasConcepts' => $this->when(!is_null($this->concepts_count), $this->concepts_count),
             'hasFactions' => $this->when(!is_null($this->factions_count), $this->factions_count),
+            'hasLanguages' => $this->when(!is_null($this->languages_count), $this->languages_count),
+            'hasReligions' => $this->when(!is_null($this->religions_count), $this->religions_count),
+            'hasPantheons' => $this->when(!is_null($this->pantheons_count), $this->pantheons_count),
+            'hasCurrencies' => $this->when(!is_null($this->currencies_count), $this->currencies_count),
+            'hasStories' => $this->when(!is_null($this->stories_count), $this->stories_count),
+            'hasNaturalResources' => $this->when(!is_null($this->naturalResources_count), $this->naturalResources_count),
+            'hasPlanes' => $this->when(!is_null($this->planes_count), $this->planes_count),
         ];
     }
 }
