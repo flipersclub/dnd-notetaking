@@ -10,10 +10,11 @@ class GetNotebooksForUser
 {
     use AsAction;
 
-    public function handle(User $user, array $with = [])
+    public function handle(User $user, array $with = [], array $withCount = [])
     {
         return $user->notebooks()
             ->with($with)
+            ->withCount($withCount)
             ->get();
     }
 }

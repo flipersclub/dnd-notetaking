@@ -7,6 +7,7 @@ use App\Models\Image\Image;
 use App\Models\Image\Imageable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
+/**
+ * @property string $slug
+ * @property string $name
+ * @property string $user_id
+ * @property string $content
+ * @property User $user
+ * @property Collection<Note> $notes
+ * @property Collection<Image> $images
+ * @property Image $coverImage
+ */
 class Notebook extends Model
 {
     use HasFactory, HasTags, Sluggable, SluggableScopeHelpers;

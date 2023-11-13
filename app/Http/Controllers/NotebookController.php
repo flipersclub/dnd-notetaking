@@ -24,7 +24,7 @@ class NotebookController extends Controller
     public function index(): ResourceCollection
     {
         return NotebookResource::collection(
-            GetNotebooksForUser::run(auth()->user(), $this->with())
+            GetNotebooksForUser::run(auth()->user(), $this->with(), withCount: ['notes'])
         );
     }
 
@@ -43,7 +43,7 @@ class NotebookController extends Controller
      */
     public function show(Notebook $notebook): NotebookResource
     {
-        return new NotebookResource($notebook->loadMissing($this->with()));
+        return new NotebookResource($notebook->loadMissing($this->with())->loadCount('notes'));
     }
 
     /**

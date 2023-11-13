@@ -24,6 +24,7 @@ class NotebookResource extends JsonResource
             'content' => $this->content,
             'cover_image' => $this->when($this->cover_image, fn () => Storage::temporaryUrl($this->cover_image, now()->addMinutes(5))),
             'user' => new UserResource($this->whenLoaded('user')),
+            'hasNotes' => $this->when(!is_null($this->notes_count), $this->notes_count),
         ];
     }
 }
