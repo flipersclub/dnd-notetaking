@@ -20,6 +20,7 @@ use App\Http\Controllers\Compendium\ReligionController;
 use App\Http\Controllers\Compendium\SpeciesController;
 use App\Http\Controllers\Compendium\SpellController;
 use App\Http\Controllers\Compendium\StoryController;
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\NotebookController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\SessionController;
@@ -42,6 +43,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    Route::get('index', [IndexController::class, 'index']);
 
     Route::apiResource('systems', SystemController::class);
     // Campaigns

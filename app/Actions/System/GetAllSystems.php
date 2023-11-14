@@ -10,8 +10,8 @@ class GetAllSystems
 {
     use AsAction;
 
-    public function handle(array $with = []): Collection
+    public function handle(array $with = [], array $columns = ['*']): Collection
     {
-        return System::with($with)->get();
+        return System::with($with)->get($columns);
     }
 }

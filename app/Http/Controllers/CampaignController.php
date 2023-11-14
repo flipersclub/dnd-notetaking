@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Campaign\GetAllCampaignsForUser;
 use App\Http\Requests\StoreCampaignRequest;
 use App\Http\Requests\UpdateCampaignRequest;
 use App\Http\Resources\CampaignResource;
@@ -23,7 +24,7 @@ class CampaignController extends Controller
      */
     public function index(): ResourceCollection
     {
-        return CampaignResource::collection(Campaign::with($this->with())->get());
+        return CampaignResource::collection(GetAllCampaignsForUser::run(with: $this->with()));
     }
 
     /**

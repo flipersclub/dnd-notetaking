@@ -12,7 +12,7 @@ class GetAllCompendiaForUser
 {
     use AsAction;
 
-    public function handle(User $user, array $with = [])
+    public function handle(User $user, array $with = [], array $columns = ['*'])
     {
         $compendiaAllowedToSee = $user->permissions()
                                       ->where('name', 'like', 'compendia.view.%')
@@ -23,7 +23,7 @@ class GetAllCompendiaForUser
                          ->orWhereIn('id', $compendiaAllowedToSee);
         })
                          ->with($with)
-                         ->get();
+                         ->get($columns);
     }
 
 }
