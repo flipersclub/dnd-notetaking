@@ -33,17 +33,42 @@ class CampaignIndexTest extends TestCase
 
     public function test_it_returns_successful_if_campaigns_returned(): void
     {
-        $campaigns = Campaign::factory(10)->create();
+        $user = User::factory()->create();
+        $user->givePermissionTo('campaigns.view');
 
-        $response = $this->asAdmin()
+        $campaignsGameMaster = Campaign::factory(10)->for($user, 'gameMaster')->create();
+        $campaignsCanSee = Campaign::factory(10)->create();
+        foreach ($campaignsCanSee as $campaign) {
+            Permission::create(['name' => 'campaigns.view.' . $campaign->id]);
+            $user->givePermissionTo('campaigns.view.' . $campaign->id);
+        }
+
+        $campaignsCannotSee = Campaign::factory(10)->create();
+
+        $response = $this->actingAs($user)
                          ->getJson('/api/campaigns');
 
         $response->assertSuccessful();
 
-        $response->assertJsonCount(10, 'data');
+        $response->assertJsonCount(20, 'data');
 
         $response->assertJson([
-            'data' => $campaigns->map(fn($campaign) => [
+            'data' => $campaignsGameMaster->concat($campaignsCanSee)->map(fn($campaign) => [
+                'id' => $campaign->id,
+                'slug' => $campaign->slug,
+                'name' => $campaign->name,
+                'content' => $campaign->content,
+                'start_date' => $campaign->start_date,
+                'end_date' => $campaign->end_date,
+                'level' => $campaign->level,
+                'active' => $campaign->active,
+                'visibility' => $campaign->visibility->value,
+                'player_limit' => $campaign->player_limit
+            ])->toArray()
+        ]);
+
+        $response->assertJsonMissing([
+            'data' => $campaignsCannotSee->map(fn($campaign) => [
                 'id' => $campaign->id,
                 'slug' => $campaign->slug,
                 'name' => $campaign->name,
