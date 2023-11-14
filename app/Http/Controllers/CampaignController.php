@@ -24,7 +24,7 @@ class CampaignController extends Controller
      */
     public function index(): ResourceCollection
     {
-        return CampaignResource::collection(GetAllCampaignsForUser::run(with: $this->with()));
+        return CampaignResource::collection(GetAllCampaignsForUser::run(auth()->user(), $this->with()));
     }
 
     /**
