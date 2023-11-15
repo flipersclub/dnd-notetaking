@@ -14,6 +14,13 @@ class MainIndexTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_it_returns_unauthorized_if_user_not_logged_in(): void
+    {
+        $response = $this->getJson('/api/index');
+
+        $response->assertUnauthorized();
+    }
+
     public function test_it_gets_all_objects()
     {
         $user = User::factory()->create();
@@ -21,7 +28,7 @@ class MainIndexTest extends TestCase
         System::factory(3)->create();
         Campaign::factory(3)->for($user, 'gameMaster')->create();
         Compendium::factory(3)->for($user, 'creator')
-            ->hasLocations(3) // todo these are not being returns
+            ->hasLocations(3)
             ->hasCharacters(3)
             ->hasSpecies(3)
             ->hasItems(3)
