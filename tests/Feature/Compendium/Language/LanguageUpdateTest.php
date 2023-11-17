@@ -88,7 +88,7 @@ class LanguageUpdateTest extends TestCase
         ];
 
         $response = $this->actingAs($language->compendium->creator)
-            ->putJson("/api/languages/$language->slug?with=tags,compendium", $payload);
+            ->putJson("/api/languages/$language->slug?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

@@ -88,7 +88,7 @@ class PlaneUpdateTest extends TestCase
         ];
 
         $response = $this->actingAs($plane->compendium->creator)
-            ->putJson("/api/planes/$plane->slug?with=tags,compendium", $payload);
+            ->putJson("/api/planes/$plane->slug?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

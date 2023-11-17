@@ -87,7 +87,7 @@ class NoteUpdateTest extends TestCase
         $newNotebook = Notebook::factory()->for($note->notebook->user)->create();
 
         $response = $this->actingAs($note->notebook->user)
-            ->putJson("/api/notes/$note->slug?with=notebook", [
+            ->putJson("/api/notes/$note->slug?include=notebook", [
                 'name' => 'D&D',
                 'content' => ($content = Str::random(65535)),
                 'notebookId' => $newNotebook->id

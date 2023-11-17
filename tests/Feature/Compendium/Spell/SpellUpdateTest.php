@@ -88,7 +88,7 @@ class SpellUpdateTest extends TestCase
         ];
 
         $response = $this->actingAs($spell->compendium->creator)
-            ->putJson("/api/spells/$spell->slug?with=tags,compendium", $payload);
+            ->putJson("/api/spells/$spell->slug?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

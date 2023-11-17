@@ -48,7 +48,7 @@ class PlaneShowTest extends TestCase
         $plane = Plane::factory()->create();
 
         $response = $this->actingAs($plane->compendium->creator)
-            ->getJson("/api/planes/$plane->slug?with=compendium");
+            ->getJson("/api/planes/$plane->slug?include=compendium");
 
         $response->assertSuccessful();
 

@@ -52,7 +52,7 @@ class DeityIndexTest extends TestCase
             ->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->getJson("/api/compendia/$compendium->slug/deities?with=compendium");
+            ->getJson("/api/compendia/$compendium->slug/deities?include=compendium");
 
         $response->assertSuccessful();
 

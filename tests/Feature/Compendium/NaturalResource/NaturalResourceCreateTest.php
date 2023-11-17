@@ -79,7 +79,7 @@ class NaturalResourceCreateTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->postJson("/api/compendia/$compendium->slug/natural-resources?with=tags,compendium", $payload);
+            ->postJson("/api/compendia/$compendium->slug/natural-resources?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

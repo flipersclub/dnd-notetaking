@@ -79,7 +79,7 @@ class ReligionCreateTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->postJson("/api/compendia/$compendium->slug/religions?with=tags,compendium", $payload);
+            ->postJson("/api/compendia/$compendium->slug/religions?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

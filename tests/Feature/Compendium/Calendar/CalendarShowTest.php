@@ -48,7 +48,7 @@ class CalendarShowTest extends TestCase
         $calendar = Calendar::factory()->create();
 
         $response = $this->actingAs($calendar->compendium->creator)
-            ->getJson("/api/calendars/$calendar->slug?with=compendium");
+            ->getJson("/api/calendars/$calendar->slug?include=compendium");
 
         $response->assertSuccessful();
 

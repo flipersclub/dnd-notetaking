@@ -87,7 +87,7 @@ class SpeciesUpdateTest extends TestCase
         ];
 
         $response = $this->actingAs($species->compendium->creator)
-            ->putJson("/api/species/$species->slug?with=tags,compendium", $payload);
+            ->putJson("/api/species/$species->slug?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

@@ -87,7 +87,7 @@ class NaturalResourceUpdateTest extends TestCase
         ];
 
         $response = $this->actingAs($naturalResource->compendium->creator)
-            ->putJson("/api/natural-resources/$naturalResource->slug?with=tags,compendium", $payload);
+            ->putJson("/api/natural-resources/$naturalResource->slug?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

@@ -111,7 +111,7 @@ class CharacterUpdateTest extends TestCase
         ];
 
         $response = $this->actingAs($character->compendium->creator)
-            ->putJson("/api/characters/$character->slug?with=tags,species,species.compendium,compendium", $payload);
+            ->putJson("/api/characters/$character->slug?include=tags,species,species.compendium,compendium", $payload);
 
         $response->assertSuccessful();
 

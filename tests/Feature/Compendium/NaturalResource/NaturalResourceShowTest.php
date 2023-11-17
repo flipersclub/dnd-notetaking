@@ -48,7 +48,7 @@ class NaturalResourceShowTest extends TestCase
         $naturalResource = NaturalResource::factory()->create();
 
         $response = $this->actingAs($naturalResource->compendium->creator)
-            ->getJson("/api/natural-resources/$naturalResource->slug?with=compendium");
+            ->getJson("/api/natural-resources/$naturalResource->slug?include=compendium");
 
         $response->assertSuccessful();
 

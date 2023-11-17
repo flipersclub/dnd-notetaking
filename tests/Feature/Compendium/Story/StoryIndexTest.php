@@ -52,7 +52,7 @@ class StoryIndexTest extends TestCase
             ->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->getJson("/api/compendia/$compendium->slug/stories?with=compendium");
+            ->getJson("/api/compendia/$compendium->slug/stories?include=compendium");
 
         $response->assertSuccessful();
 

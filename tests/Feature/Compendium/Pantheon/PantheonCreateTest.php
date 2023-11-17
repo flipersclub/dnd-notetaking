@@ -79,7 +79,7 @@ class PantheonCreateTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->postJson("/api/compendia/$compendium->slug/pantheons?with=tags,compendium", $payload);
+            ->postJson("/api/compendia/$compendium->slug/pantheons?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

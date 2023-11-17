@@ -52,7 +52,7 @@ class CampaignShowTest extends TestCase
         $user = $this->userWithPermission("campaigns.view.$campaign->id");
 
         $response = $this->actingAs($user)
-            ->getJson("/api/campaigns/$campaign->slug?with=gameMaster");
+            ->getJson("/api/campaigns/$campaign->slug?include=gameMaster");
 
         $response->assertSuccessful();
 

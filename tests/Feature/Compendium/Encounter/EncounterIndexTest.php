@@ -52,7 +52,7 @@ class EncounterIndexTest extends TestCase
             ->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->getJson("/api/compendia/$compendium->slug/encounters?with=compendium");
+            ->getJson("/api/compendia/$compendium->slug/encounters?include=compendium");
 
         $response->assertSuccessful();
 

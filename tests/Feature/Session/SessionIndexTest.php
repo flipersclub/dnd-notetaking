@@ -42,7 +42,7 @@ class SessionIndexTest extends TestCase
         $otherSessions = Session::factory(10)->create();
 
         $response = $this->asAdmin()
-                         ->getJson("/api/campaigns/$campaign->slug/sessions?with=campaign");
+                         ->getJson("/api/campaigns/$campaign->slug/sessions?include=campaign");
 
         $response->assertSuccessful();
 

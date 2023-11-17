@@ -48,7 +48,7 @@ class ItemShowTest extends TestCase
         $item = Item::factory()->create();
 
         $response = $this->actingAs($item->compendium->creator)
-            ->getJson("/api/items/$item->slug?with=compendium");
+            ->getJson("/api/items/$item->slug?include=compendium");
 
         $response->assertSuccessful();
 

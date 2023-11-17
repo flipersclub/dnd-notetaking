@@ -48,7 +48,7 @@ class QuestShowTest extends TestCase
         $quest = Quest::factory()->create();
 
         $response = $this->actingAs($quest->compendium->creator)
-            ->getJson("/api/quests/$quest->slug?with=compendium");
+            ->getJson("/api/quests/$quest->slug?include=compendium");
 
         $response->assertSuccessful();
 

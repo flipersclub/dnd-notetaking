@@ -68,7 +68,7 @@ class NotebookShowTest extends TestCase
         $notebook = Notebook::factory()->create();
 
         $response = $this->asAdmin()
-            ->getJson("/api/notebooks/$notebook->slug?with=user");
+            ->getJson("/api/notebooks/$notebook->slug?include=user");
 
         $response->assertSuccessful();
 

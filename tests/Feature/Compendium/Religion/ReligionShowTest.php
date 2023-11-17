@@ -48,7 +48,7 @@ class ReligionShowTest extends TestCase
         $religion = Religion::factory()->create();
 
         $response = $this->actingAs($religion->compendium->creator)
-            ->getJson("/api/religions/$religion->slug?with=compendium");
+            ->getJson("/api/religions/$religion->slug?include=compendium");
 
         $response->assertSuccessful();
 

@@ -52,7 +52,7 @@ class QuestIndexTest extends TestCase
             ->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->getJson("/api/compendia/$compendium->slug/quests?with=compendium");
+            ->getJson("/api/compendia/$compendium->slug/quests?include=compendium");
 
         $response->assertSuccessful();
 

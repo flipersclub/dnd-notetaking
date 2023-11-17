@@ -80,7 +80,7 @@ class CalendarCreateTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->postJson("/api/compendia/$compendium->slug/calendars?with=tags,compendium", $payload);
+            ->postJson("/api/compendia/$compendium->slug/calendars?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

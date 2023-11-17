@@ -52,7 +52,7 @@ class CalendarIndexTest extends TestCase
             ->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->getJson("/api/compendia/$compendium->slug/calendars?with=compendium");
+            ->getJson("/api/compendia/$compendium->slug/calendars?include=compendium");
 
         $response->assertSuccessful();
 

@@ -95,7 +95,7 @@ class LocationUpdateTest extends TestCase
         $location = Location::factory()->create();
 
         $response = $this->actingAs($location->compendium->creator)
-            ->putJson("/api/locations/{$location->slug}?with=tags,compendium,governmentType", $payload);
+            ->putJson("/api/locations/{$location->slug}?include=tags,compendium,governmentType", $payload);
 
         $response->assertSuccessful();
 

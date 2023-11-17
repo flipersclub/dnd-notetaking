@@ -79,7 +79,7 @@ class DeityCreateTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->postJson("/api/compendia/$compendium->slug/deities?with=tags,compendium", $payload);
+            ->postJson("/api/compendia/$compendium->slug/deities?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

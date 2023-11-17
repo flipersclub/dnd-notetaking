@@ -95,7 +95,7 @@ class CampaignCreateTest extends TestCase
         ];
 
         $response = $this->asAdmin()
-            ->postJson('/api/campaigns?with=tags,system,compendium,gameMaster', $payload);
+            ->postJson('/api/campaigns?include=tags,system,compendium,gameMaster', $payload);
 
         $response->assertSuccessful();
 

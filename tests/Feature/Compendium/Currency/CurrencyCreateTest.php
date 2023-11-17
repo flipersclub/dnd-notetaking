@@ -79,7 +79,7 @@ class CurrencyCreateTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->postJson("/api/compendia/$compendium->slug/currencies?with=tags,compendium", $payload);
+            ->postJson("/api/compendia/$compendium->slug/currencies?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

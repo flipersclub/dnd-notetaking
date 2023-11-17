@@ -48,7 +48,7 @@ class DeityShowTest extends TestCase
         $deity = Deity::factory()->create();
 
         $response = $this->actingAs($deity->compendium->creator)
-            ->getJson("/api/deities/$deity->slug?with=compendium");
+            ->getJson("/api/deities/$deity->slug?include=compendium");
 
         $response->assertSuccessful();
 

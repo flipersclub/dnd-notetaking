@@ -79,7 +79,7 @@ class ConceptCreateTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->postJson("/api/compendia/$compendium->slug/concepts?with=tags,compendium", $payload);
+            ->postJson("/api/compendia/$compendium->slug/concepts?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

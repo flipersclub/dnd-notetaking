@@ -52,7 +52,7 @@ class FactionIndexTest extends TestCase
             ->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->getJson("/api/compendia/$compendium->slug/factions?with=compendium");
+            ->getJson("/api/compendia/$compendium->slug/factions?include=compendium");
 
         $response->assertSuccessful();
 

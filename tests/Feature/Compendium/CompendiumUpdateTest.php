@@ -76,7 +76,7 @@ class CompendiumUpdateTest extends TestCase
         $newUser = User::factory()->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->putJson("/api/compendia/$compendium->slug?with=creator", [
+            ->putJson("/api/compendia/$compendium->slug?include=creator", [
                 'name' => 'D&D',
                 'content' => ($content = Str::random(65535)),
                 'creator_id' => $newUser->getKey()

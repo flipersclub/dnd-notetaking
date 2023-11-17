@@ -44,7 +44,7 @@ class CompendiumIndexTest extends TestCase
         $compendiaCannotSee = Compendium::factory(10)->create();
 
         $response = $this->actingAs($user)
-                         ->getJson('/api/compendia?with=creator');
+                         ->getJson('/api/compendia?include=creator');
 
         $response->assertSuccessful();
 

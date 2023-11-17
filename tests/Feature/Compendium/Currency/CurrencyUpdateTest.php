@@ -88,7 +88,7 @@ class CurrencyUpdateTest extends TestCase
         ];
 
         $response = $this->actingAs($currency->compendium->creator)
-            ->putJson("/api/currencies/$currency->slug?with=tags,compendium", $payload);
+            ->putJson("/api/currencies/$currency->slug?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

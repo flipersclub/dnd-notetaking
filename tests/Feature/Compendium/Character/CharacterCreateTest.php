@@ -103,7 +103,7 @@ class CharacterCreateTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->postJson("/api/compendia/$compendium->slug/characters?with=tags,species,species.compendium,compendium", $payload);
+            ->postJson("/api/compendia/$compendium->slug/characters?include=tags,species,species.compendium,compendium", $payload);
 
         $response->assertSuccessful();
 

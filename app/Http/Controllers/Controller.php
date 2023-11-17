@@ -13,9 +13,9 @@ class Controller extends BaseController
     public function with(): array
     {
         // Check if "with" query parameter is present
-        if (request()->has('with')) {
+        if (request()->has('include')) {
             // Get the comma-separated list of relationships from the query parameter
-            return explode(',', request()->with);
+            return explode(',', request()->include);
         }
         return [];
     }

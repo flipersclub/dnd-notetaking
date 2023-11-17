@@ -88,7 +88,7 @@ class DeityUpdateTest extends TestCase
         ];
 
         $response = $this->actingAs($deity->compendium->creator)
-            ->putJson("/api/deities/$deity->slug?with=tags,compendium", $payload);
+            ->putJson("/api/deities/$deity->slug?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

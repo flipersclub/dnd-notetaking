@@ -66,7 +66,7 @@ class NoteCreateTest extends TestCase
         $notebook = Notebook::factory()->create();
 
         $response = $this->actingAs($notebook->user)
-            ->postJson("api/notebooks/$notebook->slug/notes?with=notebook", [
+            ->postJson("api/notebooks/$notebook->slug/notes?include=notebook", [
                 'name' => 'Ideas',
                 'content' => ($content = Str::random(65535)),
             ]);

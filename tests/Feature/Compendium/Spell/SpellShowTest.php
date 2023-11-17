@@ -48,7 +48,7 @@ class SpellShowTest extends TestCase
         $spell = Spell::factory()->create();
 
         $response = $this->actingAs($spell->compendium->creator)
-            ->getJson("/api/spells/$spell->slug?with=compendium");
+            ->getJson("/api/spells/$spell->slug?include=compendium");
 
         $response->assertSuccessful();
 

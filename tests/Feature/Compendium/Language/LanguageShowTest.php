@@ -48,7 +48,7 @@ class LanguageShowTest extends TestCase
         $language = Language::factory()->create();
 
         $response = $this->actingAs($language->compendium->creator)
-            ->getJson("/api/languages/$language->slug?with=compendium");
+            ->getJson("/api/languages/$language->slug?include=compendium");
 
         $response->assertSuccessful();
 

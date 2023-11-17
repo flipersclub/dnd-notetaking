@@ -60,7 +60,7 @@ class CompendiumCreateTest extends TestCase
         $user->givePermissionTo('compendia.create');
 
         $response = $this->actingAs($user)
-                         ->postJson('/api/compendia?with=creator', [
+                         ->postJson('/api/compendia?include=creator', [
                              'name' => 'D&D',
                              'content' => ($content = Str::random(65535)),
                          ]);

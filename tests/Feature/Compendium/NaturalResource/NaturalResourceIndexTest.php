@@ -52,7 +52,7 @@ class NaturalResourceIndexTest extends TestCase
             ->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->getJson("/api/compendia/$compendium->slug/natural-resources?with=compendium");
+            ->getJson("/api/compendia/$compendium->slug/natural-resources?include=compendium");
 
         $response->assertSuccessful();
 

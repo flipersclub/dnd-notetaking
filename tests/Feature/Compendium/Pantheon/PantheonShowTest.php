@@ -48,7 +48,7 @@ class PantheonShowTest extends TestCase
         $pantheon = Pantheon::factory()->create();
 
         $response = $this->actingAs($pantheon->compendium->creator)
-            ->getJson("/api/pantheons/$pantheon->slug?with=compendium");
+            ->getJson("/api/pantheons/$pantheon->slug?include=compendium");
 
         $response->assertSuccessful();
 

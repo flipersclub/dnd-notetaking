@@ -116,7 +116,7 @@ class CampaignUpdateTest extends TestCase
         $campaign = Campaign::factory()->create();
 
         $response = $this->asAdmin()
-            ->putJson("/api/campaigns/{$campaign->slug}?with=tags,gameMaster,system,compendium,gameMaster", $payload);
+            ->putJson("/api/campaigns/{$campaign->slug}?include=tags,gameMaster,system,compendium,gameMaster", $payload);
 
         $response->assertSuccessful();
 

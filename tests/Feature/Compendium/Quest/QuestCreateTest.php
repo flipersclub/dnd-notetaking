@@ -79,7 +79,7 @@ class QuestCreateTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->postJson("/api/compendia/$compendium->slug/quests?with=tags,compendium", $payload);
+            ->postJson("/api/compendia/$compendium->slug/quests?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

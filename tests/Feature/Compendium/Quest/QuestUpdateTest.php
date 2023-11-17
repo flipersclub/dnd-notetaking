@@ -88,7 +88,7 @@ class QuestUpdateTest extends TestCase
         ];
 
         $response = $this->actingAs($quest->compendium->creator)
-            ->putJson("/api/quests/$quest->slug?with=tags,compendium", $payload);
+            ->putJson("/api/quests/$quest->slug?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

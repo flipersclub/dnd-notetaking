@@ -88,7 +88,7 @@ class ItemUpdateTest extends TestCase
         ];
 
         $response = $this->actingAs($item->compendium->creator)
-            ->putJson("/api/items/$item->slug?with=tags,compendium", $payload);
+            ->putJson("/api/items/$item->slug?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

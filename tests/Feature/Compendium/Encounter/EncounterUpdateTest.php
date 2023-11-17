@@ -88,7 +88,7 @@ class EncounterUpdateTest extends TestCase
         ];
 
         $response = $this->actingAs($encounter->compendium->creator)
-            ->putJson("/api/encounters/$encounter->slug?with=tags,compendium", $payload);
+            ->putJson("/api/encounters/$encounter->slug?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

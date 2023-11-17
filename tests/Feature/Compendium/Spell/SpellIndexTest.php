@@ -52,7 +52,7 @@ class SpellIndexTest extends TestCase
             ->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->getJson("/api/compendia/$compendium->slug/spells?with=compendium");
+            ->getJson("/api/compendia/$compendium->slug/spells?include=compendium");
 
         $response->assertSuccessful();
 

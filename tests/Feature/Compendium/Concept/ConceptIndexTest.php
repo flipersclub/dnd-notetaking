@@ -52,7 +52,7 @@ class ConceptIndexTest extends TestCase
             ->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->getJson("/api/compendia/$compendium->slug/concepts?with=compendium");
+            ->getJson("/api/compendia/$compendium->slug/concepts?include=compendium");
 
         $response->assertSuccessful();
 

@@ -48,7 +48,7 @@ class EncounterShowTest extends TestCase
         $encounter = Encounter::factory()->create();
 
         $response = $this->actingAs($encounter->compendium->creator)
-            ->getJson("/api/encounters/$encounter->slug?with=compendium");
+            ->getJson("/api/encounters/$encounter->slug?include=compendium");
 
         $response->assertSuccessful();
 

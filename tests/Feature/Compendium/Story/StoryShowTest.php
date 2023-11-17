@@ -48,7 +48,7 @@ class StoryShowTest extends TestCase
         $story = Story::factory()->create();
 
         $response = $this->actingAs($story->compendium->creator)
-            ->getJson("/api/stories/$story->slug?with=compendium");
+            ->getJson("/api/stories/$story->slug?include=compendium");
 
         $response->assertSuccessful();
 

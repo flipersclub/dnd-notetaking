@@ -70,7 +70,7 @@ class CompendiumShowTest extends TestCase
         $compendium = Compendium::factory()->create();
 
         $response = $this->asAdmin()
-            ->getJson("/api/compendia/$compendium->slug?with=creator");
+            ->getJson("/api/compendia/$compendium->slug?include=creator");
 
         $response->assertSuccessful();
 

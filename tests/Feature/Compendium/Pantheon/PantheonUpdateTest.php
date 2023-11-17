@@ -88,7 +88,7 @@ class PantheonUpdateTest extends TestCase
         ];
 
         $response = $this->actingAs($pantheon->compendium->creator)
-            ->putJson("/api/pantheons/$pantheon->slug?with=tags,compendium", $payload);
+            ->putJson("/api/pantheons/$pantheon->slug?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

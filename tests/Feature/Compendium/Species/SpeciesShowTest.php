@@ -48,7 +48,7 @@ class SpeciesShowTest extends TestCase
         $species = Species::factory()->create();
 
         $response = $this->actingAs($species->compendium->creator)
-            ->getJson("/api/species/$species->slug?with=compendium");
+            ->getJson("/api/species/$species->slug?include=compendium");
 
         $response->assertSuccessful();
 

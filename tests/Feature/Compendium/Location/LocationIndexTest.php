@@ -55,7 +55,7 @@ class LocationIndexTest extends TestCase
             ->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->getJson("/api/compendia/$compendium->slug/locations?with=governmentType");
+            ->getJson("/api/compendia/$compendium->slug/locations?include=governmentType");
 
         $response->assertSuccessful();
 

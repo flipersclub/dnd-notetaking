@@ -79,7 +79,7 @@ class PlaneCreateTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->postJson("/api/compendia/$compendium->slug/planes?with=tags,compendium", $payload);
+            ->postJson("/api/compendia/$compendium->slug/planes?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

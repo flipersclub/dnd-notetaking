@@ -48,7 +48,7 @@ class ConceptShowTest extends TestCase
         $concept = Concept::factory()->create();
 
         $response = $this->actingAs($concept->compendium->creator)
-            ->getJson("/api/concepts/$concept->slug?with=compendium");
+            ->getJson("/api/concepts/$concept->slug?include=compendium");
 
         $response->assertSuccessful();
 

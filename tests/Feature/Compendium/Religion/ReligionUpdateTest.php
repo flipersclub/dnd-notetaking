@@ -88,7 +88,7 @@ class ReligionUpdateTest extends TestCase
         ];
 
         $response = $this->actingAs($religion->compendium->creator)
-            ->putJson("/api/religions/$religion->slug?with=tags,compendium", $payload);
+            ->putJson("/api/religions/$religion->slug?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

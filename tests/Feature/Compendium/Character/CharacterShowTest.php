@@ -48,7 +48,7 @@ class CharacterShowTest extends TestCase
         $character = Character::factory()->create();
 
         $response = $this->actingAs($character->compendium->creator)
-            ->getJson("/api/characters/$character->slug?with=species,species.compendium,compendium");
+            ->getJson("/api/characters/$character->slug?include=species,species.compendium,compendium");
 
         $response->assertSuccessful();
 

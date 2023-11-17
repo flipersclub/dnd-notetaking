@@ -43,7 +43,7 @@ class NoteShowTest extends TestCase
         $note = Note::factory()->create();
 
         $response = $this->actingAs($note->notebook->user)
-            ->getJson("/api/notes/$note->slug?with=notebook");
+            ->getJson("/api/notes/$note->slug?include=notebook");
 
         $response->assertSuccessful();
 
@@ -69,7 +69,7 @@ class NoteShowTest extends TestCase
         $note = Note::factory()->create();
 
         $response = $this->asAdmin()
-            ->getJson("/api/notes/$note->slug?with=notebook");
+            ->getJson("/api/notes/$note->slug?include=notebook");
 
         $response->assertSuccessful();
 

@@ -52,7 +52,7 @@ class PlaneIndexTest extends TestCase
             ->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->getJson("/api/compendia/$compendium->slug/planes?with=compendium");
+            ->getJson("/api/compendia/$compendium->slug/planes?include=compendium");
 
         $response->assertSuccessful();
 

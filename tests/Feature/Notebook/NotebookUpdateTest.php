@@ -72,7 +72,7 @@ class NotebookUpdateTest extends TestCase
         $notebook = Notebook::factory()->create();
 
         $response = $this->actingAs($notebook->user)
-            ->putJson("/api/notebooks/$notebook->slug?with=user", [
+            ->putJson("/api/notebooks/$notebook->slug?include=user", [
                 'name' => 'D&D',
                 'content' => ($content = Str::random(65535)),
             ]);

@@ -52,7 +52,7 @@ class CurrencyIndexTest extends TestCase
             ->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->getJson("/api/compendia/$compendium->slug/currencies?with=compendium");
+            ->getJson("/api/compendia/$compendium->slug/currencies?include=compendium");
 
         $response->assertSuccessful();
 

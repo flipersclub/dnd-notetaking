@@ -52,7 +52,7 @@ class ItemIndexTest extends TestCase
             ->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->getJson("/api/compendia/$compendium->slug/items?with=compendium");
+            ->getJson("/api/compendia/$compendium->slug/items?include=compendium");
 
         $response->assertSuccessful();
 

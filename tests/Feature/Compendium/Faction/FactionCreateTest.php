@@ -79,7 +79,7 @@ class FactionCreateTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->postJson("/api/compendia/$compendium->slug/factions?with=tags,compendium", $payload);
+            ->postJson("/api/compendia/$compendium->slug/factions?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

@@ -88,7 +88,7 @@ class ConceptUpdateTest extends TestCase
         ];
 
         $response = $this->actingAs($concept->compendium->creator)
-            ->putJson("/api/concepts/$concept->slug?with=tags,compendium", $payload);
+            ->putJson("/api/concepts/$concept->slug?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

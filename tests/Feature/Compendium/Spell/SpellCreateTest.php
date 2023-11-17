@@ -79,7 +79,7 @@ class SpellCreateTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->postJson("/api/compendia/$compendium->slug/spells?with=tags,compendium", $payload);
+            ->postJson("/api/compendia/$compendium->slug/spells?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

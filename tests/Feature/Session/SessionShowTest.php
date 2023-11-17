@@ -48,7 +48,7 @@ class SessionShowTest extends TestCase
         $session = Session::factory()->create();
 
         $response = $this->actingAs($session->campaign->gameMaster)
-            ->getJson("/api/sessions/$session->slug?with=campaign");
+            ->getJson("/api/sessions/$session->slug?include=campaign");
 
         $response->assertSuccessful();
 
@@ -86,7 +86,7 @@ class SessionShowTest extends TestCase
         $session = Session::factory()->forCampaign(['game_master_id' => $user->id])->create();
 
         $response = $this->actingAs($user)
-            ->getJson("/api/sessions/$session->slug?with=campaign");
+            ->getJson("/api/sessions/$session->slug?include=campaign");
 
         $response->assertSuccessful();
     }

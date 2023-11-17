@@ -48,7 +48,7 @@ class CurrencyShowTest extends TestCase
         $currency = Currency::factory()->create();
 
         $response = $this->actingAs($currency->compendium->creator)
-            ->getJson("/api/currencies/$currency->slug?with=compendium");
+            ->getJson("/api/currencies/$currency->slug?include=compendium");
 
         $response->assertSuccessful();
 

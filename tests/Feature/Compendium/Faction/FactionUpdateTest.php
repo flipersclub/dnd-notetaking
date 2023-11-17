@@ -88,7 +88,7 @@ class FactionUpdateTest extends TestCase
         ];
 
         $response = $this->actingAs($faction->compendium->creator)
-            ->putJson("/api/factions/$faction->slug?with=tags,compendium", $payload);
+            ->putJson("/api/factions/$faction->slug?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

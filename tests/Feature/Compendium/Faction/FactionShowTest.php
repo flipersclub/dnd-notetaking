@@ -48,7 +48,7 @@ class FactionShowTest extends TestCase
         $faction = Faction::factory()->create();
 
         $response = $this->actingAs($faction->compendium->creator)
-            ->getJson("/api/factions/$faction->slug?with=compendium");
+            ->getJson("/api/factions/$faction->slug?include=compendium");
 
         $response->assertSuccessful();
 

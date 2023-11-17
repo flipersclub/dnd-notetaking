@@ -79,7 +79,7 @@ class ItemCreateTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->postJson("/api/compendia/$compendium->slug/items?with=tags,compendium", $payload);
+            ->postJson("/api/compendia/$compendium->slug/items?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

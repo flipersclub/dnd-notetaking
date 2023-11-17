@@ -83,7 +83,7 @@ class SessionCreateTest extends TestCase
         ];
 
         $response = $this->actingAs($campaign->gameMaster)
-            ->postJson("/api/campaigns/$campaign->slug/sessions?with=campaign", $payload);
+            ->postJson("/api/campaigns/$campaign->slug/sessions?include=campaign", $payload);
 
         $response->assertSuccessful();
 

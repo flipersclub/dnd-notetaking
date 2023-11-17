@@ -79,7 +79,7 @@ class StoryCreateTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->postJson("/api/compendia/$compendium->slug/stories?with=tags,compendium", $payload);
+            ->postJson("/api/compendia/$compendium->slug/stories?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

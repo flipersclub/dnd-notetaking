@@ -52,7 +52,7 @@ class SpeciesIndexTest extends TestCase
             ->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->getJson("/api/compendia/$compendium->slug/species?with=compendium");
+            ->getJson("/api/compendia/$compendium->slug/species?include=compendium");
 
         $response->assertSuccessful();
 

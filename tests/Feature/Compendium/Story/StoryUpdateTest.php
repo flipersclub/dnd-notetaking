@@ -88,7 +88,7 @@ class StoryUpdateTest extends TestCase
         ];
 
         $response = $this->actingAs($story->compendium->creator)
-            ->putJson("/api/stories/$story->slug?with=tags,compendium", $payload);
+            ->putJson("/api/stories/$story->slug?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

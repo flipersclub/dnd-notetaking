@@ -52,7 +52,7 @@ class ReligionIndexTest extends TestCase
             ->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->getJson("/api/compendia/$compendium->slug/religions?with=compendium");
+            ->getJson("/api/compendia/$compendium->slug/religions?include=compendium");
 
         $response->assertSuccessful();
 

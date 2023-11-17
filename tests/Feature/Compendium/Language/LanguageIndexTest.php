@@ -52,7 +52,7 @@ class LanguageIndexTest extends TestCase
             ->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->getJson("/api/compendia/$compendium->slug/languages?with=compendium");
+            ->getJson("/api/compendia/$compendium->slug/languages?include=compendium");
 
         $response->assertSuccessful();
 

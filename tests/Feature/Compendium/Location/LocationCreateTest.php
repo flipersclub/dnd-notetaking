@@ -85,7 +85,7 @@ class LocationCreateTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->postJson("/api/compendia/$compendium->slug/locations?with=tags,compendium,governmentType", $payload);
+            ->postJson("/api/compendia/$compendium->slug/locations?include=tags,compendium,governmentType", $payload);
 
         $response->assertSuccessful();
 

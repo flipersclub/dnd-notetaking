@@ -52,7 +52,7 @@ class PantheonIndexTest extends TestCase
             ->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->getJson("/api/compendia/$compendium->slug/pantheons?with=compendium");
+            ->getJson("/api/compendia/$compendium->slug/pantheons?include=compendium");
 
         $response->assertSuccessful();
 

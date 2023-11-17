@@ -52,7 +52,7 @@ class CharacterIndexTest extends TestCase
             ->create();
 
         $response = $this->actingAs($compendium->creator)
-            ->getJson("/api/compendia/$compendium->slug/characters?with=species,species.compendium,compendium");
+            ->getJson("/api/compendia/$compendium->slug/characters?include=species,species.compendium,compendium");
 
         $response->assertSuccessful();
 

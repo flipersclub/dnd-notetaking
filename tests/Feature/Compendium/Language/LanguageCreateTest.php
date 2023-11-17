@@ -79,7 +79,7 @@ class LanguageCreateTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->postJson("/api/compendia/$compendium->slug/languages?with=tags,compendium", $payload);
+            ->postJson("/api/compendia/$compendium->slug/languages?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 

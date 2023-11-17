@@ -86,7 +86,7 @@ class CalendarUpdateTest extends TestCase
         ];
 
         $response = $this->actingAs($calendar->compendium->creator)
-            ->putJson("/api/calendars/$calendar->slug?with=tags,compendium", $payload);
+            ->putJson("/api/calendars/$calendar->slug?include=tags,compendium", $payload);
 
         $response->assertSuccessful();
 
