@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Compendium\Location;
 
+use App\Actions\Location\GetLocationsForCompendium;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Compendium\Location\StoreLocationRequest;
 use App\Http\Requests\Compendium\Location\UpdateLocationRequest;
@@ -24,9 +25,11 @@ class LocationController extends Controller
     public function index(Compendium $compendium): ResourceCollection
     {
         $this->authorize('update', $compendium);
-        return LocationResource::collection($compendium->locations()
-            ->with([...$this->with(), 'type'])
-            ->get());
+        return LocationResource::collection(GetLocationsForCompendium::run(
+            compendium: $compendium,
+            with: $this->with(),
+            search: request()->search
+        ));
     }
 
     /**
