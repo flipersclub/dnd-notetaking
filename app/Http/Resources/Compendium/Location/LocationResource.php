@@ -21,6 +21,7 @@ class LocationResource extends JsonResource
             'slug' => $this->slug,
             'compendium' => new CompendiumResource($this->whenLoaded('compendium')),
             'parent' => new LocationResource($this->whenLoaded('parent')),
+            'children' => LocationResource::collection($this->whenLoaded('children')),
             'name' => $this->name,
             'type' => new TypeResource($this->type),
             'content' => $this->content,
