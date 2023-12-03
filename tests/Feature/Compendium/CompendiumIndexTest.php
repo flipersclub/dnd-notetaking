@@ -37,7 +37,6 @@ class CompendiumIndexTest extends TestCase
         $compendiaCreator = Compendium::factory(10)->for($user, 'creator')->create();
         $compendiaCanSee = Compendium::factory(10)->create();
         foreach ($compendiaCanSee as $compendium) {
-            Permission::create(['name' => 'compendia.view.' . $compendium->id]);
             $user->givePermissionTo('compendia.view.' . $compendium->id);
         }
 

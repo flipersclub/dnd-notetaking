@@ -12,7 +12,7 @@ class CompendiumPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('compendia.view');
+        return $user->hasPermissionTo('compendia.view');
     }
 
     /**
@@ -20,7 +20,8 @@ class CompendiumPolicy
      */
     public function view(User $user, Compendium $compendium): bool
     {
-        return $user->can('compendia.view')
+        return $user->hasPermissionTo("compendia.view")
+            || $user->hasPermissionTo("compendia.view.$compendium->id")
             || $user->is($compendium->creator);
     }
 
@@ -29,7 +30,7 @@ class CompendiumPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('compendia.create');
+        return $user->hasPermissionTo('compendia.create');
     }
 
     /**
@@ -37,7 +38,8 @@ class CompendiumPolicy
      */
     public function update(User $user, Compendium $compendium): bool
     {
-        return $user->can("compendia.update")
+        return $user->hasPermissionTo("compendia.update")
+            || $user->hasPermissionTo("compendia.update.$compendium->id")
             || $user->is($compendium->creator);
     }
 
@@ -46,7 +48,7 @@ class CompendiumPolicy
      */
     public function delete(User $user, Compendium $compendium): bool
     {
-        return $user->can('compendia.delete')
+        return $user->hasPermissionTo("compendia.delete.$compendium->id")
             || $user->is($compendium->creator);
     }
 }

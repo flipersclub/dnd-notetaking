@@ -5,6 +5,7 @@ namespace Tests\Feature\Compendium;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
 class CompendiumCreateTest extends TestCase
@@ -18,14 +19,24 @@ class CompendiumCreateTest extends TestCase
         $response->assertUnauthorized();
     }
 
-    public function test_it_returns_forbidden_if_user_not_allowed_to_see(): void
+    /** @dataProvider forbiddenRoles */
+    public function test_it_returns_forbidden_if_user_role_not_allowed_to_create($role): void
     {
         $user = User::factory()->create();
+        if ($role) {
+            $user->assignRole($role);
+        }
 
         $response = $this->actingAs($user)
                          ->postJson('/api/compendia');
 
         $response->assertForbidden();
+    }
+
+    public static function forbiddenRoles() {
+        return [
+            [null], ['gameMaster'], ['player']
+        ];
     }
 
     /** @dataProvider validationDataProvider */
@@ -54,7 +65,7 @@ class CompendiumCreateTest extends TestCase
         ];
     }
 
-    public function test_it_returns_successful_if_compendia_returned(): void
+    public function test_it_returns_compendia_if_successful(): void
     {
         $user = User::factory()->create();
         $user->givePermissionTo('compendia.create');
@@ -85,5 +96,40 @@ class CompendiumCreateTest extends TestCase
             'content' => $content,
         ]);
 
+    }
+
+    /** @dataProvider allowedRoles */
+    public function test_it_returns_successful_if_user_role_allowed_to_create($role): void
+    {
+        $user = User::factory()->create();
+        $user->assignRole($role);
+
+        $response = $this->actingAs($user)
+                         ->postJson('/api/compendia', [
+                             'name' => 'D&D',
+                             'content' => Str::random(65535),
+                         ]);
+
+        $response->assertSuccessful();
+    }
+
+    public static function allowedRoles()
+    {
+        return [['admin', 'writer']];
+    }
+
+    public function test_it_creates_permissions(): void
+    {
+        $response = $this->asAdmin()
+            ->postJson('/api/compendia', [
+                'name' => 'D&D',
+                'content' => Str::random(65535),
+            ]);
+
+        $response->assertSuccessful();
+
+        $this->assertNotNull(Permission::findByName("compendia.view.{$response->json('data.id')}"));
+        $this->assertNotNull(Permission::findByName("compendia.update.{$response->json('data.id')}"));
+        $this->assertNotNull(Permission::findByName("compendia.delete.{$response->json('data.id')}"));
     }
 }

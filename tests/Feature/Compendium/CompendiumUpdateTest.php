@@ -69,13 +69,13 @@ class CompendiumUpdateTest extends TestCase
         ];
     }
 
-    public function test_it_returns_successful_if_compendium_updated_returned(): void
+    public function test_it_returns_updated_compendium_if_successful(): void
     {
         $compendium = Compendium::factory()->create();
 
         $newUser = User::factory()->create();
 
-        $response = $this->actingAs($compendium->creator)
+        $response = $this->asAdmin()
             ->putJson("/api/compendia/$compendium->slug?include=creator", [
                 'name' => 'D&D',
                 'content' => ($content = Str::random(65535)),
@@ -102,6 +102,36 @@ class CompendiumUpdateTest extends TestCase
             'creator_id' => $newUser->getKey(),
             'content' => $content,
         ]);
+
+    }
+
+    public function test_it_returns_successful_if_user_has_permission_to_update_compendium(): void
+    {
+        $compendium = Compendium::factory()->create();
+
+        $user = User::factory()->create();
+
+        $user->givePermissionTo("compendia.update.{$compendium->id}");
+
+        $response = $this->actingAs($user)
+            ->putJson("/api/compendia/$compendium->slug", [
+                'name' => 'D&D'
+            ]);
+
+        $response->assertSuccessful();
+
+    }
+
+    public function test_it_is_successful_when_user_is_creator(): void
+    {
+        $compendium = Compendium::factory()->create();
+
+        $response = $this->actingAs($compendium->creator)
+            ->putJson("/api/compendia/$compendium->slug", [
+                'name' => 'D&D'
+            ]);
+
+        $response->assertSuccessful();
 
     }
 }

@@ -47,12 +47,38 @@ class CompendiumDestroyTest extends TestCase
     {
         $compendium = Compendium::factory()->create();
 
-        $response = $this->actingAs($compendium->creator)
+        $response = $this->asAdmin()
             ->deleteJson("/api/compendia/$compendium->slug");
 
         $response->assertNoContent();
 
         $this->assertModelMissing($compendium);
+
+    }
+
+    public function test_it_is_successful_when_user_has_permission_to_view(): void
+    {
+        $compendium = Compendium::factory()->create();
+
+        $user = User::factory()->create();
+
+        $user->givePermissionTo("compendia.delete.{$compendium->id}");
+
+        $response = $this->actingAs($user)
+            ->deleteJson("/api/compendia/$compendium->slug");
+
+        $response->assertNoContent();
+
+    }
+
+    public function test_it_is_successful_when_user_is_creator(): void
+    {
+        $compendium = Compendium::factory()->create();
+
+        $response = $this->actingAs($compendium->creator)
+            ->deleteJson("/api/compendia/$compendium->slug");
+
+        $response->assertNoContent();
 
     }
 }

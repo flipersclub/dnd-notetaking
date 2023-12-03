@@ -22,6 +22,7 @@ class LocationPolicy
     public function view(User $user, Location $location): bool
     {
         return $user->is($location->compendium->creator)
+            || ($location->is_public && $user->can("compendia.view.$location->compendium_id"))
             || $user->can("locations.view.$location->id");
     }
 

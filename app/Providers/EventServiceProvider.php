@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Compendium\Compendium;
+use App\Models\Image\Image;
+use App\Observers\CompendiumObserver;
+use App\Observers\ImageObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -25,7 +29,8 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Image::observe(ImageObserver::class);
+        Compendium::observe(CompendiumObserver::class);
     }
 
     /**

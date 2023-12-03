@@ -65,7 +65,7 @@ class CompendiumShowTest extends TestCase
 
     }
 
-    public function test_it_returns_successful_if_compendium_returned_with_creator(): void
+    public function test_it_returns_compendium_returned_with_creator_if_successful(): void
     {
         $compendium = Compendium::factory()->create();
 
@@ -87,6 +87,32 @@ class CompendiumShowTest extends TestCase
                 ]
             ]
         ]);
+
+    }
+
+    public function test_it_is_successful_when_user_has_permission_to_view(): void
+    {
+        $compendium = Compendium::factory()->create();
+
+        $user = User::factory()->create();
+
+        $user->givePermissionTo("compendia.view.{$compendium->id}");
+
+        $response = $this->actingAs($user)
+            ->getJson("/api/compendia/$compendium->slug");
+
+        $response->assertSuccessful();
+
+    }
+
+    public function test_it_is_successful_when_user_is_creator(): void
+    {
+        $compendium = Compendium::factory()->create();
+
+        $response = $this->actingAs($compendium->creator)
+            ->getJson("/api/compendia/$compendium->slug");
+
+        $response->assertSuccessful();
 
     }
 }
