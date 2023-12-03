@@ -15,8 +15,27 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->createRoles();
 
-        $objectTypes = ['systems', 'locations', 'compendia', 'campaigns', 'characters', 'monsters', 'languages', 'maps', 'items', 'tags', 'sessions', 'permissions'];
+        $this->createPermissions();
+
+        $this->doAdminRole();
+
+        $this->doOtherRoles();
+    }
+
+    private function createRoles(): void
+    {
+        $roles = ['admin', 'writer', 'gameMaster', 'player'];
+
+        foreach ($roles as $role) {
+            Role::findOrCreate($role);
+        }
+    }
+
+    private function createPermissions(): void
+    {
+        $objectTypes = ['systems', 'locations', 'compendia', 'campaigns', 'characters', 'monsters', 'languages', 'maps', 'items', 'tags', 'sessions', 'notebooks', 'permissions'];
         $actions = ['create', 'view', 'update', 'delete'];
 
         $permissions = [];
@@ -31,14 +50,37 @@ class PermissionSeeder extends Seeder
             $permissions,
             ['name']
         );
+    }
 
+    private function doAdminRole(): void
+    {
         // Get all permissions
         $permissions = Permission::pluck('id')->toArray();
 
         // Create admin role
-        $adminRole = Role::findOrCreate('admin');
+        $role = Role::findByName('admin');
 
         // Assign the admin role to the admin user
-        $adminRole->permissions()->sync($permissions);
+        $role->permissions()->sync($permissions);
     }
+
+    private function doOtherRoles(): void
+    {
+        $roles = [
+            'writer' => ['compendia.create', 'tags.create', 'notebooks.create'],
+            'gameMaster' => ['campaigns.create', 'tags.create', 'notebooks.create'],
+            'player' => ['notebooks.create'],
+        ];
+
+        foreach ($roles as $roleName => $permissions) {
+            // Create writer role
+            $role = Role::findByName($roleName);
+
+            $role->givePermissionTo(
+                ...$permissions
+            );
+        }
+
+    }
+
 }
