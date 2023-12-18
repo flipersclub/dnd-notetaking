@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\CampaignVisibility;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class CampaignResource extends JsonResource
 {
@@ -24,7 +26,10 @@ class CampaignResource extends JsonResource
             'end_date' => $this->end_date,
             'level' => $this->level,
             'active' => $this->active,
-            'visibility' => $this->visibility,
+            'visibility' => [
+                'id' => $this->visibility->value,
+                'name' => Str::ucfirst($this->visibility->name)
+            ],
             'player_limit' => $this->player_limit,
             'cover_image' => $this->when($this->cover_image, fn () => Storage::temporaryUrl($this->cover_image, now()->addMinutes(5))),
             'gameMaster' => new UserResource($this->whenLoaded('gameMaster')),
