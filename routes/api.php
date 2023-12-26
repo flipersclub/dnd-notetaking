@@ -20,6 +20,7 @@ use App\Http\Controllers\Compendium\ReligionController;
 use App\Http\Controllers\Compendium\SpeciesController;
 use App\Http\Controllers\Compendium\SpellController;
 use App\Http\Controllers\Compendium\StoryController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\NotebookController;
 use App\Http\Controllers\NoteController;
@@ -44,6 +45,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return $request->user();
     });
     Route::get('index', [IndexController::class, 'index']);
+
+    Route::get('images/{image}/download', [ImageController::class, 'download']);
+    Route::apiResource('images', ImageController::class);
 
     Route::apiResource('systems', SystemController::class);
     // Campaigns

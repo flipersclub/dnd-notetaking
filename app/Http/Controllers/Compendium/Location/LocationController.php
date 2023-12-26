@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Compendium\Location;
 
+use App\Actions\Location\CreateLocationForCompendium;
 use App\Actions\Location\GetLocationsForCompendium;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Compendium\Location\StoreLocationRequest;
@@ -38,15 +39,12 @@ class LocationController extends Controller
     public function store(StoreLocationRequest $request, Compendium $compendium): LocationResource
     {
         $this->authorize('update', $compendium);
-        $location = Location::create([
-            ...$request->validated(),
-            'compendium_id' => $compendium->id
-        ]);
-        if ($request->has('tags')) {
-            $tagIds = $request->input('tags');
-            $location->tags()->sync($tagIds);
-        }
-        return new LocationResource($location->load($this->with())
+        return new LocationResource(
+            CreateLocationForCompendium::run(
+                $compendium,
+                $request->validated(),
+                $this->with()
+            )
         );
     }
 

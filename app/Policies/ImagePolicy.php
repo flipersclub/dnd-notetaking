@@ -12,7 +12,7 @@ class ImagePolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -20,7 +20,8 @@ class ImagePolicy
      */
     public function view(User $user, Image $image): bool
     {
-        //
+        return $user->is($image->user)
+            || $user->can("images.view.$image->id");
     }
 
     /**
@@ -28,7 +29,7 @@ class ImagePolicy
      */
     public function create(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -36,7 +37,8 @@ class ImagePolicy
      */
     public function update(User $user, Image $image): bool
     {
-        //
+        return $user->is($image->user)
+            || $user->can("images.update.$image->id");
     }
 
     /**
@@ -44,22 +46,6 @@ class ImagePolicy
      */
     public function delete(User $user, Image $image): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Image $image): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Image $image): bool
-    {
-        //
+        return $user->is($image->user);
     }
 }

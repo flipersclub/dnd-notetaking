@@ -25,6 +25,7 @@ use App\Models\Compendium\Religion;
 use App\Models\Compendium\Species;
 use App\Models\Compendium\Spell;
 use App\Models\Compendium\Story;
+use App\Models\Image\Image;
 use App\Models\Note;
 use App\Models\Notebook;
 use App\Models\Session;
@@ -52,6 +53,7 @@ use App\Policies\Compendium\SpeciesPolicy;
 use App\Policies\Compendium\SpellPolicy;
 use App\Policies\Compendium\StoryPolicy;
 use App\Policies\EncounterPolicy;
+use App\Policies\ImagePolicy;
 use App\Policies\NotebookPolicy;
 use App\Policies\NotePolicy;
 use App\Policies\QuestPolicy;
@@ -70,6 +72,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         System::class => SystemPolicy::class,
+        Image::class => ImagePolicy::class,
         // Campaign
         Campaign::class => CampaignPolicy::class,
         Session::class => SessionPolicy::class,

@@ -2,7 +2,7 @@ FROM thecodingmachine/php:8.2-v4-apache
 ENV APACHE_RUN_USER=www-data \
 APACHE_RUN_GROUP=www-data \
 APACHE_DOCUMENT_ROOT=public/ \
-PHP_EXTENSIONS="bcmath tidy ldap redis xdebug gd" \
+PHP_EXTENSIONS="bcmath tidy ldap redis xdebug gd imagick" \
 DOCKER_USER=root \
 PHP_INI_XDEBUG__MODE="develop,debug" \
 PHP_INI_XDEBUG__START_WITH_REQUEST="yes" \

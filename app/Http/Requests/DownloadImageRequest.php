@@ -3,8 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 
-class UpdateImageRequest extends FormRequest
+class DownloadImageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +24,7 @@ class UpdateImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['string']
+            'type' => ['in:original,thumbnail']
         ];
     }
 }
